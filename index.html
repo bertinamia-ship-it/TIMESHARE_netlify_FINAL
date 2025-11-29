@@ -3698,16 +3698,17 @@
   <div class="sale-overlay" id="sale-overlay" aria-live="polite">
     <div class="sale-card">
       <div class="sale-staff">
-        <h3 style="margin: 0 0 12px 0; font-size: 18px; color: #0e2148; text-align: center;">Asignar Personal</h3>
         <div class="sale-staff-grid">
-          <label data-i18n="sale.staffLiner">Liner asignado
-            <input type="text" id="sale-liner-input" data-session-field="liner" placeholder="Nombre del liner" autocomplete="off" required />
-          </label>
-          <label data-i18n="sale.staffCloser">Closer asignado
-            <input type="text" id="sale-closer-input" data-session-field="closer" placeholder="Nombre del closer" autocomplete="off" required />
-          </label>
+          <div>
+            <label data-i18n="sale.staffLiner" style="display: block; font-size: 14px; font-weight: 700; color: #0e2148; margin-bottom: 8px;">Assigned liner</label>
+            <input type="text" id="sale-liner-input" data-session-field="liner" placeholder="Nombre del liner" autocomplete="off" required style="display: block !important; width: 100% !important; border: 3px solid #0f2f72 !important; border-radius: 12px; padding: 16px !important; font-size: 18px !important; background: #fff !important; color: #000 !important; min-height: 56px; box-sizing: border-box;" />
+          </div>
+          <div>
+            <label data-i18n="sale.staffCloser" style="display: block; font-size: 14px; font-weight: 700; color: #0e2148; margin-bottom: 8px;">Assigned closer</label>
+            <input type="text" id="sale-closer-input" data-session-field="closer" placeholder="Nombre del closer" autocomplete="off" required style="display: block !important; width: 100% !important; border: 3px solid #0f2f72 !important; border-radius: 12px; padding: 16px !important; font-size: 18px !important; background: #fff !important; color: #000 !important; min-height: 56px; box-sizing: border-box;" />
+          </div>
         </div>
-        <div class="sale-staff-hint" data-i18n="sale.staffHint">Selecciona el liner y closer antes de registrar la presentación.</div>
+        <div class="sale-staff-hint" data-i18n="sale.staffHint" style="font-size: 13px; color: #5a6b8c; text-align: center; margin-top: 12px;">Escribe los nombres manualmente.</div>
         <div class="sale-staff-error" id="sale-staff-error"></div>
       </div>
       <div class="sale-choice" id="sale-choice">
