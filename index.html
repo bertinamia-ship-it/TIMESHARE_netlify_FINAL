@@ -48,12 +48,77 @@
 
     .utility-bar {
       position: absolute;
-      top: 20px;
+      top: 18px;
       right: 24px;
       display: flex;
-      gap: 10px;
+      flex-direction: column;
+      align-items: flex-end;
+      z-index: 25;
+    }
+
+    .utility-tab {
+      border: none;
+      background: #0f1b3d;
+      color: #fff;
+      border-radius: 999px;
+      padding: 8px 18px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      box-shadow: 0 12px 30px rgba(15, 40, 92, 0.35);
+      cursor: pointer;
+      display: inline-flex;
       align-items: center;
-      z-index: 20;
+      gap: 6px;
+    }
+
+    .utility-tab span {
+      pointer-events: none;
+    }
+
+    .utility-menu {
+      margin-top: 8px;
+      background: #ffffff;
+      border-radius: 18px;
+      box-shadow: 0 20px 50px rgba(16, 38, 73, 0.25);
+      padding: 14px;
+      width: 210px;
+      display: none;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .utility-menu.active {
+      display: flex;
+    }
+
+    .utility-menu-title {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: #6b7b9c;
+      letter-spacing: 0.08em;
+    }
+
+    .utility-action {
+      border: none;
+      background: #0f1b3d;
+      color: #fff;
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      text-align: left;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+      box-shadow: 0 6px 16px rgba(15, 40, 92, 0.25);
+    }
+
+    .utility-action:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 24px rgba(15, 40, 92, 0.35);
+      background: #132a5c;
     }
 
     .lang-pill-group {
@@ -81,51 +146,9 @@
       color: #fff;
     }
 
-    .admin-btn {
-      border: none;
-      background: #102649;
-      color: #fff;
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 10px 24px rgba(15, 40, 92, 0.25);
-      cursor: pointer;
-      font-size: 18px;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .admin-btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 12px 30px rgba(15, 40, 92, 0.35);
-    }
-
-    .price-checker-toggle {
-      border: none;
-      background: rgba(16, 38, 73, 0.95);
-      color: #fff;
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 10px 24px rgba(15, 40, 92, 0.25);
-      font-size: 18px;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .price-checker-toggle:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 12px 30px rgba(15, 40, 92, 0.35);
-    }
-
     .price-checker-panel {
       position: absolute;
-      top: 64px;
+      top: 110px;
       right: 24px;
       width: min(320px, 90vw);
       background: #ffffff;
@@ -1329,6 +1352,712 @@
       color: #687a97;
     }
 
+    .simulator-panel {
+      margin: 32px 0 20px;
+      background: linear-gradient(180deg, rgba(8,20,43,0.9), rgba(13,30,62,0.85));
+      border-radius: 32px;
+      padding: 22px 24px 28px;
+      color: #fff;
+      box-shadow: 0 30px 70px rgba(8,20,43,0.4);
+    }
+
+    .simulator-panel.flash {
+      animation: breakevenPulse 1s ease;
+    }
+
+    .simulator-head {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 18px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .simulator-head img {
+      width: 52px;
+      height: 52px;
+      object-fit: contain;
+      filter: drop-shadow(0 8px 18px rgba(0,0,0,0.35));
+    }
+
+    .simulator-head h3 {
+      margin: 0;
+      font-size: 18px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .simulator-head span {
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.7);
+    }
+
+    .simulator-tabs {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .simulator-tabs button {
+      border: none;
+      background: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.8);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 11px;
+      padding: 10px 18px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .simulator-tabs button.active {
+      background: linear-gradient(135deg, #21b486, #2b74ec);
+      color: #0a1124;
+      font-weight: 600;
+      box-shadow: 0 12px 30px rgba(33,180,134,0.35);
+    }
+
+    .simulator-view {
+      display: none;
+    }
+
+    .simulator-view.active {
+      display: block;
+    }
+
+    .breakeven-section {
+      margin: 36px 0 22px;
+      padding: 2px;
+      border-radius: 32px;
+      background: linear-gradient(120deg, rgba(15, 90, 150, 0.25), rgba(41, 163, 125, 0.2));
+      position: relative;
+      overflow: hidden;
+    }
+
+    .breakeven-section::before {
+      content: '';
+      position: absolute;
+      inset: 15% auto auto 65%;
+      width: 320px;
+      height: 320px;
+      background: radial-gradient(circle, rgba(255,255,255,0.25), transparent 60%);
+      filter: blur(2px);
+      pointer-events: none;
+      opacity: 0.5;
+    }
+
+    .breakeven-section.flash .breakeven-card {
+      animation: breakevenPulse 1.2s ease;
+    }
+
+    @keyframes breakevenPulse {
+      0% { box-shadow: 0 0 0 rgba(47, 130, 187, 0.0); }
+      40% { box-shadow: 0 0 0 12px rgba(47, 130, 187, 0.18); }
+      100% { box-shadow: 0 0 0 rgba(47, 130, 187, 0.0); }
+    }
+
+    .breakeven-card {
+      background: linear-gradient(135deg, #fcfdff, #f1f6ff);
+      border-radius: 28px;
+      padding: 28px 28px 30px;
+      box-shadow: 0 25px 70px rgba(14, 33, 79, 0.18);
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .breakeven-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .breakeven-headline {
+      flex: 1;
+      min-width: 260px;
+    }
+
+    .breakeven-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .breakeven-header h2 {
+      margin: 0;
+      font-size: 22px;
+      color: #0f1b3d;
+    }
+
+    .breakeven-header p {
+      margin: 4px 0 0;
+      color: #54638a;
+      font-size: 14px;
+    }
+
+
+    .breakeven-grid {
+      display: grid;
+      grid-template-columns: minmax(320px, 1fr) minmax(380px, 1fr);
+      gap: 32px;
+      align-items: stretch;
+    }
+
+    @media (max-width: 1024px){
+      .breakeven-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .breakeven-form {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .breakeven-form-group {
+      border: 1px solid rgba(15, 40, 92, 0.08);
+      border-radius: 18px;
+      padding: 14px 16px;
+      background: #f9fbff;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 12px 16px;
+    }
+
+    .breakeven-form-group h4 {
+      grid-column: 1 / -1;
+      margin: 2px 0 6px;
+      font-size: 13px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #5c6b8f;
+    }
+
+    .breakeven-form label {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #1f335b;
+    }
+
+    .breakeven-form input {
+      border: 1px solid #cdd6f0;
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-size: 15px;
+      background: #fff;
+    }
+
+    .breakeven-inline-note {
+      grid-column: 1 / -1;
+      font-size: 12px;
+      color: #5b6b8f;
+    }
+
+    .breakeven-results {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .breakeven-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+    }
+
+    .breakeven-stats div {
+      background: linear-gradient(160deg, #132a5c, #0d1c3d);
+      border-radius: 18px;
+      padding: 14px 16px;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
+    }
+
+    .breakeven-stats span {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.75);
+    }
+
+    .breakeven-stats strong {
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .breakeven-incentives {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+    }
+
+    .incentive-card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 12px 14px;
+      box-shadow: 0 10px 24px rgba(12,36,68,0.15);
+      border: 1px solid rgba(15,40,92,0.08);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .incentive-card span {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #63708f;
+    }
+
+    .incentive-card strong {
+      font-size: 22px;
+      color: #0f1b3d;
+    }
+
+    .breakeven-roi {
+      margin-top: 12px;
+      background: rgba(6,18,46,0.9);
+      color: #fff;
+      border-radius: 24px;
+      padding: 16px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+      align-items: center;
+      box-shadow: 0 18px 40px rgba(6, 18, 46, 0.4);
+    }
+
+    .roi-summary {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .roi-summary span {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.7);
+    }
+
+    .roi-summary strong {
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .breakeven-roi-note {
+      grid-column: 1 / -1;
+      margin: 4px 0 0;
+      font-size: 13px;
+      color: rgba(255,255,255,0.8);
+    }
+
+    .breakeven-visuals {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .breakeven-chart {
+      position: relative;
+      background: radial-gradient(circle at 20% 0%, rgba(255,255,255,0.25), transparent 55%), linear-gradient(135deg, #0a1637, #0f6c8f 55%, #2ad3b9);
+      border-radius: 28px;
+      padding: 26px 26px 38px;
+      min-height: 260px;
+      overflow: hidden;
+      color: #fff;
+      box-shadow: 0 30px 80px rgba(6,15,30,0.55);
+    }
+
+    .breakeven-chart::before,
+    .breakeven-chart::after {
+      content: '';
+      position: absolute;
+      inset: 30px 22px 60px;
+      border-radius: 18px;
+      border: 1px dashed rgba(255,255,255,0.15);
+      pointer-events: none;
+    }
+
+    .breakeven-chart::after {
+      inset: 60px 22px 30px;
+      border-style: solid;
+      border-width: 0 0 1px 0;
+    }
+
+    .breakeven-bars {
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      gap: 16px;
+      height: 170px;
+      margin-top: 16px;
+    }
+
+    .be-bar {
+      flex: 1;
+      background: linear-gradient(180deg, rgba(255,255,255,0.8), rgba(255,255,255,0.15));
+      border-radius: 16px 16px 6px 6px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 10px;
+      min-width: 46px;
+      position: relative;
+      box-shadow: 0 14px 32px rgba(0,0,0,0.25);
+      transition: height 0.4s ease;
+    }
+
+    .be-bar strong {
+      font-size: 12px;
+      line-height: 1.25;
+      color: #0b1c3a;
+    }
+
+    .be-bar span {
+      font-size: 11px;
+      opacity: 0.7;
+      margin-top: 4px;
+      color: #0b1c3a;
+    }
+
+    .be-bar.hit {
+      box-shadow: 0 0 28px rgba(255,255,255,0.85), 0 18px 34px rgba(4, 18, 38, 0.45);
+      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.4));
+    }
+
+    .breakeven-marker {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      border-top: 3px solid rgba(255,255,255,0.95);
+      box-shadow: 0 -2px 12px rgba(255,255,255,0.5);
+      display: flex;
+      justify-content: flex-end;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding-top: 4px;
+      color: rgba(255,255,255,0.95);
+      pointer-events: none;
+    }
+
+    .breakeven-marker::after {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 0 12px rgba(255,255,255,0.9);
+      margin-left: 8px;
+      transform: translateY(-6px);
+    }
+
+    .simple-calc {
+      background: #050c22;
+      color: #fff;
+      border-radius: 24px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      box-shadow: 0 18px 40px rgba(5, 12, 34, 0.6);
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .simple-calc h3 {
+      margin: 0;
+      font-size: 18px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.8);
+    }
+
+    .quickcalc-display {
+      background: radial-gradient(circle at top, rgba(255,255,255,0.12), rgba(255,255,255,0.04));
+      border-radius: 16px;
+      padding: 20px;
+      font-size: 28px;
+      font-weight: 700;
+      text-align: right;
+      letter-spacing: 0.08em;
+      min-height: 64px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .quickcalc-buttons {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(60px, 1fr));
+      gap: 10px;
+    }
+
+    .quickcalc-btn {
+      border: none;
+      border-radius: 14px;
+      padding: 14px;
+      font-size: 16px;
+      font-weight: 600;
+      background: rgba(255,255,255,0.08);
+      color: #fff;
+      cursor: pointer;
+      transition: transform 0.15s ease, background 0.2s ease;
+    }
+
+    .quickcalc-btn:hover {
+      transform: translateY(-1px);
+      background: rgba(255,255,255,0.16);
+    }
+
+    .quickcalc-btn.light {
+      background: rgba(255,255,255,0.14);
+    }
+
+    .quickcalc-btn.operator {
+      background: linear-gradient(135deg, #27ffd4, #1ed5f5);
+      color: #041126;
+    }
+
+    .quickcalc-btn.equal {
+      grid-column: span 2;
+      background: linear-gradient(135deg, #ffe76a, #ffb347);
+      color: #1c1405;
+      font-size: 18px;
+      box-shadow: 0 12px 24px rgba(255, 204, 0, 0.4);
+    }
+
+    .quickcalc-btn.wide {
+      grid-column: span 2;
+    }
+
+    .quickcalc-result {
+      font-size: 18px;
+      font-weight: 600;
+      text-align: right;
+    }
+
+    .simple-calc small {
+      color: rgba(255,255,255,0.6);
+    }
+
+    .incentive-section {
+      margin: 18px 0 30px;
+      padding: 26px;
+      border-radius: 28px;
+      background: linear-gradient(135deg, #08142b, #111f3c);
+      color: #fff;
+      box-shadow: 0 22px 60px rgba(5, 10, 28, 0.6);
+    }
+
+    .incentive-section h3 {
+      margin: 0 0 8px;
+      font-size: 22px;
+      letter-spacing: 0.03em;
+    }
+
+    .incentive-section p {
+      margin: 0 0 18px;
+      color: rgba(255,255,255,0.75);
+      font-size: 14px;
+    }
+
+    .incentive-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+      align-items: center;
+    }
+
+    .incentive-form {
+      background: rgba(255,255,255,0.04);
+      border-radius: 20px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .incentive-form label {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.7);
+    }
+
+    .incentive-form input {
+      margin-top: 6px;
+      border: none;
+      border-radius: 14px;
+      padding: 12px;
+      font-size: 18px;
+      font-weight: 600;
+      background: rgba(255,255,255,0.9);
+      color: #08142b;
+    }
+
+    .incentive-form small {
+      color: rgba(255,255,255,0.6);
+      font-size: 12px;
+    }
+
+    .incentive-results {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+    }
+
+    .incentive-results .card {
+      background: rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 14px;
+      border: 1px solid rgba(255,255,255,0.12);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .incentive-results span {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.7);
+    }
+
+    .incentive-results strong {
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .incentive-visuals {
+      margin-top: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .incentive-chart {
+      background: linear-gradient(135deg, #061026, #14294a);
+      border-radius: 24px;
+      padding: 20px 24px 32px;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .incentive-chart::after {
+      content: '';
+      position: absolute;
+      inset: 25px 24px 60px;
+      border-radius: 18px;
+      border: 1px dashed rgba(255,255,255,0.12);
+      pointer-events: none;
+    }
+
+    .incentive-chart-bars {
+      display: flex;
+      gap: 22px;
+      align-items: flex-end;
+      height: 200px;
+      margin-top: 18px;
+    }
+
+    .incentive-bar {
+      flex: 1;
+      border-radius: 18px 18px 10px 10px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      min-width: 72px;
+      transition: height 0.45s ease;
+    }
+
+    .incentive-bar[data-bar="investment"] {
+      background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.25));
+      box-shadow: 0 18px 30px rgba(0,0,0,0.35);
+      color: #0a162e;
+    }
+
+    .incentive-bar[data-bar="returned"] {
+      background: linear-gradient(180deg, #4ff2d2, #19a784);
+      box-shadow: 0 18px 30px rgba(4, 53, 63, 0.4);
+      color: #05141b;
+    }
+
+    .incentive-bar strong {
+      font-size: 18px;
+    }
+
+    .incentive-bar span {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      opacity: 0.85;
+      margin-top: 6px;
+    }
+
+    .incentive-chart-marker {
+      position: absolute;
+      left: 24px;
+      right: 24px;
+      border-top: 3px solid rgba(255,255,255,0.95);
+      box-shadow: 0 -2px 12px rgba(255,255,255,0.55);
+      display: flex;
+      justify-content: flex-end;
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.95);
+      padding-top: 4px;
+      pointer-events: none;
+    }
+
+    .incentive-chart-marker span {
+      background: rgba(255,255,255,0.12);
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 11px;
+    }
+
+    .incentive-chart-baseline {
+      position: absolute;
+      left: 24px;
+      right: 24px;
+      border-top: 2px dashed rgba(255,255,255,0.45);
+      display: flex;
+      justify-content: flex-end;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.65);
+      padding-top: 2px;
+      pointer-events: none;
+    }
+
+    .incentive-chart-baseline span {
+      background: rgba(255,255,255,0.08);
+      padding: 3px 6px;
+      border-radius: 999px;
+    }
+
+
     .cruises-logos,
     .flights-logos {
       display: grid;
@@ -1769,8 +2498,16 @@
   <div class="page">
 
     <div class="utility-bar" aria-label="Utility controls">
-      <button class="price-checker-toggle" id="price-checker-toggle" type="button" aria-label="Price checker">💲</button>
-      <button class="admin-btn" id="admin-btn" aria-label="Admin settings">⚙️</button>
+      <button class="utility-tab" id="utility-menu-toggle" type="button" aria-expanded="false">
+        <span data-i18n="utility.toggle">Herramientas</span>
+        <span aria-hidden="true">▾</span>
+      </button>
+      <div class="utility-menu" id="utility-menu">
+        <div class="utility-menu-title" data-i18n="utility.menuTitle">Control Center</div>
+        <button class="utility-action" id="price-checker-toggle" type="button" data-i18n="utility.priceChecker">Checker Price</button>
+        <button class="utility-action" id="admin-btn" type="button" data-i18n="utility.settings">Configuración</button>
+        <button class="utility-action" data-sim-open="retail" type="button" data-i18n="utility.simulators">Simuladores</button>
+      </div>
     </div>
 
     <div class="price-checker-panel" id="price-checker-panel" aria-live="polite">
@@ -1970,6 +2707,215 @@
 
     </div> <!-- /columns -->
 
+    <div class="simulator-panel" id="simulator-panel">
+      <div class="simulator-head">
+        <img src="UVC-Logo-Standalone-Gray.webp" alt="Unlimited Vacation Club" loading="lazy" />
+        <div>
+          <h3 data-i18n="sim.labTitle">UVC Sales Lab</h3>
+          <span data-i18n="sim.labSubtitle">Simuladores corporativos</span>
+        </div>
+      </div>
+      <div class="simulator-tabs">
+        <button class="sim-tab active" data-sim-tab="retail" data-i18n="sim.tabs.retail">ROI Retail vs Membresía</button>
+        <button class="sim-tab" data-sim-tab="incentives" data-i18n="sim.tabs.incentives">ROI Incentivos</button>
+        <button class="sim-tab" data-sim-tab="calc" data-i18n="sim.tabs.calc">Calculadora</button>
+      </div>
+      <div class="simulator-view active" data-sim-view="retail">
+        <section class="breakeven-section" id="breakeven-calculator" aria-labelledby="breakeven-title">
+      <div class="breakeven-card">
+        <div class="breakeven-header">
+          <div class="breakeven-headline">
+            <h2 id="breakeven-title" data-i18n="breakeven.title">Calculadora de punto de equilibrio</h2>
+            <p data-i18n="breakeven.subtitle">Ajusta los precios reales para mostrar en cuántos viajes se paga la membresía.</p>
+          </div>
+        </div>
+        <div class="breakeven-grid">
+          <form class="breakeven-form" id="breakeven-form">
+            <div class="breakeven-form-group">
+              <h4 data-i18n="breakeven.groupVolume">Membresía y volumen</h4>
+              <label for="breakeven-membership">
+                <span data-i18n="breakeven.membershipCost">Costo de la membresía (USD)</span>
+                <input type="number" id="breakeven-membership" min="0" step="100" value="6500" inputmode="decimal" />
+              </label>
+              <label for="breakeven-trips">
+                <span data-i18n="breakeven.tripsPerYear">Viajes por año</span>
+                <input type="number" id="breakeven-trips" min="1" step="1" value="2" inputmode="numeric" />
+              </label>
+              <label for="breakeven-years">
+                <span data-i18n="breakeven.years">Años a proyectar</span>
+                <input type="number" id="breakeven-years" min="1" max="15" step="1" value="5" inputmode="numeric" />
+              </label>
+            </div>
+            <div class="breakeven-form-group">
+              <h4 data-i18n="breakeven.groupTrip">Grupo y noches</h4>
+              <label for="breakeven-nights">
+                <span data-i18n="breakeven.nights">Noches por viaje</span>
+                <input type="number" id="breakeven-nights" min="1" step="1" value="5" inputmode="numeric" />
+              </label>
+              <label for="breakeven-travelers">
+                <span data-i18n="breakeven.travelers">Personas / suite</span>
+                <input type="number" id="breakeven-travelers" min="1" step="1" value="4" inputmode="numeric" />
+              </label>
+            </div>
+            <div class="breakeven-form-group">
+              <h4 data-i18n="breakeven.groupRates">Tarifa por persona / noche</h4>
+              <label for="breakeven-retail-night">
+                <span data-i18n="breakeven.retailNight">Retail (USD)</span>
+                <input type="number" id="breakeven-retail-night" min="0" step="10" value="500" inputmode="decimal" />
+              </label>
+              <label for="breakeven-member-night">
+                <span data-i18n="breakeven.memberNight">UVC (USD)</span>
+                <input type="number" id="breakeven-member-night" min="0" step="10" value="250" inputmode="decimal" />
+              </label>
+            </div>
+            <div class="breakeven-form-group">
+              <h4 data-i18n="breakeven.groupExtras">Gastos extra (spa / actividades)</h4>
+              <label for="breakeven-extra-retail">
+                <span data-i18n="breakeven.extraRetail">Gasto estimado retail (por viaje)</span>
+                <input type="number" id="breakeven-extra-retail" min="0" step="10" value="400" inputmode="decimal" />
+              </label>
+              <label for="breakeven-extra-discount">
+                <span data-i18n="breakeven.extraDiscount">Descuento UVC en extras (%)</span>
+                <input type="number" id="breakeven-extra-discount" min="0" max="100" step="1" value="25" inputmode="decimal" />
+              </label>
+              <div class="breakeven-inline-note" data-i18n="breakeven.extraHint">Aplica el descuento de socio a spa, actividades, golf o transporte.</div>
+            </div>
+          </form>
+          <div class="breakeven-results">
+            <div class="breakeven-stats">
+              <div>
+                <span data-i18n="breakeven.tripRetail">Viaje retail</span>
+                <strong id="breakeven-trip-retail">$0</strong>
+              </div>
+              <div>
+                <span data-i18n="breakeven.tripMember">Viaje UVC</span>
+                <strong id="breakeven-trip-member">$0</strong>
+              </div>
+              <div>
+                <span data-i18n="breakeven.perTrip">Ahorro por viaje</span>
+                <strong id="breakeven-trip-savings">$0</strong>
+              </div>
+              <div>
+                <span data-i18n="breakeven.annualSavings">Ahorro anual</span>
+                <strong id="breakeven-annual">$0</strong>
+              </div>
+              <div>
+                <span data-i18n="breakeven.breakEven">Punto de equilibrio</span>
+                <strong id="breakeven-breakpoint">--</strong>
+              </div>
+            </div>
+            <div class="breakeven-visuals">
+              <div class="breakeven-chart" aria-live="polite">
+                <div class="breakeven-marker" id="breakeven-marker">
+                  <span data-i18n="breakeven.membershipLabel">Costo membresía</span>
+                </div>
+                <div class="breakeven-bars" id="breakeven-bars"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </section>
+      </div>
+      <div class="simulator-view" data-sim-view="incentives">
+        <section class="incentive-section" id="incentive-calculator" aria-labelledby="incentive-title">
+          <h3 id="incentive-title" data-i18n="incentives.title">Calculadora ROI de incentivos</h3>
+          <p data-i18n="incentives.subtitle">Descubre cuánto valor adicional reciben tus clientes por cada bloque de $10,000 USD.</p>
+          <div class="incentive-grid">
+            <div class="incentive-form">
+              <label for="incentive-investment">
+                <span data-i18n="incentives.investment">Inversión del cliente (USD)</span>
+                <input type="number" id="incentive-investment" min="0" step="100" value="10000" inputmode="decimal" />
+              </label>
+              <label for="incentive-nights-input">
+                <span data-i18n="incentives.nights">Noches all inclusive</span>
+                <input type="number" id="incentive-nights-input" min="0" step="1" value="7" inputmode="numeric" />
+              </label>
+              <label for="incentive-weeks-input">
+                <span data-i18n="incentives.weeks">Semanas Hyatt</span>
+                <input type="number" id="incentive-weeks-input" min="0" step="1" value="2" inputmode="numeric" />
+              </label>
+              <label for="incentive-credits-input">
+                <span data-i18n="incentives.credits">Reward credits</span>
+                <input type="number" id="incentive-credits-input" min="0" step="50" value="1000" inputmode="numeric" />
+              </label>
+            </div>
+            <div class="incentive-results">
+              <div class="card">
+                <span data-i18n="incentives.nightsValue">Valor noches</span>
+                <strong id="incentive-nights-value">$0</strong>
+              </div>
+              <div class="card">
+                <span data-i18n="incentives.weeksValue">Valor Hyatt</span>
+                <strong id="incentive-weeks-value">$0</strong>
+              </div>
+              <div class="card">
+                <span data-i18n="incentives.creditsValue">Valor credits</span>
+                <strong id="incentive-credits-value">$0</strong>
+              </div>
+              <div class="card">
+                <span data-i18n="incentives.totalValue">Valor total</span>
+                <strong id="incentive-value">$0</strong>
+              </div>
+              <div class="card">
+                <span data-i18n="incentives.roi">ROI incentivos</span>
+                <strong id="incentive-roi">0%</strong>
+              </div>
+            </div>
+          </div>
+          <div class="incentive-visuals">
+            <div class="incentive-chart">
+              <div class="incentive-chart-baseline" id="incentive-chart-baseline">
+                <span id="incentive-chart-baseline-label">Inversión</span>
+              </div>
+              <div class="incentive-chart-marker" id="incentive-chart-marker">
+                <span id="incentive-chart-marker-label">ROI</span>
+              </div>
+              <div class="incentive-chart-bars">
+                <div class="incentive-bar" data-bar="investment">
+                  <strong id="incentive-bar-investment">$0</strong>
+                  <span data-i18n="incentives.investment">Inversión</span>
+                </div>
+                <div class="incentive-bar" data-bar="returned">
+                  <strong id="incentive-bar-returned">$0</strong>
+                  <span data-i18n="incentives.totalValue">Valor incentivos</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="simulator-view" data-sim-view="calc">
+        <section class="simple-calc" id="quickcalc-panel" aria-labelledby="calc-title">
+          <h3 id="calc-title" data-i18n="calc.title">Calculadora</h3>
+          <div class="quickcalc-display" id="quick-calc-display">0</div>
+          <div class="quickcalc-buttons">
+            <button type="button" class="quickcalc-btn light" data-quickcalc-action="clear">AC</button>
+            <button type="button" class="quickcalc-btn light" data-quickcalc-action="delete">⌫</button>
+            <button type="button" class="quickcalc-btn light operator" data-quickcalc-value="%">%</button>
+            <button type="button" class="quickcalc-btn operator" data-quickcalc-value="÷">÷</button>
+            <button type="button" class="quickcalc-btn" data-quickcalc-value="7">7</button>
+            <button type="button" class="quickcalc-btn" data-quickcalc-value="8">8</button>
+            <button type="button" class="quickcalc-btn" data-quickcalc-value="9">9</button>
+            <button type="button" class="quickcalc-btn operator" data-quickcalc-value="×">×</button>
+            <button type="button" class="quickcalc-btn" data-quickcalc-value="4">4</button>
+            <button type="button" class="quickcalc-btn" data-quickcalc-value="5">5</button>
+            <button type="button" class="quickcalc-btn" data-quickcalc-value="6">6</button>
+            <button type="button" class="quickcalc-btn operator" data-quickcalc-value="-">-</button>
+            <button type="button" class="quickcalc-btn" data-quickcalc-value="1">1</button>
+            <button type="button" class="quickcalc-btn" data-quickcalc-value="2">2</button>
+            <button type="button" class="quickcalc-btn" data-quickcalc-value="3">3</button>
+            <button type="button" class="quickcalc-btn operator" data-quickcalc-value="+">+</button>
+            <button type="button" class="quickcalc-btn wide" data-quickcalc-value="0">0</button>
+            <button type="button" class="quickcalc-btn" data-quickcalc-value=".">.</button>
+            <button type="button" class="quickcalc-btn equal" data-quickcalc-action="equals">=</button>
+          </div>
+          <div class="quickcalc-result" id="quick-calc-result">--</div>
+          <small data-i18n="calc.hint">Usa + - × ÷ y paréntesis para cualquier presupuesto.</small>
+        </section>
+      </div>
+    </div>
+
   </div> <!-- /page -->
 
   <div class="home-screen active" id="home-screen">
@@ -2081,6 +3027,24 @@
               <span data-config-summary-label="1">Zoëtry Los Cabos</span>
               <strong data-config-summary="1">$0</strong>
             </div>
+          </div>
+          <div class="config-field">
+            <label data-i18n="home.incentiveTitle">Costos manuales de incentivos</label>
+            <div class="config-grid">
+              <div class="config-field">
+                <label for="config-incentive-ai" data-i18n="home.incentiveAiLabel">Valor noche all inclusive (USD)</label>
+                <input id="config-incentive-ai" data-config-field="incentive-ai" type="number" step="1" min="0" placeholder="Auto" disabled />
+              </div>
+              <div class="config-field">
+                <label for="config-incentive-hyatt" data-i18n="home.incentiveHyattLabel">Valor semana Hyatt (USD)</label>
+                <input id="config-incentive-hyatt" data-config-field="incentive-hyatt" type="number" step="1" min="0" value="2000" disabled />
+              </div>
+              <div class="config-field">
+                <label for="config-incentive-credits" data-i18n="home.incentiveCreditsLabel">Valor por reward credit (USD)</label>
+                <input id="config-incentive-credits" data-config-field="incentive-credits" type="number" step="0.5" min="0" value="1" disabled />
+              </div>
+            </div>
+            <small data-i18n="home.incentiveHint">Deja vacío el valor de noche para usar el precio público del Price Checker.</small>
           </div>
           <div class="lang-callout">
             <span data-i18n="home.language">Idioma</span>
@@ -2518,6 +3482,13 @@
     const PRICE_DRIFT_INTERVAL = 15 * 1000;
     const PRICE_DRIFT_STEP = 4;
     const PRICE_DRIFT_RANGE = 10;
+    const INCENTIVE_BLOCK_SIZE = 10000;
+    const INCENTIVE_AI_NIGHTS = 7;
+    const INCENTIVE_HYATT_WEEKS = 2;
+    const INCENTIVE_HYATT_POINTS = 1000;
+    const HYATT_WEEK_VALUE = 2000;
+    const INCENTIVE_REWARD_CREDITS = 1;
+    const DEFAULT_AI_NIGHT_VALUE = 500;
     const priceCheckerToggle  = q('#price-checker-toggle');
     const priceCheckerPanel   = q('#price-checker-panel');
     const priceCheckerNote    = q('#price-checker-note');
@@ -2596,6 +3567,57 @@
         'col3.cruisesLabel': 'Cruises Rewards',
         'col3.flightsLabel': 'Flights',
         'col3.note': '3500 / 3000 / 1000 · 2 años free – Travel Agency · 5000 USD · 18 meses · Travel Agency [399 USD]',
+        'utility.toggle': 'Herramientas',
+        'utility.menuTitle': 'Centro de control',
+        'utility.priceChecker': 'Checker Price',
+        'utility.settings': 'Configuración',
+        'utility.simulators': 'Simuladores',
+        'breakeven.title': 'ROI Retail vs Membresía',
+        'breakeven.subtitle': 'Ajusta los precios reales para mostrar cuántos viajes necesitas para recuperar la inversión.',
+        'breakeven.groupVolume': 'Membresía y volumen',
+        'breakeven.groupTrip': 'Grupo y noches',
+        'breakeven.groupRates': 'Tarifa por persona / noche',
+        'breakeven.groupExtras': 'Gastos extra (spa / actividades)',
+        'breakeven.membershipCost': 'Costo de la membresía (USD)',
+        'breakeven.tripsPerYear': 'Viajes por año',
+        'breakeven.years': 'Años a proyectar',
+        'breakeven.nights': 'Noches por viaje',
+        'breakeven.travelers': 'Personas / suite',
+        'breakeven.retailNight': 'Retail (USD)',
+        'breakeven.memberNight': 'UVC (USD)',
+        'breakeven.extraRetail': 'Gasto estimado retail (por viaje)',
+        'breakeven.extraDiscount': 'Descuento UVC en extras (%)',
+        'breakeven.extraHint': 'Aplica el descuento de socio a spa, actividades, golf o transporte.',
+        'breakeven.perTrip': 'Ahorro por viaje',
+        'breakeven.tripRetail': 'Viaje retail',
+        'breakeven.tripMember': 'Viaje UVC',
+        'breakeven.tripSavings': 'Ahorro por viaje',
+        'breakeven.annualSavings': 'Ahorro anual',
+        'breakeven.breakEven': 'Punto de equilibrio',
+        'breakeven.membershipLabel': 'Costo membresía',
+        'breakeven.incentiveNights': 'Noches all inclusive',
+        'breakeven.incentiveWeeks': 'Semanas Hyatt',
+        'breakeven.incentivePoints': 'Puntos Hyatt',
+        'breakeven.quickCalcTitle': 'Calculadora rápida',
+        'breakeven.quickCalcHint': 'Usa + - × ÷ y paréntesis para cualquier presupuesto.',
+        'calc.title': 'Calculadora',
+        'calc.hint': 'Usa + - × ÷ y paréntesis para cualquier presupuesto.',
+        'sim.tabs.retail': 'ROI Retail vs Membresía',
+        'sim.tabs.incentives': 'ROI Incentivos',
+        'sim.tabs.calc': 'Calculadora',
+        'sim.labTitle': 'UVC Sales Lab',
+        'sim.labSubtitle': 'Simuladores corporativos',
+        'incentives.title': 'Calculadora ROI de incentivos',
+        'incentives.subtitle': 'Descubre cuánto valor adicional reciben por noches AI, semanas Hyatt y reward credits.',
+        'incentives.investment': 'Inversión del cliente (USD)',
+        'incentives.nights': 'Noches all inclusive',
+        'incentives.weeks': 'Semanas Hyatt',
+        'incentives.credits': 'Reward credits',
+        'incentives.nightsValue': 'Valor noches',
+        'incentives.weeksValue': 'Valor Hyatt',
+        'incentives.creditsValue': 'Valor credits',
+        'incentives.totalValue': 'Valor total',
+        'incentives.roi': 'ROI incentivos',
         'priceChecker.label': 'Price Checker',
         'priceChecker.title': 'Comparador en vivo',
         'priceChecker.subtitle': 'Secrets Puerto Los Cabos vs Zoëtry Los Cabos',
@@ -2670,6 +3692,11 @@
         'home.summaryLabel': 'Tarifa UVC lista',
         'home.pinSuccess': 'PIN correcto. Edición habilitada.',
         'home.pinError': 'PIN incorrecto. Intenta de nuevo.',
+        'home.incentiveTitle': 'Costos manuales de incentivos',
+        'home.incentiveAiLabel': 'Valor noche all inclusive (USD)',
+        'home.incentiveHyattLabel': 'Valor semana Hyatt (USD)',
+        'home.incentiveCreditsLabel': 'Valor por reward credit (USD)',
+        'home.incentiveHint': 'Deja vacío el valor de noche para usar el precio público del comparador.',
         'analytics.linerInput': 'Nombre del Liner',
         'analytics.closerInput': 'Nombre del Closer',
         'analytics.avgSale': 'Promedio de ventas',
@@ -2717,6 +3744,57 @@
         'col3.cruisesLabel': 'Cruises Rewards',
         'col3.flightsLabel': 'Flights',
         'col3.note': '3500 / 3000 / 1000 · 2 years free – Travel Agency · 5000 USD · 18 Months · Travel Agency [399 USD]',
+        'utility.toggle': 'Tools',
+        'utility.menuTitle': 'Control center',
+        'utility.priceChecker': 'Price checker',
+        'utility.settings': 'Settings',
+        'utility.simulators': 'Simulators',
+        'breakeven.title': 'Retail vs Membership ROI',
+        'breakeven.subtitle': 'Use live rates to show how many trips are needed to recover the buy-in.',
+        'breakeven.groupVolume': 'Membership & volume',
+        'breakeven.groupTrip': 'Group & nights',
+        'breakeven.groupRates': 'Rate per guest / night',
+        'breakeven.groupExtras': 'Extra spending (spa / activities)',
+        'breakeven.membershipCost': 'Membership cost (USD)',
+        'breakeven.tripsPerYear': 'Trips per year',
+        'breakeven.years': 'Years to project',
+        'breakeven.nights': 'Nights per trip',
+        'breakeven.travelers': 'Guests per trip',
+        'breakeven.retailNight': 'Retail (USD)',
+        'breakeven.memberNight': 'Member (USD)',
+        'breakeven.extraRetail': 'Estimated retail extras (per trip)',
+        'breakeven.extraDiscount': 'Member discount on extras (%)',
+        'breakeven.extraHint': 'Apply the member discount to spa, activities, golf or transfers.',
+        'breakeven.perTrip': 'Savings per trip',
+        'breakeven.tripRetail': 'Retail trip',
+        'breakeven.tripMember': 'UVC trip',
+        'breakeven.tripSavings': 'Savings per trip',
+        'breakeven.annualSavings': 'Annual savings',
+        'breakeven.breakEven': 'Break-even',
+        'breakeven.membershipLabel': 'Membership cost',
+        'breakeven.incentiveNights': 'All-inclusive nights',
+        'breakeven.incentiveWeeks': 'Hyatt weeks',
+        'breakeven.incentivePoints': 'Hyatt points',
+        'breakeven.quickCalcTitle': 'Quick calculator',
+        'breakeven.quickCalcHint': 'Use + - × ÷ and parentheses for any budget.',
+        'calc.title': 'Calculator',
+        'calc.hint': 'Use + - × ÷ and parentheses for any budget.',
+        'sim.tabs.retail': 'Retail vs membership ROI',
+        'sim.tabs.incentives': 'ROI incentives',
+        'sim.tabs.calc': 'Calculator',
+        'sim.labTitle': 'UVC Sales Lab',
+        'sim.labSubtitle': 'Corporate simulators',
+        'incentives.title': 'Incentives ROI calculator',
+        'incentives.subtitle': 'Show the extra value created by AI nights, Hyatt weeks and reward credits.',
+        'incentives.investment': 'Client investment (USD)',
+        'incentives.nights': 'All-inclusive nights',
+        'incentives.weeks': 'Hyatt weeks',
+        'incentives.credits': 'Reward credits',
+        'incentives.nightsValue': 'Night value',
+        'incentives.weeksValue': 'Hyatt value',
+        'incentives.creditsValue': 'Credits value',
+        'incentives.totalValue': 'Total value',
+        'incentives.roi': 'Incentives ROI',
         'priceChecker.label': 'Price Checker',
         'priceChecker.title': 'Live Price Checker',
         'priceChecker.subtitle': 'Secrets Puerto Los Cabos vs Zoëtry Los Cabos',
@@ -2791,6 +3869,11 @@
         'home.summaryLabel': 'Member rate ready',
         'home.pinSuccess': 'PIN accepted. Editing enabled.',
         'home.pinError': 'Wrong PIN. Please try again.',
+        'home.incentiveTitle': 'Manual incentive costs',
+        'home.incentiveAiLabel': 'All-inclusive night value (USD)',
+        'home.incentiveHyattLabel': 'Hyatt week value (USD)',
+        'home.incentiveCreditsLabel': 'Value per reward credit (USD)',
+        'home.incentiveHint': 'Leave the night value empty to use the public rate from the price checker.',
         'analytics.linerInput': 'Liner name',
         'analytics.closerInput': 'Closer name',
         'analytics.avgSale': 'Average sale',
@@ -2876,6 +3959,65 @@
       configTitleTargets[idx] = el;
     });
 
+    const utilityToggle = q('#utility-menu-toggle');
+    const utilityMenu = q('#utility-menu');
+    const simulatorPanel = q('#simulator-panel');
+    const simulatorTabs = qa('[data-sim-tab]');
+    const simulatorViews = qa('[data-sim-view]');
+    const simulatorOpenButtons = qa('[data-sim-open]');
+    const breakevenSection = q('#breakeven-calculator');
+    const breakevenForm = q('#breakeven-form');
+    const breakevenInputs = {
+      membership: q('#breakeven-membership'),
+      trips: q('#breakeven-trips'),
+      years: q('#breakeven-years'),
+      nights: q('#breakeven-nights'),
+      travelers: q('#breakeven-travelers'),
+      retailNight: q('#breakeven-retail-night'),
+      memberNight: q('#breakeven-member-night'),
+      extraRetail: q('#breakeven-extra-retail'),
+      extraDiscount: q('#breakeven-extra-discount')
+    };
+    const breakevenOutputs = {
+      tripRetail: q('#breakeven-trip-retail'),
+      tripMember: q('#breakeven-trip-member'),
+      tripSavings: q('#breakeven-trip-savings'),
+      annual: q('#breakeven-annual'),
+      breakEven: q('#breakeven-breakpoint')
+    };
+    const breakevenBars = q('#breakeven-bars');
+    const breakevenMarker = q('#breakeven-marker');
+    let breakevenFlashTimeout;
+    const quickCalcDisplay = q('#quick-calc-display');
+    const quickCalcResult = q('#quick-calc-result');
+    const quickCalcButtons = qa('[data-quickcalc-value], [data-quickcalc-action]');
+    let quickCalcExpression = '';
+    const incentiveInput = {
+      investment: q('#incentive-investment'),
+      nights: q('#incentive-nights-input'),
+      weeks: q('#incentive-weeks-input'),
+      credits: q('#incentive-credits-input')
+    };
+    const incentiveOutputs = {
+      nightsValue: q('#incentive-nights-value'),
+      weeksValue: q('#incentive-weeks-value'),
+      creditsValue: q('#incentive-credits-value'),
+      total: q('#incentive-value'),
+      roi: q('#incentive-roi'),
+      chart: {
+        marker: q('#incentive-chart-marker'),
+        markerLabel: q('#incentive-chart-marker-label'),
+        baseline: q('#incentive-chart-baseline'),
+        baselineLabel: q('#incentive-chart-baseline-label'),
+        bars: {
+          investment: q('.incentive-bar[data-bar="investment"]'),
+          returned: q('.incentive-bar[data-bar="returned"]')
+        },
+        investmentLabel: q('#incentive-bar-investment'),
+        returnedLabel: q('#incentive-bar-returned')
+      }
+    };
+
     const state = {
       lang: 'en',
       pinUnlocked: false,
@@ -2883,8 +4025,30 @@
       presentationPassword: '1234',
       session: { liner: '', closer: '' },
       sales: { win: 0, pending: 0, entries: [] },
-      dynamicPrices: []
+      dynamicPrices: [],
+      incentives: {
+        aiNight: 0,
+        hyattWeek: HYATT_WEEK_VALUE,
+        credits: INCENTIVE_REWARD_CREDITS
+      }
     };
+
+    function setUtilityMenu(open){
+      if (!utilityMenu || !utilityToggle) return;
+      const show = !!open;
+      utilityMenu.classList.toggle('active', show);
+      utilityToggle.setAttribute('aria-expanded', show ? 'true' : 'false');
+    }
+
+    function toggleUtilityMenu(){
+      if (!utilityMenu) return;
+      const show = !utilityMenu.classList.contains('active');
+      setUtilityMenu(show);
+    }
+
+    function closeUtilityMenu(){
+      setUtilityMenu(false);
+    }
 
     function loadSessionData(){
       if (typeof localStorage === 'undefined') return;
@@ -2969,6 +4133,17 @@
         if (parsed && typeof parsed.presentationPassword === 'string'){
           state.presentationPassword = parsed.presentationPassword;
         }
+        if (parsed && parsed.incentives){
+          if (typeof parsed.incentives.aiNight !== 'undefined'){
+            state.incentives.aiNight = Number(parsed.incentives.aiNight) || 0;
+          }
+          if (typeof parsed.incentives.hyattWeek !== 'undefined'){
+            state.incentives.hyattWeek = Number(parsed.incentives.hyattWeek) || HYATT_WEEK_VALUE;
+          }
+          if (typeof parsed.incentives.credits !== 'undefined'){
+            state.incentives.credits = Number(parsed.incentives.credits) || INCENTIVE_REWARD_CREDITS;
+          }
+        }
       } catch(err){}
     }
 
@@ -2988,7 +4163,12 @@
                 despegar: Number(prop.prices && prop.prices.despegar || 0)
               }
             };
-          })
+          }),
+          incentives: {
+            aiNight: state.incentives.aiNight || 0,
+            hyattWeek: state.incentives.hyattWeek || HYATT_WEEK_VALUE,
+            credits: state.incentives.credits || INCENTIVE_REWARD_CREDITS
+          }
         };
         localStorage.setItem(ADMIN_CONFIG_STORAGE_KEY, JSON.stringify(payload));
       } catch(err){}
@@ -3000,6 +4180,18 @@
         if (!field) return;
         if (field === 'presentation-pass'){
           input.value = state.presentationPassword || '';
+          return;
+        }
+        if (field === 'incentive-ai'){
+          input.value = state.incentives.aiNight > 0 ? state.incentives.aiNight : '';
+          return;
+        }
+        if (field === 'incentive-hyatt'){
+          input.value = state.incentives.hyattWeek || HYATT_WEEK_VALUE;
+          return;
+        }
+        if (field === 'incentive-credits'){
+          input.value = state.incentives.credits || INCENTIVE_REWARD_CREDITS;
           return;
         }
         const idx = Number(input.dataset.propertyIndex || 0);
@@ -3086,6 +4278,33 @@
         .filter(val => val > 0);
     }
 
+    function getHighestRetailRate(){
+      let highest = 0;
+      state.properties.forEach((_, idx) => {
+        const prices = getCompetitorLivePrices(idx);
+        if (prices.length){
+          const candidate = Math.max(...prices);
+          if (candidate > highest) highest = candidate;
+        }
+      });
+      return highest || (DEFAULT_AI_NIGHT_VALUE * 2);
+    }
+
+    function getAiNightCost(){
+      if (state.incentives.aiNight && state.incentives.aiNight > 0) return state.incentives.aiNight;
+      const highest = getHighestRetailRate();
+      return highest > 0 ? highest : DEFAULT_AI_NIGHT_VALUE;
+    }
+
+    function getHyattWeekCost(){
+      return state.incentives.hyattWeek && state.incentives.hyattWeek > 0 ? state.incentives.hyattWeek : HYATT_WEEK_VALUE;
+    }
+
+    function getRewardCreditValue(){
+      return state.incentives.credits && state.incentives.credits > 0 ? state.incentives.credits : INCENTIVE_REWARD_CREDITS;
+    }
+
+
     function applyPriceDrift(force = false){
       const now = Date.now();
       state.dynamicPrices.forEach(brands => {
@@ -3110,12 +4329,25 @@
     }
 
     configInputs.forEach(input => {
-      const idx = Number(input.dataset.propertyIndex || 0);
       const field = input.dataset.configField;
+      if (!field) return;
       if (field === 'presentation-pass'){
         state.presentationPassword = input.value || '1234';
         return;
       }
+      if (field === 'incentive-ai'){
+        state.incentives.aiNight = Number(input.value) || 0;
+        return;
+      }
+      if (field === 'incentive-hyatt'){
+        state.incentives.hyattWeek = Number(input.value) || HYATT_WEEK_VALUE;
+        return;
+      }
+      if (field === 'incentive-credits'){
+        state.incentives.credits = Number(input.value) || INCENTIVE_REWARD_CREDITS;
+        return;
+      }
+      const idx = Number(input.dataset.propertyIndex || 0);
       const prop = ensureProperty(idx);
       if (field === 'destination'){
         prop.destination = input.value;
@@ -3133,6 +4365,7 @@
 
     state.properties.forEach((_, idx) => ensureDynamicStore(idx));
     applyPriceDrift(true);
+    updateBreakeven();
 
     function formatCurrency(value){
       const locale = state.lang === 'es' ? 'es-MX' : 'en-US';
@@ -3166,6 +4399,218 @@
       if (!uvcPrice) return 0;
       return Math.max(0, Math.round(((lowest - uvcPrice) / lowest) * 100));
     }
+
+    function updateBreakeven(){
+      if (!breakevenBars || !breakevenOutputs.tripSavings) return;
+      const isEs = state.lang === 'es';
+      const membershipCost = Math.max(0, parseFloat(breakevenInputs.membership && breakevenInputs.membership.value || '0') || 0);
+      const trips = Math.max(0, parseFloat(breakevenInputs.trips && breakevenInputs.trips.value || '0') || 0);
+      const years = Math.max(1, parseInt(breakevenInputs.years && breakevenInputs.years.value || '1', 10) || 1);
+      const nights = Math.max(1, parseFloat(breakevenInputs.nights && breakevenInputs.nights.value || '0') || 1);
+      const travelers = Math.max(1, parseFloat(breakevenInputs.travelers && breakevenInputs.travelers.value || '0') || 1);
+      const retailNight = Math.max(0, parseFloat(breakevenInputs.retailNight && breakevenInputs.retailNight.value || '0') || 0);
+      const memberNight = Math.max(0, parseFloat(breakevenInputs.memberNight && breakevenInputs.memberNight.value || '0') || 0);
+      const extraRetail = Math.max(0, parseFloat(breakevenInputs.extraRetail && breakevenInputs.extraRetail.value || '0') || 0);
+      let extraDiscount = parseFloat(breakevenInputs.extraDiscount && breakevenInputs.extraDiscount.value || '0') || 0;
+      if (extraDiscount < 0) extraDiscount = 0;
+      if (extraDiscount > 100) extraDiscount = 100;
+      const retailTripBase = travelers * nights * retailNight;
+      const memberTripBase = travelers * nights * memberNight;
+      const memberExtras = extraRetail * (1 - extraDiscount / 100);
+      const tripRetail = retailTripBase + extraRetail;
+      const tripMember = memberTripBase + memberExtras;
+      const perTrip = Math.max(0, tripRetail - tripMember);
+      const annual = perTrip * trips;
+      const dataset = [];
+      let cumulative = 0;
+      let breakYear = null;
+
+      for (let year = 1; year <= years; year++){
+        cumulative += annual;
+        dataset.push({ year, cumulative });
+        if (breakYear === null && membershipCost > 0 && perTrip > 0 && cumulative >= membershipCost){
+          breakYear = year;
+        }
+      }
+
+      if (breakevenOutputs.tripRetail) breakevenOutputs.tripRetail.textContent = formatCurrency(tripRetail);
+      if (breakevenOutputs.tripMember) breakevenOutputs.tripMember.textContent = formatCurrency(tripMember);
+      if (breakevenOutputs.tripSavings) breakevenOutputs.tripSavings.textContent = formatCurrency(perTrip);
+      if (breakevenOutputs.annual) breakevenOutputs.annual.textContent = formatCurrency(annual);
+
+      let breakLabel = '--';
+      if (!perTrip || !trips){
+        breakLabel = isEs ? 'Sin ahorro' : 'No savings';
+      } else if (breakYear){
+        const yearWord = isEs ? (breakYear === 1 ? 'año' : 'años') : (breakYear === 1 ? 'year' : 'years');
+        breakLabel = `${breakYear} ${yearWord}`;
+      } else {
+        const yearWord = isEs ? (years === 1 ? 'año' : 'años') : (years === 1 ? 'year' : 'years');
+        breakLabel = `>${years} ${yearWord}`;
+      }
+      if (breakevenOutputs.breakEven) breakevenOutputs.breakEven.textContent = breakLabel;
+
+      breakevenBars.innerHTML = '';
+      const maxValue = Math.max(
+        membershipCost,
+        ...dataset.map(item => item.cumulative),
+        1
+      );
+      dataset.forEach(item => {
+        const bar = document.createElement('div');
+        bar.className = 'be-bar';
+        const pct = Math.min(100, Math.max(2, maxValue > 0 ? (item.cumulative / maxValue) * 100 : 0));
+        bar.style.height = `${pct}%`;
+        const label = isEs ? `Año ${item.year}` : `Year ${item.year}`;
+        bar.innerHTML = `<strong>${formatCurrency(item.cumulative)}</strong><span>${label}</span>`;
+        if (breakYear && item.year === breakYear){
+          bar.classList.add('hit');
+        }
+        breakevenBars.appendChild(bar);
+      });
+
+      if (breakevenMarker){
+        if (membershipCost > 0){
+          const pct = Math.min(92, Math.max(8, maxValue > 0 ? (membershipCost / maxValue) * 100 : 0));
+          breakevenMarker.style.display = 'flex';
+          breakevenMarker.style.bottom = `${pct}%`;
+        } else {
+          breakevenMarker.style.display = 'none';
+        }
+      }
+
+    }
+
+    function sanitizeQuickCalcExpression(expr){
+      if (!expr) return '';
+      const allowed = expr.replace(/[^0-9+\-*/().,%×÷\s]/g, '');
+      return allowed
+        .replace(/×/g, '*')
+        .replace(/÷/g, '/')
+        .replace(/,/g, '')
+        .replace(/\s+/g, '')
+        .replace(/%/g, '*0.01');
+    }
+
+    function refreshQuickCalcDisplay(){
+      if (!quickCalcDisplay) return;
+      quickCalcDisplay.textContent = quickCalcExpression || '0';
+    }
+
+    function evaluateQuickCalcExpression(){
+      if (!quickCalcResult) return;
+      if (!quickCalcExpression.trim()){
+        quickCalcResult.textContent = '--';
+        return;
+      }
+      const normalized = sanitizeQuickCalcExpression(quickCalcExpression);
+      if (!normalized.trim()){
+        quickCalcResult.textContent = state.lang === 'es' ? 'Inválido' : 'Invalid';
+        return;
+      }
+      try {
+        // eslint-disable-next-line no-new-func
+        const value = Function('"use strict"; return (' + normalized + ')')();
+        if (!isFinite(value)){
+          throw new Error('Invalid');
+        }
+        const formatted = Number(value).toLocaleString(
+          state.lang === 'es' ? 'es-MX' : 'en-US',
+          { maximumFractionDigits: 4 }
+        );
+        quickCalcResult.textContent = formatted;
+        quickCalcExpression = String(value);
+        refreshQuickCalcDisplay();
+      } catch(err){
+        quickCalcResult.textContent = state.lang === 'es' ? 'Error' : 'Error';
+      }
+    }
+
+    function handleQuickCalcAction(action, value){
+      if (!quickCalcDisplay) return;
+      switch(action){
+        case 'clear':
+          quickCalcExpression = '';
+          refreshQuickCalcDisplay();
+          if (quickCalcResult) quickCalcResult.textContent = '--';
+          return;
+        case 'delete':
+          quickCalcExpression = quickCalcExpression.slice(0, -1);
+          refreshQuickCalcDisplay();
+          return;
+        case 'equals':
+          evaluateQuickCalcExpression();
+          return;
+        default:
+          break;
+      }
+      if (value){
+        quickCalcExpression += value;
+        refreshQuickCalcDisplay();
+      }
+    }
+
+    function updateIncentiveCalculator(){
+      if (!incentiveInput.investment || !incentiveOutputs.total) return;
+      const investment = Math.max(0, parseFloat(incentiveInput.investment.value || '0') || 0);
+      const nights = Math.max(0, parseFloat(incentiveInput.nights.value || '0') || 0);
+      const weeks = Math.max(0, parseFloat(incentiveInput.weeks.value || '0') || 0);
+      const credits = Math.max(0, parseFloat(incentiveInput.credits.value || '0') || 0);
+      const nightCost = getAiNightCost();
+      const hyattCost = getHyattWeekCost();
+      const creditUnit = getRewardCreditValue() || 1;
+      const nightsValue = nights * nightCost;
+      const weeksValue = weeks * hyattCost;
+      const creditsValue = credits * creditUnit;
+      const totalValue = nightsValue + weeksValue + creditsValue;
+      const roiPercent = investment > 0 ? (totalValue / investment) * 100 : 0;
+      const roi = investment > 0 ? Math.round(roiPercent) : 0;
+      incentiveOutputs.nightsValue.textContent = formatCurrency(nightsValue);
+      incentiveOutputs.weeksValue.textContent = formatCurrency(weeksValue);
+      incentiveOutputs.creditsValue.textContent = formatCurrency(creditsValue);
+      incentiveOutputs.total.textContent = formatCurrency(totalValue);
+      incentiveOutputs.roi.textContent = investment ? `${roi}%` : '--';
+      const chart = incentiveOutputs.chart;
+      if (chart){
+        const scaleBase = Math.max(roiPercent || 0, 100);
+        if (chart.bars.investment){
+          chart.bars.investment.style.height = '100%';
+          if (chart.investmentLabel) chart.investmentLabel.textContent = formatCurrency(investment);
+        }
+        if (chart.bars.returned){
+          const returnedPct = investment > 0 ? Math.min(200, roiPercent) : 0;
+          const height = Math.max(6, Math.min(100, (returnedPct / scaleBase) * 100));
+          chart.bars.returned.style.height = `${height}%`;
+          if (chart.returnedLabel) chart.returnedLabel.textContent = formatCurrency(totalValue);
+        }
+        if (chart.marker){
+          if (roiPercent > 0){
+            chart.marker.style.display = 'flex';
+            const markerPct = Math.min(95, Math.max(5, (roiPercent / scaleBase) * 100));
+            chart.marker.style.bottom = `${markerPct}%`;
+            if (chart.markerLabel){
+              chart.markerLabel.textContent = state.lang === 'es'
+                ? `ROI ${roi}%`
+                : `ROI ${roi}%`;
+            }
+          } else {
+            chart.marker.style.display = 'none';
+          }
+        }
+        if (chart.baseline){
+          if (investment > 0){
+            chart.baseline.style.display = 'flex';
+            chart.baseline.style.bottom = `${Math.min(95, Math.max(5, (100 / scaleBase) * 100))}%`;
+            if (chart.baselineLabel){
+              chart.baselineLabel.textContent = state.lang === 'es' ? 'Inversión 100%' : 'Investment 100%';
+            }
+          } else {
+            chart.baseline.style.display = 'none';
+          }
+        }
+      }
+    }
+
 
     function setPriceText(propertyIdx, target, value){
       const map = propertyPriceTargets[propertyIdx];
@@ -3224,6 +4669,7 @@
         const template = getTranslation('priceChecker.note');
         priceCheckerNote.textContent = template.replace('{value}', bestSavings);
       }
+      updateIncentiveCalculator();
     }
 
     function syncLangButtons(){
@@ -3252,6 +4698,8 @@
       syncLangButtons();
       applyTranslations(lang);
       updatePriceUI();
+      updateBreakeven();
+      updateIncentiveCalculator();
     }
 
     function setConfigInputsDisabled(flag){
@@ -3610,6 +5058,24 @@
         state.presentationPassword = input.value || '1234';
         return;
       }
+      if (field === 'incentive-ai'){
+        state.incentives.aiNight = Number(input.value) || 0;
+        updateIncentiveCalculator();
+        persistAdminConfig();
+        return;
+      }
+      if (field === 'incentive-hyatt'){
+        state.incentives.hyattWeek = Number(input.value) || HYATT_WEEK_VALUE;
+        updateIncentiveCalculator();
+        persistAdminConfig();
+        return;
+      }
+      if (field === 'incentive-credits'){
+        state.incentives.credits = Number(input.value) || INCENTIVE_REWARD_CREDITS;
+        updateIncentiveCalculator();
+        persistAdminConfig();
+        return;
+      }
       const idx = Number(input.dataset.propertyIndex || 0);
       const prop = ensureProperty(idx);
       if (field === 'destination'){
@@ -3682,6 +5148,77 @@
       btn.addEventListener('click', handleConfigSave);
     });
 
+    if (utilityToggle){
+      utilityToggle.addEventListener('click', (ev)=>{
+        ev.preventDefault();
+        toggleUtilityMenu();
+      });
+    }
+
+    function openSimulatorTab(key='retail', scroll=true){
+      if (!simulatorPanel) return;
+      const valid = ['retail','incentives','calc'];
+      if (!valid.includes(key)) key = 'retail';
+      simulatorTabs.forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.simTab === key);
+      });
+      simulatorViews.forEach(view => {
+        view.classList.toggle('active', view.dataset.simView === key);
+      });
+      if (scroll){
+        simulatorPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        simulatorPanel.classList.add('flash');
+        if (breakevenFlashTimeout) clearTimeout(breakevenFlashTimeout);
+        breakevenFlashTimeout = setTimeout(()=>{
+          simulatorPanel.classList.remove('flash');
+        }, 800);
+      }
+    }
+
+    simulatorTabs.forEach(btn => {
+      btn.addEventListener('click', ()=>{
+        openSimulatorTab(btn.dataset.simTab || 'break', false);
+      });
+    });
+
+    simulatorOpenButtons.forEach(btn => {
+      btn.addEventListener('click', ()=>{
+        closeUtilityMenu();
+        openSimulatorTab(btn.dataset.simOpen || 'break', true);
+      });
+    });
+
+    openSimulatorTab('retail', false);
+
+    if (breakevenForm){
+      breakevenForm.addEventListener('input', ()=>{
+        updateBreakeven();
+      });
+      breakevenForm.addEventListener('submit', (ev)=> ev.preventDefault());
+    }
+
+
+    refreshQuickCalcDisplay();
+    if (quickCalcResult) quickCalcResult.textContent = '--';
+
+    if (quickCalcButtons.length){
+      quickCalcButtons.forEach(btn => {
+        btn.addEventListener('click', ()=>{
+          const action = btn.dataset.quickcalcAction || null;
+          const value = btn.dataset.quickcalcValue || '';
+          handleQuickCalcAction(action, value);
+        });
+      });
+    }
+
+    updateIncentiveCalculator();
+    Object.values(incentiveInput).forEach(input => {
+      if (!input) return;
+      input.addEventListener('input', ()=>{
+        updateIncentiveCalculator();
+      });
+    });
+
     if (pinForm){
       pinForm.addEventListener('submit', (ev)=>{
         ev.preventDefault();
@@ -3733,6 +5270,7 @@
 
     if (adminBtn){
       adminBtn.addEventListener('click', ()=>{
+        closeUtilityMenu();
         togglePriceChecker(false);
         if (homeScreen && !homeScreen.classList.contains('active')){
           openSaleOverlay();
@@ -3744,6 +5282,7 @@
 
     if (priceCheckerToggle){
       priceCheckerToggle.addEventListener('click', ()=>{
+        closeUtilityMenu();
         togglePriceChecker();
       });
     }
@@ -3767,11 +5306,17 @@
           togglePriceChecker(false);
         }
       }
+      if (utilityMenu && utilityMenu.classList.contains('active')){
+        if (!ev.target.closest('.utility-bar')){
+          closeUtilityMenu();
+        }
+      }
     });
 
     document.addEventListener('keydown', (ev)=>{
       if (ev.key === 'Escape'){
         togglePriceChecker(false);
+        closeUtilityMenu();
         if (saleOverlay && saleOverlay.classList.contains('active')){
           closeSaleOverlay();
           openHomeScreen();
