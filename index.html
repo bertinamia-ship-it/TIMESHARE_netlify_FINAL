@@ -5366,9 +5366,18 @@
 
     function aggregateRoleStats(role){
       const map = {};
+      const registeredNames = role === 'liner' ? state.staff.liners : state.staff.closers;
+      
       (state.sales.entries || []).forEach(entry => {
         const name = entry && entry[role];
         if (!name) return;
+        
+        // SOLO incluir si el nombre está registrado en el admin
+        const isRegistered = registeredNames.some(regName => 
+          regName.trim().toLowerCase() === name.trim().toLowerCase()
+        );
+        if (!isRegistered) return;
+        
         if (!map[name]){
           map[name] = { name, wins: 0, attempts: 0, amount: 0 };
         }
