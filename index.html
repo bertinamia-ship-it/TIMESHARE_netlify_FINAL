@@ -5761,7 +5761,6 @@
 
     function openSaleOverlay(){
       if (!saleOverlay) {
-        openHomeScreen();
         return;
       }
       state.session.liner = '';
@@ -5844,7 +5843,6 @@
       updateReportControls();
       updateAnalyticsUI();
       closeSaleOverlay();
-      openHomeScreen();
     }
 
     function resetSalesHistory(){
@@ -6142,30 +6140,13 @@
     });
 
     // Secret key combination to access admin panel (Ctrl+Shift+A)
-    document.addEventListener('keydown', (ev) => {
-      if (ev.ctrlKey && ev.shiftKey && ev.key.toLowerCase() === 'a') {
-        ev.preventDefault();
-        closeUtilityMenu();
-        togglePriceChecker(false);
-        if (homeScreen && !homeScreen.classList.contains('active')){
-          openSaleOverlay();
-        } else {
-          openHomeScreen();
-        }
-      }
-    });
-
     // Secret key combination to access admin panel (Ctrl+Shift+A)
     document.addEventListener('keydown', (ev) => {
       if (ev.ctrlKey && ev.shiftKey && ev.key.toLowerCase() === 'a') {
         ev.preventDefault();
         closeUtilityMenu();
         togglePriceChecker(false);
-        if (homeScreen && !homeScreen.classList.contains('active')){
-          openSaleOverlay();
-        } else {
-          openHomeScreen();
-        }
+        openHomeScreen();
       }
     });
 
@@ -6223,7 +6204,6 @@
         closeUtilityMenu();
         if (saleOverlay && saleOverlay.classList.contains('active')){
           closeSaleOverlay();
-          openHomeScreen();
         }
       }
     });
@@ -6294,7 +6274,6 @@
       saleOverlay.addEventListener('click', (ev)=>{
         if (ev.target === saleOverlay){
           closeSaleOverlay();
-          openHomeScreen();
         }
       });
     }
