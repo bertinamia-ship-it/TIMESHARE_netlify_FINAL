@@ -3483,22 +3483,8 @@
             <div style="font-size: 48px; margin-bottom: 20px;">⬇️</div>
             <h3 style="color: #0f2654; font-size: 22px; margin: 0 0 12px 0; font-weight: 700;">Usa las pestañas de abajo</h3>
             <p style="color: #5a678a; font-size: 16px; margin: 0; max-width: 500px; margin: 0 auto; line-height: 1.6;">
-              Toda la configuración está organizada en las pestañas de <strong>Precios e Incentivos</strong>, <strong>Área Financiera</strong> y <strong>Rankings</strong>.
+              Toda la configuración está organizada en las pestañas de <strong>Precios e Incentivos</strong>, <strong>Área Financiera</strong>, <strong>Rankings</strong> y <strong>Settings</strong>.
             </p>
-          </div>
-          <div class="config-field staff-config" style="margin-top: 24px;">
-            <label data-i18n="home.staffTitle">Equipo disponible</label>
-            <div class="staff-grid">
-              <div class="staff-column">
-                <span data-i18n="home.staffLiners">Liners</span>
-                <textarea data-staff-field="liners" placeholder="Un nombre por línea" disabled></textarea>
-              </div>
-              <div class="staff-column">
-                <span data-i18n="home.staffClosers">Closers</span>
-                <textarea data-staff-field="closers" placeholder="Un nombre por línea" disabled></textarea>
-              </div>
-            </div>
-            <small data-i18n="home.staffHint">Escribe un nombre por línea. Se usarán para sugerir nombres en el registro de ventas.</small>
           </div>
             <small data-i18n="home.staffHint">Se mostrarán como sugerencias al registrar un cierre.</small>
           </div>
@@ -3521,6 +3507,7 @@
               <button class="admin-tab-btn active" data-tab="prices" type="button">⚙️ Precios e Incentivos</button>
               <button class="admin-tab-btn" data-tab="financial" type="button">📊 Área Financiera</button>
               <button class="admin-tab-btn" data-tab="rankings" type="button">🏆 Rankings</button>
+              <button class="admin-tab-btn" data-tab="settings" type="button">⚙️ Settings</button>
             </div>
             
             <!-- SECTION 1: Price Checker & Incentives Configuration -->
@@ -3698,6 +3685,32 @@
                     <span data-i18n="analytics.closersLabel">Closers</span>
                     <div class="comparison-bar"><div class="comparison-fill" data-bar="closer"></div></div>
                     <strong data-bar-value="closer">$0</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- SECTION 4: Settings -->
+            <div class="admin-section" data-section="settings">
+              <h3>⚙️ Configuración General</h3>
+              
+              <div style="max-width: 600px;">
+                <div style="background: #ffffff; border: 2px solid #d5dff0; border-radius: 16px; padding: 24px; margin-bottom: 24px;">
+                  <h4 style="margin: 0 0 16px 0; font-size: 18px; color: #0f2654; font-weight: 700;">🌐 Idioma / Language</h4>
+                  <p style="margin: 0 0 16px 0; font-size: 14px; color: #5a678a;">Selecciona el idioma para la presentación</p>
+                  <div class="lang-pill-group" style="justify-content: flex-start;">
+                    <button class="lang-pill" data-lang="es" type="button">ES</button>
+                    <button class="lang-pill" data-lang="en" type="button">EN</button>
+                  </div>
+                </div>
+
+                <div style="background: #ffffff; border: 2px solid #d5dff0; border-radius: 16px; padding: 24px;">
+                  <h4 style="margin: 0 0 16px 0; font-size: 18px; color: #0f2654; font-weight: 700;">📄 Datos</h4>
+                  <p style="margin: 0 0 16px 0; font-size: 14px; color: #5a678a;">Administra la información almacenada</p>
+                  <div class="sales-report">
+                    <span data-i18n="sale.reportLabel">Download your sales summary.</span>
+                    <button type="button" id="download-sales-report-settings" disabled data-i18n="sale.reportBtn">Descargar CSV</button>
+                    <button type="button" id="reset-sales-btn-settings" class="reset-btn" data-i18n="analytics.resetBtn">Limpiar datos</button>
                   </div>
                 </div>
               </div>
@@ -5489,9 +5502,13 @@
     }
 
     function updateReportControls(){
+      const hasData = Array.isArray(state.sales.entries) && state.sales.entries.length > 0;
       if (downloadSalesReportBtn){
-        const hasData = Array.isArray(state.sales.entries) && state.sales.entries.length > 0;
         downloadSalesReportBtn.disabled = !hasData;
+      }
+      const downloadSalesReportBtnSettings = q('#download-sales-report-settings');
+      if (downloadSalesReportBtnSettings){
+        downloadSalesReportBtnSettings.disabled = !hasData;
       }
     }
 
@@ -6218,8 +6235,26 @@
     if (downloadSalesReportBtn){
       downloadSalesReportBtn.addEventListener('click', downloadSalesReport);
     }
+    
+    // Settings tab buttons
+    const downloadSalesReportBtnSettings = q('#download-sales-report-settings');
+    const resetSalesBtnSettings = q('#reset-sales-btn-settings');
+    
+    if (downloadSalesReportBtnSettings){
+      downloadSalesReportBtnSettings.addEventListener('click', downloadSalesReport);
+    }
+    
     if (resetSalesBtn){
       resetSalesBtn.addEventListener('click', ()=>{
+        const message = getTranslation('analytics.resetConfirm') || 'Clear all sales history?';
+        if (confirm(message)){
+          resetSalesHistory();
+        }
+      });
+    }
+    
+    if (resetSalesBtnSettings){
+      resetSalesBtnSettings.addEventListener('click', ()=>{
         const message = getTranslation('analytics.resetConfirm') || 'Clear all sales history?';
         if (confirm(message)){
           resetSalesHistory();
