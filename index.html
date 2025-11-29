@@ -93,37 +93,40 @@
       display: flex;
     }
 
-    /* Staff picker dropdown */
-    .staff-picker {
+    .close-pitch-btn {
       position: absolute;
-      z-index: 3000;
-      background: #fff;
-      border: 1px solid #c5d0f0;
-      border-radius: 12px;
-      box-shadow: 0 14px 34px rgba(15,40,92,0.28);
-      padding: 6px;
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      max-height: 260px;
-      overflow-y: auto;
-      min-width: 210px;
-      font-family: inherit;
-    }
-    .staff-picker button {
+      top: 18px;
+      right: 80px;
+      width: 36px;
+      height: 36px;
       border: none;
-      background: transparent;
-      padding: 8px 10px;
-      text-align: left;
-      font-size: 13px;
-      font-weight: 500;
+      background: rgba(210, 50, 50, 0.9);
+      color: #fff;
+      border-radius: 50%;
+      font-size: 20px;
+      font-weight: 700;
       cursor: pointer;
-      border-radius: 8px;
-      color: #102649;
-      transition: background .15s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 20px rgba(210, 50, 50, 0.35);
+      transition: transform 0.2s ease, background 0.2s ease;
+      z-index: 26;
     }
-    .staff-picker button:hover {
-      background: #eef3ff;
+
+    .close-pitch-btn:hover {
+      background: rgba(180, 30, 30, 1);
+      transform: scale(1.08);
+    }
+
+    @media (max-width: 600px) {
+      .close-pitch-btn {
+        top: 12px;
+        right: 60px;
+        width: 32px;
+        height: 32px;
+        font-size: 18px;
+      }
     }
 
     .utility-menu-title {
@@ -2917,6 +2920,8 @@
       </div>
     </div>
 
+    <button class="close-pitch-btn" id="close-pitch-btn" type="button" title="Cerrar presentación" aria-label="Cerrar presentación">&times;</button>
+
     <div class="price-checker-panel" id="price-checker-panel" aria-live="polite">
       <div class="pc-header">
         <div>
@@ -4032,6 +4037,7 @@
     const homeConfig          = q('#home-config');
     const startDemoBtn        = q('#start-demo-btn');
     const adminBtn            = q('#admin-btn');
+    const closePitchBtn       = q('#close-pitch-btn');
     const pinForm             = q('#pin-form');
     const pinInput            = q('#pin-input');
     const pinStatus           = q('#pin-status');
@@ -5940,6 +5946,14 @@
         } else {
           openHomeScreen();
         }
+      });
+    }
+
+    if (closePitchBtn){
+      closePitchBtn.addEventListener('click', ()=>{
+        closeUtilityMenu();
+        togglePriceChecker(false);
+        openSaleOverlay();
       });
     }
 
