@@ -1,0 +1,4122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unlimited Vacation Club – 3 Way Pitch</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #dde6ff, #f5f7ff);
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      color: #1a1a1a;
+      font-size: 16px;
+      min-height: 100vh;
+      overflow-y: auto;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 1200px;
+      background: #ffffff;
+      border-radius: 32px;
+      box-shadow: 0 18px 60px rgba(0, 0, 0, 0.16);
+      padding: 18px 24px 22px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      margin: 16px;
+    }
+
+    .utility-bar {
+      position: absolute;
+      top: 20px;
+      right: 24px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      z-index: 20;
+    }
+
+    .lang-pill-group {
+      display: inline-flex;
+      background: rgba(255,255,255,0.7);
+      border: 1px solid rgba(16,38,73,0.12);
+      border-radius: 999px;
+      overflow: hidden;
+      box-shadow: 0 6px 16px rgba(15, 40, 92, 0.08);
+    }
+
+    .lang-pill {
+      border: none;
+      background: transparent;
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      color: #1f335b;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .lang-pill.active {
+      background: #102649;
+      color: #fff;
+    }
+
+    .admin-btn {
+      border: none;
+      background: #102649;
+      color: #fff;
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 24px rgba(15, 40, 92, 0.25);
+      cursor: pointer;
+      font-size: 18px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .admin-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 30px rgba(15, 40, 92, 0.35);
+    }
+
+    .price-checker-toggle {
+      border: none;
+      background: rgba(16, 38, 73, 0.95);
+      color: #fff;
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(15, 40, 92, 0.25);
+      font-size: 18px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .price-checker-toggle:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 30px rgba(15, 40, 92, 0.35);
+    }
+
+    .price-checker-panel {
+      position: absolute;
+      top: 64px;
+      right: 24px;
+      width: min(320px, 90vw);
+      background: #ffffff;
+      border-radius: 22px;
+      box-shadow: 0 24px 60px rgba(16, 38, 73, 0.32);
+      padding: 16px;
+      z-index: 960;
+      transform-origin: top right;
+      transform: scaleY(0);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.25s ease, opacity 0.25s ease;
+    }
+
+    .price-checker-panel.active {
+      opacity: 1;
+      transform: scaleY(1);
+      pointer-events: auto;
+    }
+
+    .pc-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .pc-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #102649;
+    }
+
+    .pc-subtitle {
+      font-size: 12px;
+      color: #6b7b9c;
+    }
+
+    .pc-close {
+      border: none;
+      background: rgba(16, 38, 73, 0.08);
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .pc-row {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 8px;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(16, 38, 73, 0.08);
+    }
+
+    .pc-row:last-child {
+      border-bottom: none;
+    }
+
+    .pc-price {
+      font-size: 16px;
+      font-weight: 600;
+      color: #102649;
+      justify-self: flex-end;
+    }
+
+    .pc-tag {
+      font-size: 11px;
+      color: #6b7b9c;
+    }
+
+    .pc-row.highlight {
+      background: rgba(16, 38, 73, 0.05);
+      border-radius: 14px;
+      padding: 10px;
+      margin: 6px 0 0;
+    }
+
+    .pc-section {
+      border: 1px solid rgba(16,38,73,0.09);
+      border-radius: 18px;
+      padding: 14px;
+      margin-bottom: 14px;
+      background: linear-gradient(180deg, #f9fbff, #eef2ff);
+    }
+
+    .pc-section:last-of-type {
+      margin-bottom: 0;
+    }
+
+    .pc-section-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .pc-section-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #102649;
+    }
+
+    .pc-section-meta {
+      font-size: 12px;
+      color: #6b7b9c;
+    }
+
+    .pc-section-uvc {
+      font-size: 18px;
+      font-weight: 700;
+      color: #0c3466;
+      text-align: right;
+    }
+
+    .pc-row-logo {
+      width: 48px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .pc-row-logo img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    .pc-note {
+      font-size: 11px;
+      color: #6b7b9c;
+      text-align: left;
+      margin-top: 10px;
+    }
+
+    .home-screen {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(125deg, rgba(15,24,50,0.9), rgba(28,52,112,0.85));
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      z-index: 1200;
+      backdrop-filter: blur(6px);
+    }
+
+    .home-screen.active {
+      display: flex;
+    }
+
+    .home-card {
+      width: min(1100px, 95vw);
+      background: #ffffff;
+      border-radius: 28px;
+      padding: 28px;
+      box-shadow: 0 30px 90px rgba(0,0,0,0.35);
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .home-left h1 {
+      margin: 0 0 6px;
+      font-size: 28px;
+      color: #102649;
+    }
+
+    .home-hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 18px;
+      padding: 20px;
+    }
+
+    .home-hero img {
+      max-width: 280px;
+      width: 100%;
+      filter: drop-shadow(0 20px 40px rgba(0,0,0,0.2));
+    }
+
+    .home-hero h1 {
+      margin: 0;
+      font-size: 28px;
+      color: #102649;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .home-hero span {
+      font-size: 14px;
+      color: #4a5672;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .name-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      width: 100%;
+      margin: 10px 0;
+    }
+
+    .start-field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .start-field label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #1f335b;
+    }
+
+    .start-field input {
+      border: 1px solid #c5d0f0;
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-size: 14px;
+      background: #fff;
+    }
+
+    .primary-btn {
+      border: none;
+      background: #102649;
+      color: #fff;
+      padding: 14px 22px;
+      border-radius: 16px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 16px 40px rgba(15,40,92,0.35);
+    }
+
+    .start-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 10px 0 16px;
+    }
+
+    .start-panel label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #1f335b;
+    }
+
+    .start-panel input {
+      border: 1px solid #c5d0f0;
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-size: 14px;
+      background: #fff;
+    }
+
+    .start-pass-status {
+      font-size: 12px;
+      min-height: 16px;
+      color: #d4444f;
+    }
+
+    .start-pass-status.success {
+      color: #1f7c4d;
+    }
+
+    .sale-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(8,14,35,0.55);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1500;
+      padding: 20px;
+    }
+
+    .sale-overlay.active {
+      display: flex;
+    }
+
+    .sale-card {
+      width: min(480px, 95vw);
+      background: #fff;
+      border-radius: 22px;
+      padding: 24px;
+      box-shadow: 0 24px 60px rgba(7,20,45,0.35);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .sale-card h3 {
+      margin: 0;
+      font-size: 20px;
+      color: #0e2148;
+    }
+
+    .sale-card p {
+      margin: 0;
+      font-size: 14px;
+      color: #4a5672;
+    }
+
+    .sale-choice-buttons {
+      display: flex;
+      gap: 12px;
+    }
+
+    .sale-choice-buttons button {
+      flex: 1;
+      border: none;
+      border-radius: 14px;
+      padding: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      color: #fff;
+    }
+
+    .sale-choice-buttons button[data-choice="win"] { background: #0f6b4a; }
+    .sale-choice-buttons button[data-choice="loss"] { background: #d36b24; }
+
+    .sale-choice.hidden {
+      display: none;
+    }
+
+    .sale-form {
+      display: none;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .sale-form.active {
+      display: flex;
+    }
+
+    .sale-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .sale-field label {
+      font-size: 13px;
+      color: #0e2148;
+      font-weight: 600;
+    }
+
+    .sale-field select,
+    .sale-field textarea {
+      border: 1px solid #ccd5e8;
+      border-radius: 12px;
+      padding: 10px;
+      font-size: 14px;
+      font-family: inherit;
+    }
+
+    .sale-field textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    .sale-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .sale-btn {
+      flex: 1;
+      border: none;
+      border-radius: 14px;
+      padding: 12px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      color: #fff;
+    }
+
+    .sale-btn.primary { background: #0f2f72; }
+    .sale-btn.secondary { background: #adb5c7; color: #0a1a32; }
+
+    .sale-stats {
+      display: flex;
+      gap: 16px;
+      font-size: 13px;
+      color: #4a5672;
+    }
+
+    .sale-stats div {
+      background: #f4f6fb;
+      border-radius: 12px;
+      padding: 8px 12px;
+      flex: 1;
+      text-align: center;
+    }
+
+    .sale-stats strong {
+      display: block;
+      font-size: 18px;
+      color: #0e2148;
+    }
+
+    .sales-report {
+      margin-top: 14px;
+      border: 1px solid #dfe3fb;
+      border-radius: 16px;
+      padding: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .sales-report span {
+      font-size: 13px;
+      color: #1f335b;
+    }
+
+    .sales-report button {
+      border: none;
+      background: #122e62;
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 12px;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .sales-report button:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .sales-report .reset-btn {
+      background: #b83232;
+    }
+
+    .relock-btn {
+      border: 1px solid #c5d0f0;
+      background: #fff;
+      color: #102649;
+      border-radius: 12px;
+      padding: 8px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      align-self: flex-start;
+      display: none;
+    }
+
+    .home-config:not(.locked) .relock-btn {
+      display: inline-flex;
+    }
+
+    .home-config {
+      border: 1px solid #dfe6fb;
+      border-radius: 24px;
+      padding: 20px;
+      background: linear-gradient(180deg, #f8faff, #eef2ff);
+      position: relative;
+    }
+
+    .home-config > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .config-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: flex-end;
+      margin-bottom: 16px;
+    }
+
+    .config-head h3 {
+      margin: 0;
+      font-size: 18px;
+      color: #102649;
+    }
+
+    .config-head p {
+      margin: 4px 0 0;
+      font-size: 12px;
+      color: #6b7b9c;
+    }
+
+    .pin-form {
+      display: flex;
+      gap: 8px;
+    }
+
+    .pin-form input {
+      border: 1px solid #c5d0f0;
+      border-radius: 12px;
+      padding: 8px 10px;
+      width: 110px;
+      font-size: 14px;
+    }
+
+    .pin-form button {
+      border: none;
+      background: #102649;
+      color: #fff;
+      border-radius: 12px;
+      padding: 8px 12px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .pin-status {
+      font-size: 12px;
+      margin-top: 6px;
+      color: #d4444f;
+    }
+
+    .config-body {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .config-properties {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .config-property {
+      border: 1px solid #d0d9fb;
+      border-radius: 18px;
+      padding: 14px;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .config-property-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #102649;
+      margin: 0 0 4px;
+    }
+
+    .config-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+    }
+
+    .config-field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .config-field label {
+      font-size: 12px;
+      color: #4a5672;
+      font-weight: 600;
+    }
+
+    .config-field input {
+      border: 1px solid #c5d0f0;
+      border-radius: 12px;
+      padding: 8px 10px;
+      font-size: 14px;
+      background: #fff;
+    }
+
+    .config-field.full {
+      grid-column: 1 / -1;
+    }
+
+    .config-save-btn {
+      margin-top: 4px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: none;
+      background: #1f7c4d;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease;
+      align-self: flex-start;
+    }
+
+    .config-save-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .config-save-btn:not(:disabled):hover {
+      background: #17603b;
+    }
+
+    .config-summary {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 10px;
+    }
+
+    .config-summary-item {
+      background: #fff;
+      border-radius: 16px;
+      padding: 10px 12px;
+      border: 1px solid #dfe3fb;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 13px;
+      color: #1f335b;
+    }
+
+    .config-locked-message {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 30px 20px;
+      gap: 12px;
+      color: #1f335b;
+    }
+
+    .config-locked-message .lock-icon {
+      font-size: 28px;
+    }
+
+    .home-config.locked::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(240,243,255,0.92);
+      border-radius: 24px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .home-config.locked .config-body,
+    .home-config.locked .config-summary {
+      display: none;
+    }
+
+    .home-config.locked .config-locked-message {
+      display: flex;
+    }
+
+    .lang-callout {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .home-config.locked .lang-callout {
+      display: none;
+    }
+
+    .analytics-panel {
+      margin-top: 18px;
+      border: 1px solid #dfe3fb;
+      border-radius: 20px;
+      padding: 18px;
+      background: #ffffff;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .analytics-header {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      align-items: center;
+      border-bottom: 1px solid #eef1fb;
+      padding-bottom: 12px;
+    }
+
+    .analytics-header img {
+      width: 120px;
+      height: auto;
+    }
+
+    .analytics-names {
+      flex: 1;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+    }
+
+    .analytics-names label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #1f335b;
+    }
+
+    .analytics-names input {
+      width: 100%;
+      margin-top: 4px;
+      border: 1px solid #c5d0f0;
+      border-radius: 10px;
+      padding: 8px 10px;
+      font-size: 13px;
+    }
+
+    .analytics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+    }
+
+    .metric-card {
+      border: 1px solid #e2e7fb;
+      border-radius: 16px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      background: linear-gradient(180deg, #f8faff, #f2f5ff);
+    }
+
+    .metric-card span {
+      font-size: 12px;
+      color: #5a678a;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .metric-card strong {
+      font-size: 22px;
+      color: #0f2654;
+    }
+
+    .metric-card small {
+      font-size: 11px;
+      color: #6b7b9c;
+    }
+
+    .period-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+    }
+
+    .period-card {
+      border: 1px solid #e6eafb;
+      border-radius: 14px;
+      padding: 10px 12px;
+      background: #fdfdff;
+    }
+
+    .period-card span {
+      font-size: 11px;
+      color: #5e6b8f;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .period-card strong {
+      display: block;
+      font-size: 18px;
+      color: #0f2654;
+      margin-top: 4px;
+    }
+
+    .ranking-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+    }
+
+    .ranking-card {
+      border: 1px solid #e0e5fb;
+      border-radius: 16px;
+      padding: 12px;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .ranking-card h4 {
+      margin: 0;
+      font-size: 14px;
+      color: #0f2654;
+    }
+
+    .ranking-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .ranking-list li {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      padding: 8px 10px;
+      border-radius: 12px;
+      border: 1px solid #eef1ff;
+      background: #f9faff;
+    }
+
+    .ranking-list .ranking-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      color: #0e2148;
+    }
+
+    .ranking-list small {
+      font-size: 11px;
+      color: #556180;
+    }
+
+    .top-card {
+      border: 1px solid #dfe3fb;
+      border-radius: 16px;
+      padding: 12px;
+      background: linear-gradient(180deg, #f7f9ff, #ecf1ff);
+    }
+
+    .top-card h4 {
+      margin: 0;
+      font-size: 13px;
+      color: #0f2654;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .top-card .top-name {
+      font-size: 18px;
+      color: #0e2148;
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    .top-card .top-amount {
+      font-size: 14px;
+      color: #4d5a7b;
+    }
+
+    .comparison-card {
+      border: 1px solid #dfe3fb;
+      border-radius: 16px;
+      padding: 12px;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .comparison-card h4 {
+      margin: 0;
+      font-size: 14px;
+      color: #0f2654;
+    }
+
+    .comparison-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: #4a5672;
+    }
+
+    .comparison-bar {
+      flex: 1;
+      height: 10px;
+      background: #eef1ff;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .comparison-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #274b91, #5d85ff);
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+
+    .comparison-row strong {
+      font-size: 13px;
+      color: #0f2654;
+    }
+
+    @media (max-width: 600px) {
+      .utility-bar {
+        top: 12px;
+        right: 14px;
+      }
+      .price-checker-panel {
+        right: 14px;
+        width: calc(100% - 28px);
+      }
+    }
+
+    /* ------------ HEADER SUPERIOR ------------ */
+
+    .top {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      margin-bottom: 4px;
+    }
+
+    .uvc-box {
+      text-align: center;
+    }
+
+    .uvc-logo {
+      max-width: 360px;
+      max-height: 105px;
+      width: 100%;
+      object-fit: contain;
+      margin: 0 auto;
+      display: block;
+    }
+
+    .uvc-subtitle {
+      display: none;
+    }
+
+    /* ----------- TÍTULOS DE SECCIÓN ----------- */
+
+    /* ----------- CONTENEDOR 3 COLUMNAS ----------- */
+
+    .columns {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      column-gap: 24px;
+      flex: 1;
+      align-items: stretch;
+    }
+
+    .col {
+      position: relative;
+      padding: 8px 4px 8px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+
+    /* líneas verticales columna central */
+    .col:nth-child(2)::before,
+    .col:nth-child(2)::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: linear-gradient(
+        to bottom,
+        rgba(184,196,224,0),
+        rgba(184,196,224,0.9),
+        rgba(184,196,224,0)
+      );
+    }
+
+    .col:nth-child(2)::before {
+      left: -12px;
+    }
+
+    .col:nth-child(2)::after {
+      right: -12px;
+    }
+
+    .col-inner {
+      border-radius: 18px;
+      padding: 18px 16px 16px;
+      background: linear-gradient(
+        to bottom,
+        rgba(248,250,255,1),
+        rgba(248,250,255,0.9),
+        rgba(242,245,255,0.75)
+      );
+      border: 1px solid #d8e0f0;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(13, 37, 92, 0.08);
+    }
+
+    .col-title {
+      text-align: center;
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: #1f335b;
+      margin-bottom: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .col-title-link {
+      background: transparent;
+      border: none;
+      padding: 0;
+      width: 100%;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .col-title-link:focus-visible {
+      outline: 2px solid #102649;
+      outline-offset: 4px;
+    }
+
+    .uexperience-banner {
+      width: min(100%, 360px);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2px 24px;
+      border-radius: 14px;
+      background: rgba(0,0,0,0);
+      box-shadow: none;
+    }
+
+    .uex-logo {
+      max-width: 280px;
+      width: 100%;
+      max-height: 110px;
+      display: block;
+      margin: 0 auto;
+      filter: none;
+    }
+
+    .divider {
+      height: 1px;
+      margin: 10px 0;
+      background: linear-gradient(90deg, transparent, #cbd3e6, transparent);
+    }
+
+    /* ---- COLUMNA 1: ALL INCLUSIVE RESORTS ---- */
+
+    .first-layout {
+      display: grid;
+      grid-template-columns: 190px minmax(0, 1fr);
+      column-gap: 12px;
+      flex: 1;
+      align-items: stretch;
+    }
+
+    .logo-stack {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .logo-stack img {
+      max-width: 190px;
+      max-height: 80px;
+      object-fit: contain;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+
+    .benefits {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      font-size: 18px;
+      line-height: 1.5;
+      text-align: left;
+    }
+
+    .benefits li {
+      margin: 0;
+      font-weight: 500;
+      color: #111111;
+    }
+
+    .logo-stack img:hover {
+      transform: scale(1.06);
+      box-shadow: 0 12px 26px rgba(0,0,0,0.22);
+    }
+
+    .allinclusive-notes {
+      font-size: 11px;
+      color: #7a869f;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    /* ---- COLUMNA 2: WORLDWIDE ---- */
+
+    .worldwide-inner {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .center-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 6px;
+      font-size: 13px;
+      text-align: center;
+    }
+
+    .center-list li {
+      margin-bottom: 3px;
+    }
+
+    .logo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px 16px;
+      justify-items: center;
+      margin-top: 8px;
+    }
+
+    .logo-grid img {
+      max-width: 140px;
+      max-height: 75px;
+      object-fit: contain;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .logo-grid img:hover {
+      transform: scale(1.06);
+      box-shadow: 0 12px 26px rgba(0,0,0,0.22);
+    }
+
+    .hyatt-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      margin-top: 18px;
+      font-size: 13px;
+      color: #1f335b;
+      font-weight: 500;
+    }
+
+    .hyatt-logo {
+      max-width: 110px;
+      max-height: 110px;
+      object-fit: contain;
+      cursor: pointer;
+    }
+
+    .hyatt-text div {
+      line-height: 1.3;
+    }
+
+    .worldwide-notes {
+      margin-top: auto;
+      font-size: 11px;
+      color: #7a869f;
+      text-align: center;
+    }
+
+    .worldwide-notes p {
+      margin: 2px 0;
+    }
+
+    /* ---- COLUMNA 3: U EXPERIENCE ---- */
+
+    .section-label {
+      text-align: center;
+      font-size: 13px;
+      font-weight: 600;
+      margin: 4px 0 8px;
+    }
+
+    .note {
+      font-size: 10.5px;
+      text-align: center;
+      margin-top: auto;
+      color: #687a97;
+    }
+
+    .cruises-logos,
+    .flights-logos {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      justify-items: center;
+    }
+
+    .cruises-logos {
+      gap: 18px 20px;
+      margin-top: 6px;
+      grid-auto-rows: minmax(72px, auto);
+    }
+
+    .flights-logos {
+      gap: 12px 16px;
+      margin-top: 10px;
+    }
+
+    .cruises-logos img {
+      height: 64px;
+      width: auto;
+      max-width: 140px;
+      object-fit: contain;
+      display: block;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .flights-logos img {
+      max-width: 145px;
+      max-height: 65px;
+      object-fit: contain;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .cruises-logos img:hover,
+    .flights-logos img:hover {
+      transform: scale(1.06);
+      box-shadow: 0 12px 26px rgba(0,0,0,0.22);
+    }
+
+    /* ICONOS: mundito, barco, avión */
+
+    .columns-header div:nth-child(2)::before {
+      content: "🌍";
+      display: inline-block;
+      margin-right: 6px;
+      font-size: 1.05em;
+      animation: floatIcon 4s ease-in-out infinite;
+    }
+
+    .cruises-label::before {
+      content: "🚢";
+      display: inline-block;
+      margin-right: 6px;
+      animation: floatIcon 3.5s ease-in-out infinite;
+    }
+
+    .flights-label::before {
+      content: "✈️";
+      display: inline-block;
+      margin-right: 6px;
+      animation: flyIcon 5s ease-in-out infinite;
+    }
+
+    @keyframes floatIcon {
+      0%   { transform: translateY(0); }
+      50%  { transform: translateY(-3px); }
+      100% { transform: translateY(0); }
+    }
+
+    @keyframes flyIcon {
+      0%   { transform: translate(0,0); }
+      50%  { transform: translate(4px,-4px); }
+      100% { transform: translate(0,0); }
+    }
+
+    /* ---------- BREAKPOINTS GRANDES (LAPTOP / IPAD) ---------- */
+
+    @media (max-width: 1200px) {
+      .page {
+        padding: 16px;
+        margin: 12px;
+      }
+      .columns {
+        column-gap: 18px;
+      }
+    }
+
+    /* ---------- TABLET / IPAD VERTICAL Y PANTALLAS MEDIAS ---------- */
+
+    @media (max-width: 1024px) {
+      .page {
+        border-radius: 20px;
+        box-shadow: 0 12px 40px rgba(0,0,0,0.14);
+      }
+      .columns {
+        grid-template-columns: repeat(2, 1fr);
+        row-gap: 16px;
+      }
+      .col:nth-child(2)::before,
+      .col:nth-child(2)::after {
+        display: none;
+      }
+      .first-layout {
+        grid-template-columns: 1fr 1fr;
+      }
+      .logo-stack img {
+        max-width: 160px;
+      }
+    }
+
+    /* ---------- CELULARES / IPAD MINI VERTICAL ---------- */
+
+    @media (max-width: 900px) {
+      body {
+        align-items: stretch;
+      }
+      .page {
+        padding: 12px;
+        margin: 8px;
+        border-radius: 12px;
+        box-shadow: 0 8px 26px rgba(0,0,0,0.16);
+      }
+      .columns-header {
+        grid-template-columns: 1fr;
+        gap: 4px;
+      }
+      .columns {
+        grid-template-columns: 1fr;
+        column-gap: 12px;
+        row-gap: 12px;
+      }
+      .first-layout {
+        grid-template-columns: 1fr;
+        row-gap: 10px;
+      }
+      .logo-stack {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .logo-stack img {
+        max-width: 130px;
+        max-height: 60px;
+      }
+      .benefits {
+        font-size: 16px;
+      }
+      .logo-grid img,
+      .cruises-logos img,
+      .flights-logos img {
+        max-width: 120px;
+        max-height: 70px;
+      }
+      .modal {
+        width: 96vw;
+        padding: 12px;
+        border-radius: 16px;
+      }
+      .modal-header h2 {
+        font-size: 17px;
+      }
+      .modal-description {
+        font-size: 12px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .page {
+        border-radius: 0;
+        margin: 0;
+        min-height: 100vh;
+      }
+    }
+
+    /* ------------------ MODALES INTERACTIVOS ------------------ */
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 20, 40, 0.6);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal {
+      width: min(1000px, 95vw);
+      max-height: calc(100vh - 32px);
+      background: #ffffff;
+      border-radius: 24px;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+      padding: 18px 22px 22px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      animation: modalIn 0.25s ease-out;
+    }
+
+    @keyframes modalIn {
+      from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.96);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      gap: 12px;
+    }
+
+    .modal-header h2 {
+      font-size: 20px;
+      margin: 0;
+      color: #102649;
+    }
+
+    .modal-close {
+      border: none;
+      background: #edf0fb;
+      border-radius: 999px;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      cursor: pointer;
+      color: #102649;
+    }
+
+    .modal-close:hover {
+      background: #d8def8;
+    }
+
+    .modal-body {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .modal-media {
+      width: 100%;
+      border-radius: 18px;
+      overflow: hidden;
+      background: #000;
+    }
+
+    .modal-media video {
+      width: 100%;
+      height: auto;
+      max-height: calc(80vh);
+      display: block;
+      object-fit: cover;
+    }
+
+    .modal-media iframe {
+      width: 100%;
+      height: auto;
+      max-height: calc(70vh);
+      display: block;
+      border: 0;
+    }
+
+    .modal-video-fallback {
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    .modal-video-fallback a {
+      display: inline-block;
+      background: #ff0000;
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .modal-video-fallback a:hover {
+      background: #e20000;
+    }
+
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%;
+      background: #000;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .video-wrapper iframe,
+    .video-wrapper video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      border: 0;
+    }
+
+    .modal-gallery {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .modal-gallery img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+
+    .modal-description {
+      font-size: 13px;
+      color: #4b5875;
+      line-height: 1.5;
+    }
+
+    /* Galería overlay */
+    #gallery-overlay {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(10, 20, 40, 0.85);
+      z-index: 2000;
+    }
+
+    #gallery-overlay.active {
+      display: flex;
+    }
+
+    #gallery-overlay .gallery-img {
+      max-width: 92vw;
+      max-height: 86vh;
+      object-fit: contain;
+      border-radius: 10px;
+      box-shadow: 0 18px 60px rgba(0,0,0,0.6);
+    }
+
+    #gallery-overlay .gallery-video {
+      max-width: 92vw;
+      max-height: 86vh;
+      border-radius: 10px;
+      box-shadow: 0 18px 60px rgba(0,0,0,0.6);
+      background: #000;
+    }
+
+    #gallery-overlay.large .gallery-img {
+      max-width: 98vw;
+      max-height: 94vh;
+    }
+
+    #gallery-overlay .gallery-caption {
+      position: absolute;
+      bottom: 26px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #ffffff;
+      font-size: 14px;
+      background: rgba(0,0,0,0.45);
+      padding: 8px 12px;
+      border-radius: 8px;
+      max-width: 88vw;
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    #gallery-overlay.large .gallery-caption {
+      max-width: 96vw;
+      font-size: 15px;
+      padding: 10px 14px;
+    }
+
+    #gallery-overlay .gallery-close,
+    #gallery-overlay .gallery-prev,
+    #gallery-overlay .gallery-next {
+      position: absolute;
+      background: rgba(255,255,255,0.06);
+      border: none;
+      color: #fff;
+      font-size: 36px;
+      width: 56px;
+      height: 56px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.15s ease;
+      backdrop-filter: blur(4px);
+    }
+
+    #gallery-overlay .gallery-close { top: 20px; right: 22px; }
+    #gallery-overlay .gallery-prev  { left: 20px; }
+    #gallery-overlay .gallery-next  { right: 20px; }
+
+    #gallery-overlay .gallery-prev,
+    #gallery-overlay .gallery-next {
+      top: 50%;
+      transform: translateY(-50%);
+      width: 64px;
+      height: 64px;
+      font-size: 42px;
+    }
+
+    #gallery-overlay .gallery-close:hover,
+    #gallery-overlay .gallery-prev:hover,
+    #gallery-overlay .gallery-next:hover {
+      background: rgba(255,255,255,0.12);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="page">
+
+    <div class="utility-bar" aria-label="Utility controls">
+      <button class="price-checker-toggle" id="price-checker-toggle" type="button" aria-label="Price checker">💲</button>
+      <button class="admin-btn" id="admin-btn" aria-label="Admin settings">⚙️</button>
+    </div>
+
+    <div class="price-checker-panel" id="price-checker-panel" aria-live="polite">
+      <div class="pc-header">
+        <div>
+          <div class="pc-title" data-i18n="priceChecker.title">Live Price Checker</div>
+          <div class="pc-subtitle" data-i18n="priceChecker.subtitle">Secrets Puerto Los Cabos vs Zoëtry Los Cabos</div>
+        </div>
+        <button class="pc-close" type="button" aria-label="Close price checker">&times;</button>
+      </div>
+
+      <div class="pc-section" data-property-index="0">
+        <div class="pc-section-head">
+          <div>
+            <div class="pc-section-title" data-destination-target data-property-index="0">Secrets Puerto Los Cabos</div>
+            <div class="pc-section-meta" data-savings-target="0">&nbsp;</div>
+          </div>
+          <div class="pc-section-uvc" data-uvc-summary="0">$0</div>
+        </div>
+        <div class="pc-row" data-brand="expedia">
+          <div class="pc-row-logo"><img src="expedia-logo.svg" alt="Expedia" loading="lazy" /></div>
+          <div class="pc-tag" data-i18n="priceChecker.publicRate">Public Rate</div>
+          <div class="pc-price" data-price-target="expedia" data-property-index="0">$0</div>
+        </div>
+        <div class="pc-row" data-brand="booking">
+          <div class="pc-row-logo"><img src="booking-logo.svg" alt="Booking.com" loading="lazy" /></div>
+          <div class="pc-tag" data-i18n="priceChecker.publicRate">Public Rate</div>
+          <div class="pc-price" data-price-target="booking" data-property-index="0">$0</div>
+        </div>
+        <div class="pc-row" data-brand="despegar">
+          <div class="pc-row-logo"><img src="despegar-logo.svg" alt="Despegar" loading="lazy" /></div>
+          <div class="pc-tag" data-i18n="priceChecker.publicRate">Public Rate</div>
+          <div class="pc-price" data-price-target="despegar" data-property-index="0">$0</div>
+        </div>
+        <div class="pc-row highlight" data-brand="uvc">
+          <div class="pc-row-logo"><img src="UVC-Logo-Standalone-Gray.webp" alt="Unlimited Vacation Club" loading="lazy" /></div>
+          <div class="pc-tag" data-i18n="priceChecker.memberRate">Member Rate</div>
+          <div class="pc-price" data-price-target="uvc" data-property-index="0">$0</div>
+        </div>
+      </div>
+
+      <div class="pc-section" data-property-index="1">
+        <div class="pc-section-head">
+          <div>
+            <div class="pc-section-title" data-destination-target data-property-index="1">Zoëtry Los Cabos</div>
+            <div class="pc-section-meta" data-savings-target="1">&nbsp;</div>
+          </div>
+          <div class="pc-section-uvc" data-uvc-summary="1">$0</div>
+        </div>
+        <div class="pc-row" data-brand="expedia">
+          <div class="pc-row-logo"><img src="expedia-logo.svg" alt="Expedia" loading="lazy" /></div>
+          <div class="pc-tag" data-i18n="priceChecker.publicRate">Public Rate</div>
+          <div class="pc-price" data-price-target="expedia" data-property-index="1">$0</div>
+        </div>
+        <div class="pc-row" data-brand="booking">
+          <div class="pc-row-logo"><img src="booking-logo.svg" alt="Booking.com" loading="lazy" /></div>
+          <div class="pc-tag" data-i18n="priceChecker.publicRate">Public Rate</div>
+          <div class="pc-price" data-price-target="booking" data-property-index="1">$0</div>
+        </div>
+        <div class="pc-row" data-brand="despegar">
+          <div class="pc-row-logo"><img src="despegar-logo.svg" alt="Despegar" loading="lazy" /></div>
+          <div class="pc-tag" data-i18n="priceChecker.publicRate">Public Rate</div>
+          <div class="pc-price" data-price-target="despegar" data-property-index="1">$0</div>
+        </div>
+        <div class="pc-row highlight" data-brand="uvc">
+          <div class="pc-row-logo"><img src="UVC-Logo-Standalone-Gray.webp" alt="Unlimited Vacation Club" loading="lazy" /></div>
+          <div class="pc-tag" data-i18n="priceChecker.memberRate">Member Rate</div>
+          <div class="pc-price" data-price-target="uvc" data-property-index="1">$0</div>
+        </div>
+      </div>
+
+      <div class="pc-note" id="price-checker-note">Ahorro máximo con UVC.</div>
+    </div>
+
+    <!-- HEADER SUPERIOR: SOLO LOGO -->
+    <div class="top">
+      <div class="uvc-box">
+        <a href="https://www.unlimitedvacationclub.com/en/" target="_blank" rel="noopener noreferrer" aria-label="Unlimited Vacation Club website">
+          <img class="uvc-logo" src="UVC-Logo-Standalone-Gray.webp" alt="Unlimited Vacation Club" loading="lazy" />
+        </a>
+        <div class="uvc-subtitle">Members Benefits</div>
+      </div>
+    </div>
+
+    <!-- 3 COLUMNAS PRINCIPALES -->
+    <div class="columns">
+
+      <!-- COLUMNA 1: ALL INCLUSIVE RESORTS -->
+      <div class="col">
+        <div class="col-inner">
+          <div class="col-title" data-i18n="col1.title">Resort Benefits</div>
+
+          <div class="first-layout">
+            <div class="logo-stack">
+              <img class="brand-logo" data-modal="zoetry" src="zoetrylogo(og).png" alt="Zoetry" loading="lazy" />
+              <img class="brand-logo" data-modal="secrets" src="secrets3.png" alt="Secrets" loading="lazy" />
+              <img class="brand-logo" data-modal="breathless" src="breathless logo (og).png" alt="Breathless" loading="lazy" />
+              <img class="brand-logo" data-modal="dreams" src="dreams(og).png" alt="Dreams" loading="lazy" />
+              <img class="brand-logo" data-modal="vivid" src="hyat vivid3.png" alt="Hyatt Vivid" loading="lazy" />
+              <img class="brand-logo" data-modal="alua" src="alua3.png" alt="Alua" loading="lazy" />
+            </div>
+
+            <ul class="benefits" id="benefits-list">
+              <li data-i18n="col1.benefit1">+100 Resorts.</li>
+              <li data-i18n="col1.benefit2">25% Best Price Guaranteed.</li>
+              <li data-i18n="col1.benefit3">Free Upgrade.</li>
+              <li data-i18n="col1.benefit4">185 usd.</li>
+              <li data-i18n="col1.benefit5">Concierge Service.</li>
+              <li data-i18n="col1.benefit6">25 USD Extra Reservation.</li>
+            </ul>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="allinclusive-notes" data-i18n="col1.notes">
+            20 Rooms · $1000 = 5000 points · Minimum 2 nights · 72 hrs · Best price
+          </div>
+        </div>
+      </div>
+
+      <!-- COLUMNA 2: WORLDWIDE -->
+      <div class="col">
+        <div class="col-inner worldwide-inner">
+          <div class="col-title" data-i18n="col2.title">Exchange</div>
+
+          <ul class="center-list">
+            <li data-i18n="col2.list1">4500+ Resorts</li>
+            <li data-i18n="col2.list2">100+ Countries</li>
+          </ul>
+
+          <div class="divider"></div>
+
+          <div class="logo-grid">
+            <img src="st-regis-2-logo-png-transparent.png" alt="St. Regis" loading="lazy" />
+            <img src="fairmont(og).png" alt="Fairmont" loading="lazy" />
+            <img src="fourseason(og).png" alt="Four Seasons" loading="lazy" />
+            <img src="Hilton(og).png" alt="Hilton" loading="lazy" />
+            <img src="sheraton.png" alt="Sheraton" loading="lazy" />
+            <img src="Marriot(og).png" alt="Marriott" loading="lazy" />
+            <img src="wyndham-1-logo-png-transparent.png" alt="Wyndham" loading="lazy" />
+            <img src="starwood5.png" alt="Starwood Hotels & Resorts" loading="lazy" />
+            <img src="ritzcarton(og).png" alt="Ritz-Carlton" loading="lazy" />
+          </div>
+
+          <div class="hyatt-row">
+            <img class="hyatt-logo brand-logo" data-modal="hyatt" src="World_of_Hyatt_(Square).svg" alt="World of Hyatt" loading="lazy" />
+            <div class="hyatt-text">
+              <div data-i18n="col2.hyatt1">1200 Hotels</div>
+              <div data-i18n="col2.hyatt2">72 Countries</div>
+            </div>
+          </div>
+
+          <div class="worldwide-notes">
+            <p data-i18n="col2.notes">599 fixed price · 2 bedrooms · 6 people · 7N/8D · 2 years free – Worldwide [109 USD]</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- COLUMNA 3: U EXPERIENCE -->
+      <div class="col">
+        <div class="col-inner">
+          <button class="col-title col-title-link" data-modal="uexperience" type="button" aria-label="UExperience">
+            <span class="uexperience-banner">
+              <img src="logo u experience modificado.png" alt="UExperience" class="uex-logo" />
+            </span>
+          </button>
+
+          <div class="section-label cruises-label" data-i18n="col3.cruisesLabel">Cruises Rewards</div>
+          <div class="cruises-logos">
+            <img src="Carnival-Cruise-Line-logo.png" alt="Carnival" loading="lazy" />
+            <img src="Royal-Cribbean-logo.png" alt="Royal Caribbean" loading="lazy" />
+            <img src="Crystalcruise(og).png" alt="Crystal Cruises" loading="lazy" />
+            <img src="Cunard(og).png" alt="Cunard" loading="lazy" />
+            <img src="princess cruise.png" alt="Princess" loading="lazy" />
+            <img src="viking(og).png" alt="Viking" loading="lazy" />
+            <img src="disney cruise(og).png" alt="Disney Cruise Line" loading="lazy" />
+            <img src="xcruises(Og).png" alt="Celebrity Cruises" loading="lazy" />
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="section-label flights-label" data-i18n="col3.flightsLabel">Flights</div>
+          <div class="flights-logos">
+            <img src="American-Airlines-Logo nyevi.png" alt="American Airlines" loading="lazy" />
+            <img src="delta (og).png" alt="Delta" loading="lazy" />
+            <img src="united(og).png" alt="United" loading="lazy" />
+            <img src="alaska(og).png" alt="Alaska" loading="lazy" />
+            <img src="jetblue(og).png" alt="JetBlue" loading="lazy" />
+            <img src="southwest(og).png" alt="Southwest" loading="lazy" />
+          </div>
+
+          <div class="note" data-i18n="col3.note">
+            3500 / 3000 / 1000 · 2 years free – Travel Agency · 5000 USD · 18 Months · Travel Agency [399 USD]
+          </div>
+        </div>
+      </div>
+
+    </div> <!-- /columns -->
+
+  </div> <!-- /page -->
+
+  <div class="home-screen active" id="home-screen">
+    <div class="home-card">
+      <div class="home-left">
+        <div class="home-hero">
+          <img src="UVC-Logo-Standalone-Gray.webp" alt="Unlimited Vacation Club" />
+          <h1 data-i18n="home.title">3-Way Pitch Control Center</h1>
+          <span data-i18n="home.subtitle">Unlimited Vacation Club</span>
+        </div>
+        <div class="start-panel">
+          <div class="name-grid">
+            <div class="start-field">
+              <label for="liner-name-input" data-i18n="home.linerLabel">Nombre del Liner</label>
+              <input type="text" id="liner-name-input" data-session-field="liner" placeholder="Alexis" autocomplete="off" />
+            </div>
+            <div class="start-field">
+              <label for="closer-name-input" data-i18n="home.closerLabel">Nombre del Closer</label>
+              <input type="text" id="closer-name-input" data-session-field="closer" placeholder="Bertina" autocomplete="off" />
+            </div>
+          </div>
+          <label for="start-pass-input" data-i18n="home.presentationPassLabel">Contraseña para iniciar</label>
+          <input type="password" id="start-pass-input" placeholder="****" autocomplete="off" />
+          <div class="start-pass-status" id="start-pass-status"></div>
+        </div>
+        <button class="primary-btn" id="start-demo-btn" type="button" data-i18n="home.start">Iniciar presentación</button>
+      </div>
+      <div class="home-config locked" id="home-config">
+        <div class="config-head">
+          <div>
+            <h3 data-i18n="home.configTitle">Panel de administración</h3>
+            <p data-i18n="home.configSubtitle">Ingresa el PIN para editar precios en vivo.</p>
+          </div>
+        </div>
+        <form class="pin-form" id="pin-form">
+          <input type="password" id="pin-input" placeholder="PIN" autocomplete="off" inputmode="numeric" maxlength="7" />
+          <button type="submit" data-i18n="home.unlock">Desbloquear</button>
+        </form>
+        <div class="pin-status" id="pin-status" role="status"></div>
+        <div class="config-locked-message" id="config-locked-message">
+          <div class="lock-icon" aria-hidden="true">🔒</div>
+          <p data-i18n="home.lockedMessage">Ingresa el PIN para desbloquear esta sección privada.</p>
+        </div>
+        <div class="config-body">
+          <div class="config-properties">
+            <div class="config-property" data-config-property="0">
+              <p class="config-property-title" data-config-title-target="0">Secrets Puerto Los Cabos</p>
+              <div class="config-grid">
+                <div class="config-field full">
+                  <label for="config-destination-0" data-i18n="home.destinationLabel">Nombre del hotel</label>
+                  <input id="config-destination-0" data-config-field="destination" data-property-index="0" type="text" value="Secrets Puerto Los Cabos" disabled />
+                </div>
+                <div class="config-field">
+                  <label for="config-expedia-0" data-i18n="home.expediaLabel">Expedia (USD)</label>
+                  <input id="config-expedia-0" data-config-field="price-expedia" data-property-index="0" type="number" min="0" step="1" value="920" disabled />
+                </div>
+                <div class="config-field">
+                  <label for="config-booking-0" data-i18n="home.bookingLabel">Booking (USD)</label>
+                  <input id="config-booking-0" data-config-field="price-booking" data-property-index="0" type="number" min="0" step="1" value="899" disabled />
+                </div>
+                <div class="config-field">
+                  <label for="config-despegar-0" data-i18n="home.despegarLabel">Despegar (USD)</label>
+                  <input id="config-despegar-0" data-config-field="price-despegar" data-property-index="0" type="number" min="0" step="1" value="940" disabled />
+                </div>
+                <div class="config-field">
+                  <label for="config-discount-0" data-i18n="home.discountLabel">Descuento UVC %</label>
+                  <input id="config-discount-0" data-config-field="discount" data-property-index="0" type="number" step="0.5" value="45" disabled />
+                </div>
+              </div>
+              <button class="config-save-btn" type="button" data-config-save="0" disabled data-i18n="home.saveProperty">Guardar precios</button>
+            </div>
+            <div class="config-property" data-config-property="1">
+              <p class="config-property-title" data-config-title-target="1">Zoëtry Los Cabos</p>
+              <div class="config-grid">
+                <div class="config-field full">
+                  <label for="config-destination-1" data-i18n="home.destinationLabel">Nombre del hotel</label>
+                  <input id="config-destination-1" data-config-field="destination" data-property-index="1" type="text" value="Zoëtry Los Cabos" disabled />
+                </div>
+                <div class="config-field">
+                  <label for="config-expedia-1" data-i18n="home.expediaLabel">Expedia (USD)</label>
+                  <input id="config-expedia-1" data-config-field="price-expedia" data-property-index="1" type="number" min="0" step="1" value="1050" disabled />
+                </div>
+                <div class="config-field">
+                  <label for="config-booking-1" data-i18n="home.bookingLabel">Booking (USD)</label>
+                  <input id="config-booking-1" data-config-field="price-booking" data-property-index="1" type="number" min="0" step="1" value="1015" disabled />
+                </div>
+                <div class="config-field">
+                  <label for="config-despegar-1" data-i18n="home.despegarLabel">Despegar (USD)</label>
+                  <input id="config-despegar-1" data-config-field="price-despegar" data-property-index="1" type="number" min="0" step="1" value="1089" disabled />
+                </div>
+                <div class="config-field">
+                  <label for="config-discount-1" data-i18n="home.discountLabel">Descuento UVC %</label>
+                  <input id="config-discount-1" data-config-field="discount" data-property-index="1" type="number" step="0.5" value="48" disabled />
+                </div>
+              </div>
+              <button class="config-save-btn" type="button" data-config-save="1" disabled data-i18n="home.saveProperty">Guardar precios</button>
+            </div>
+          </div>
+          <div class="config-field">
+            <label for="config-presentation-pass" data-i18n="home.presentationPassLabel">Contraseña para iniciar</label>
+            <input id="config-presentation-pass" data-config-field="presentation-pass" type="password" value="1234" disabled />
+          </div>
+          <div class="config-summary" id="config-summary">
+            <div class="config-summary-item">
+              <span data-config-summary-label="0">Secrets Puerto Los Cabos</span>
+              <strong data-config-summary="0">$0</strong>
+            </div>
+            <div class="config-summary-item">
+              <span data-config-summary-label="1">Zoëtry Los Cabos</span>
+              <strong data-config-summary="1">$0</strong>
+            </div>
+          </div>
+          <div class="lang-callout">
+            <span data-i18n="home.language">Idioma</span>
+            <div class="lang-pill-group" id="home-lang-switch">
+              <button class="lang-pill" data-lang="es" type="button">ES</button>
+              <button class="lang-pill" data-lang="en" type="button">EN</button>
+            </div>
+          </div>
+          <div class="sales-report">
+            <span data-i18n="sale.reportInfo">Descarga un resumen de ventas.</span>
+            <button type="button" id="download-sales-report" disabled data-i18n="sale.reportBtn">Descargar CSV</button>
+            <button type="button" id="reset-sales-btn" class="reset-btn" data-i18n="analytics.resetBtn">Limpiar datos</button>
+          </div>
+          <div class="analytics-panel" id="analytics-panel">
+            <div class="analytics-header">
+              <img src="UVC-Logo-Standalone-Gray.webp" alt="Unlimited Vacation Club" loading="lazy" />
+              <div class="analytics-names">
+                <label for="liner-name-admin" data-i18n="analytics.linerInput">Nombre del Liner
+                  <input type="text" id="liner-name-admin" data-session-field="liner" placeholder="Alexis" autocomplete="off" />
+                </label>
+                <label for="closer-name-admin" data-i18n="analytics.closerInput">Nombre del Closer
+                  <input type="text" id="closer-name-admin" data-session-field="closer" placeholder="Bertina" autocomplete="off" />
+                </label>
+              </div>
+            </div>
+            <div class="analytics-grid">
+              <div class="metric-card">
+                <span data-i18n="analytics.avgSale">Promedio de ventas</span>
+                <strong id="metric-avg-sale">--</strong>
+                <small data-i18n="analytics.avgSaleHint">Promedio por venta cerrada</small>
+              </div>
+              <div class="metric-card">
+                <span data-i18n="analytics.conversion">Porcentaje de cierre</span>
+                <strong id="metric-conversion">0%</strong>
+                <small data-i18n="analytics.conversionHint">Intentos registrados</small>
+              </div>
+              <div class="metric-card">
+                <span data-i18n="analytics.totalVolume">Volumen total</span>
+                <strong id="metric-total-volume">$0</strong>
+                <small data-i18n="analytics.totalVolumeHint">Ventas acumuladas</small>
+              </div>
+              <div class="metric-card">
+                <span data-i18n="analytics.clarityScore">Índice de claridad</span>
+                <strong id="metric-clarity">--</strong>
+                <small data-i18n="analytics.clarityHint">Encuestas de clientes</small>
+              </div>
+            </div>
+            <div class="period-grid">
+              <div class="period-card">
+                <span data-i18n="analytics.dayVolume">Volumen diario</span>
+                <strong data-volume="day">$0</strong>
+              </div>
+              <div class="period-card">
+                <span data-i18n="analytics.weekVolume">Volumen semanal</span>
+                <strong data-volume="week">$0</strong>
+              </div>
+              <div class="period-card">
+                <span data-i18n="analytics.biweekVolume">Volumen quincenal</span>
+                <strong data-volume="biweek">$0</strong>
+              </div>
+            </div>
+            <div class="ranking-grid">
+              <div class="ranking-card">
+                <h4 data-i18n="analytics.linerRanking">Ranking Liners</h4>
+                <ul class="ranking-list" id="liner-ranking"></ul>
+              </div>
+              <div class="ranking-card">
+                <h4 data-i18n="analytics.closerRanking">Ranking Closers</h4>
+                <ul class="ranking-list" id="closer-ranking"></ul>
+              </div>
+              <div class="top-card">
+                <h4 data-i18n="analytics.topLiner">Top Liner</h4>
+                <div class="top-name" id="top-liner-name">--</div>
+                <div class="top-amount" id="top-liner-amount">$0</div>
+              </div>
+              <div class="top-card">
+                <h4 data-i18n="analytics.topCloser">Top Closer</h4>
+                <div class="top-name" id="top-closer-name">--</div>
+                <div class="top-amount" id="top-closer-amount">$0</div>
+              </div>
+              <div class="comparison-card">
+                <h4 data-i18n="analytics.teamCompare">Comparación Liners vs Closers</h4>
+                <div class="comparison-row">
+                  <span data-i18n="analytics.linersLabel">Liners</span>
+                  <div class="comparison-bar"><div class="comparison-fill" data-bar="liner"></div></div>
+                  <strong data-bar-value="liner">$0</strong>
+                </div>
+                <div class="comparison-row">
+                  <span data-i18n="analytics.closersLabel">Closers</span>
+                  <div class="comparison-bar"><div class="comparison-fill" data-bar="closer"></div></div>
+                  <strong data-bar-value="closer">$0</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button class="relock-btn" id="relock-btn" type="button" hidden data-i18n="home.lockPanel">Bloquear panel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sale-overlay" id="sale-overlay" aria-live="polite">
+    <div class="sale-card">
+      <div class="sale-choice" id="sale-choice">
+        <h3 data-i18n="sale.promptTitle">Log this pitch</h3>
+        <p data-i18n="sale.promptSubtitle">Did this presentation close a sale?</p>
+        <div class="sale-choice-buttons">
+          <button type="button" data-choice="win" data-i18n="sale.successBtn">Sale closed</button>
+          <button type="button" data-choice="loss" data-i18n="sale.pendingBtn">Not this time</button>
+        </div>
+      </div>
+
+      <form class="sale-form" id="sale-form-win">
+        <div class="sale-field">
+          <label for="sale-win-q1" data-i18n="sale.winQ1">What convinced the member the most?</label>
+          <select id="sale-win-q1" required>
+            <option value="price" data-i18n="sale.optionPrice">Best price</option>
+            <option value="service" data-i18n="sale.optionService">Service & support</option>
+            <option value="benefits" data-i18n="sale.optionBenefits">Member benefits</option>
+            <option value="urgency" data-i18n="sale.optionUrgency">Limited-time incentives</option>
+          </select>
+        </div>
+        <div class="sale-field">
+          <label for="sale-win-q2" data-i18n="sale.winQ2">What content sealed the decision?</label>
+          <select id="sale-win-q2" required>
+            <option value="comparison" data-i18n="sale.optionComparison">Price comparison</option>
+            <option value="gallery" data-i18n="sale.optionGallery">Gallery & videos</option>
+            <option value="agency" data-i18n="sale.optionTravelAgency">Travel agency perks</option>
+            <option value="other" data-i18n="sale.optionOther">Other</option>
+          </select>
+        </div>
+        <div class="sale-field">
+          <label for="sale-win-amount" data-i18n="sale.winAmount">Sale amount (USD)</label>
+          <input type="number" id="sale-win-amount" min="0" step="1" required placeholder="950" />
+        </div>
+        <div class="sale-field">
+          <label for="sale-win-notes" data-i18n="sale.notesLabel">Notes</label>
+          <textarea id="sale-win-notes" placeholder="..." ></textarea>
+        </div>
+        <div class="sale-actions">
+          <button type="button" class="sale-btn secondary" data-form-back="win" data-i18n="sale.backBtn">Back</button>
+          <button type="submit" class="sale-btn primary" data-i18n="sale.saveBtn">Save</button>
+        </div>
+      </form>
+
+      <form class="sale-form" id="sale-form-loss">
+        <div class="sale-field">
+          <label for="sale-loss-q1" data-i18n="sale.lossQ1">What did not meet expectations?</label>
+          <select id="sale-loss-q1" required>
+            <option value="price" data-i18n="sale.optionPrice">Price</option>
+            <option value="quality" data-i18n="sale.optionQuality">Quality</option>
+            <option value="service" data-i18n="sale.optionServiceOnly">Service</option>
+          </select>
+        </div>
+        <div class="sale-field">
+          <label for="sale-loss-q2" data-i18n="sale.lossQ2">Clarity of information</label>
+          <select id="sale-loss-q2" required>
+            <option value="1" data-i18n="sale.clarity1">1 · Very unclear</option>
+            <option value="2" data-i18n="sale.clarity2">2 · Could be clearer</option>
+            <option value="3" data-i18n="sale.clarity3">3 · Neutral</option>
+            <option value="4" data-i18n="sale.clarity4">4 · Clear</option>
+            <option value="5" data-i18n="sale.clarity5">5 · Extremely clear</option>
+          </select>
+        </div>
+        <div class="sale-field">
+          <label for="sale-loss-q3" data-i18n="sale.lossQ3">Which part should we improve?</label>
+          <select id="sale-loss-q3" required>
+            <option value="flow" data-i18n="sale.optionFlow">Presentation flow</option>
+            <option value="professionalism" data-i18n="sale.optionProfessionalism">Staff professionalism</option>
+            <option value="resorts" data-i18n="sale.optionResorts">Resort options</option>
+            <option value="value" data-i18n="sale.optionValue">Overall value & benefits</option>
+          </select>
+        </div>
+        <div class="sale-field">
+          <label for="sale-loss-notes" data-i18n="sale.notesLabel">Notes</label>
+          <textarea id="sale-loss-notes" placeholder="..." ></textarea>
+        </div>
+        <div class="sale-actions">
+          <button type="button" class="sale-btn secondary" data-form-back="loss" data-i18n="sale.backBtn">Back</button>
+          <button type="submit" class="sale-btn primary" data-i18n="sale.saveBtn">Save</button>
+        </div>
+      </form>
+
+      <div class="sale-stats">
+        <div>
+          <span data-i18n="sale.closedLabel">Closed</span>
+          <strong id="sale-win-count">0</strong>
+        </div>
+        <div>
+          <span data-i18n="sale.pendingLabel">Pending</span>
+          <strong id="sale-loss-count">0</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- -------------- MODALES PARA CADA MARCA -------------- -->
+
+  <!-- Zoetry -->
+  <div class="modal-overlay" id="modal-zoetry">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Zoëtry Wellness & Spa Resorts</h2>
+        <button class="modal-close" data-close>&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-media">
+          <div class="video-wrapper">
+            <video id="zoetry-main-video" controls playsinline preload="metadata" poster="images/zoetry-poster.jpg">
+              <source src="videozoetry(og).mp4" type="video/mp4">
+              Tu navegador no soporta el elemento <code>video</code>. <a href="videozoetry(og).mp4">Descargar / Ver video</a>
+            </video>
+          </div>
+        </div>
+        <p class="modal-description">
+          Luxury wellness retreats with gourmet dining, oceanfront suites, and spa-inclusive experiences in boutique-style sanctuaries.
+        </p>
+        <div class="modal-gallery">
+          <img src="true tranquility zoetry.webp" alt="Zoetry Resort 1" loading="lazy" />
+          <img src="zoetry endless dining.webp" alt="Zoetry Resort 2" loading="lazy" />
+          <img src="personalized service,zoetry.webp" alt="Zoetry Resort 3" loading="lazy" />
+          <img src="junior suit ocean view terrace zoetry.webp" alt="Zoetry Resort 4" loading="lazy" />
+          <img src="couple in valcony.webp" alt="Zoetry Resort 5" loading="lazy" />
+          <img src="romantic dinner.webp" alt="Zoetry Resort 6" loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Secrets -->
+  <div class="modal-overlay" id="modal-secrets">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Secrets Resorts & Spas</h2>
+        <button class="modal-close" data-close>&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-media">
+          <video src="Secrets Bahia Mita Surf & Spa Resort _ Unlimited Vacation Club.mp4" controls muted preload="metadata"></video>
+        </div>
+        <p class="modal-description">
+          Adults-only, romantic beachfront escapes with gourmet à la carte dining, premium drinks and world-class service.
+        </p>
+        <div class="modal-gallery">
+          <img src="secrets punta mita 1.webp" alt="Secrets Resort 1" loading="lazy" />
+          <img src="secrets punta mita 2.webp" alt="Secrets Resort 2" loading="lazy" />
+          <img src="secrets punta mita 3.webp" alt="Secrets Resort 3" loading="lazy" />
+          <img src="secrets pounta mita 5.webp" alt="Secrets Resort 4" loading="lazy" />
+          <img src="secrets punta mita 5.webp" alt="Secrets Resort 5" loading="lazy" />
+          <img src="secrets punta mita 6.webp" alt="Secrets Resort 6" loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Breathless -->
+  <div class="modal-overlay" id="modal-breathless">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Breathless Resorts & Spas</h2>
+        <button class="modal-close" data-close>&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-media">
+          <video src="Breathless Cancun Soul Resort Video.mp4" controls muted preload="metadata"></video>
+        </div>
+        <p class="modal-description">
+          Vibrant, chic and ultra-modern resorts with DJ parties, social atmosphere and stunning oceanfront views.
+        </p>
+        <div class="modal-gallery">
+          <img src="breathless 1.webp" alt="Breathless Resort 1" loading="lazy" />
+          <img src="breathless 2.webp" alt="Breathless Resort 2" loading="lazy" />
+          <img src="breathless 3.webp" alt="Breathless Resort 3" loading="lazy" />
+          <img src="breathless 4.webp" alt="Breathless Resort 4" loading="lazy" />
+          <img src="breathless 5.webp" alt="Breathless Resort 5" loading="lazy" />
+          <img src="breathless 6.webp" alt="Breathless Resort 6" loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dreams -->
+  <div class="modal-overlay" id="modal-dreams">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Dreams Resorts & Spas</h2>
+        <button class="modal-close" data-close>&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-media">
+          <video src="Discover All-Inclusive Luxury at Dreams┬« Sands Cancun Resort & Spa.mp4" controls muted preload="metadata"></video>
+        </div>
+        <p class="modal-description">
+          Family-friendly beachfront resorts with kids’ clubs, gourmet cuisine and spacious suites for every type of traveler.
+        </p>
+        <div class="modal-gallery">
+          <img src="dreams 1.webp" alt="Dreams Resort 1" loading="lazy" />
+          <img src="dreams 2.webp" alt="Dreams Resort 2" loading="lazy" />
+          <img src="dreams 3.webp" alt="Dreams Resort 3" loading="lazy" />
+          <img src="dreams 4.webp" alt="Dreams Resort 4" loading="lazy" />
+          <img src="dreams 5.webp" alt="Dreams Resort 5" loading="lazy" />
+          <img src="dreams 6.webp" alt="Dreams Resort 6" loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Hyatt: gallery of condos (images + videos) -->
+  <div class="modal-overlay" id="modal-hyatt">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>World of Hyatt — Exchange Condos</h2>
+        <button class="modal-close" data-close>&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-media">
+          <div class="video-wrapper">
+            <video id="hyatt-main-video" controls playsinline preload="metadata" poster="images/hyatt-condo1-poster.jpg">
+              <source src="Unforgettable Travel & Lifestyle Perks _ U Experiences by ONE.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="divider"></div>
+          <div class="modal-gallery">
+            <img src="hondaafushi island resort.jpg" alt="Hyatt Condo 1" loading="lazy">
+            <img src="hondafusihi island resort 2.jpg" alt="Hyatt Condo 2" loading="lazy">
+            <img src="hondafushi island resort 3.jpg" alt="Hyatt Condo 3" loading="lazy">
+            <img src="hondafusihi island resort ban╠âo.jpg" alt="condo baño" loading="lazy">
+            <img src="hondafushi island resort 3.jpg" alt="Hyatt Condo 5" loading="lazy">
+            <img src="med1.jpg" alt="Mediterranean 1" loading="lazy">
+            <img src="med2.jpg" alt="Mediterranean 2" loading="lazy">
+            <img src="med3.jpg" alt="Mediterranean 3" loading="lazy">
+            <img src="med4.jpg" alt="Mediterranean 4" loading="lazy">
+            <img src="med5.jpg" alt="Mediterranean 5" loading="lazy">
+            <img src="med6.jpg" alt="Mediterranean 6" loading="lazy">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- UExperience -->
+  <div class="modal-overlay" id="modal-uexperience">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>UExperience Immersive Gallery</h2>
+        <button class="modal-close" data-close>&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-media">
+          <div class="video-wrapper">
+            <video controls playsinline preload="metadata" poster="conde maldives 3.jpg">
+              <source src="World of Hyatt Inclusive Collection.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </div>
+        <p class="modal-description">
+          Signature villas, yacht escapes and curated experiences designed exclusively for Unlimited Vacation Club members.
+        </p>
+        <div class="modal-gallery">
+          <img src="conde 1.jpg" alt="Infinity pool sunset" loading="lazy" />
+          <img src="conde 3.jpg" alt="Private dining over water" loading="lazy" />
+          <img src="conde 7.jpg" alt="Oceanfront lounge" loading="lazy" />
+          <img src="enrichment expiernces.webp" alt="Cultural immersion" loading="lazy" />
+          <img src="elevated ameneties.webp" alt="Elevated amenities" loading="lazy" />
+          <img src="condo maldives.jpg" alt="Maldives suite" loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hyatt Vivid -->
+  <div class="modal-overlay" id="modal-vivid">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Hyatt Vivid</h2>
+        <button class="modal-close" data-close>&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-media">
+          <img src="hyat vivid3.png" alt="Hyatt Vivid" style="width:100%; border-radius:12px;" loading="lazy" />
+        </div>
+        <p class="modal-description">
+          Social beachfront labs with DJs, mixology carts and rooftop wellness studios.
+        </p>
+        <div class="modal-gallery">
+          <img src="elevated ameneties.webp" alt="Premium amenities" loading="lazy" />
+          <img src="enrichment expiernces.webp" alt="Creative sessions" loading="lazy" />
+          <img src="breathless 3.webp" alt="Nightlife" loading="lazy" />
+          <img src="breathless 5.webp" alt="Private lounge" loading="lazy" />
+          <img src="condo maldives 5.jpg" alt="Ocean deck" loading="lazy" />
+          <img src="condo 4.jpg" alt="Sunset view" loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Alua -->
+  <div class="modal-overlay" id="modal-alua">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Alua Hotels & Resorts</h2>
+        <button class="modal-close" data-close>&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-media">
+          <img src="alua3.png" alt="Alua Hotels" style="width:100%; border-radius:12px;" loading="lazy" />
+        </div>
+        <p class="modal-description">
+          Mediterranean-inspired escapes with family suites, coastal clubs and curated excursions.
+        </p>
+        <div class="modal-gallery">
+          <img src="conde maldives 3.jpg" alt="Beachfront suite" loading="lazy" />
+          <img src="true tranquility zoetry.webp" alt="Infinity pool" loading="lazy" />
+          <img src="romantic dinner.webp" alt="Dinner under the stars" loading="lazy" />
+          <img src="condo maldives 7.jpg" alt="Terrace view" loading="lazy" />
+          <img src="condo 7.jpg" alt="Living area" loading="lazy" />
+          <img src="condo 2.jpg" alt="Resort gardens" loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ------------------- SCRIPT INTERACTIVO ------------------- -->
+  <script>
+  (function(){
+    'use strict';
+
+    const q  = (sel, ctx=document) => ctx.querySelector(sel);
+    const qa = (sel, ctx=document) => Array.from(ctx.querySelectorAll(sel));
+
+    const PIN_CODE = '5910416';
+    const SALES_STORAGE_KEY = 'uvcSalesLog';
+    const SESSION_STORAGE_KEY = 'uvcSessionNames';
+    const ADMIN_CONFIG_STORAGE_KEY = 'uvcAdminConfig';
+    const PRICE_DRIFT_INTERVAL = 15 * 1000;
+    const PRICE_DRIFT_STEP = 4;
+    const PRICE_DRIFT_RANGE = 10;
+    const priceCheckerToggle  = q('#price-checker-toggle');
+    const priceCheckerPanel   = q('#price-checker-panel');
+    const priceCheckerNote    = q('#price-checker-note');
+    const priceCheckerClose   = priceCheckerPanel ? q('.pc-close', priceCheckerPanel) : null;
+    const homeScreen          = q('#home-screen');
+    const homeConfig          = q('#home-config');
+    const startDemoBtn        = q('#start-demo-btn');
+    const adminBtn            = q('#admin-btn');
+    const pinForm             = q('#pin-form');
+    const pinInput            = q('#pin-input');
+    const pinStatus           = q('#pin-status');
+    const configLockedMessage = q('#config-locked-message');
+    const configInputs        = qa('[data-config-field]');
+    const relockBtn           = q('#relock-btn');
+    const sessionInputs       = qa('[data-session-field]');
+    const configSaveButtons   = qa('[data-config-save]');
+    const saleOverlay         = q('#sale-overlay');
+    const saleChoiceSection   = q('#sale-choice');
+    const saleChoiceButtons   = qa('.sale-choice-buttons button[data-choice]');
+    const saleForms           = {
+      win: q('#sale-form-win'),
+      loss: q('#sale-form-loss')
+    };
+    const saleBackButtons     = qa('[data-form-back]');
+    const saleWinCount        = q('#sale-win-count');
+    const saleLossCount       = q('#sale-loss-count');
+    const downloadSalesReportBtn = q('#download-sales-report');
+    const resetSalesBtn          = q('#reset-sales-btn');
+    const metricAvgSale       = q('#metric-avg-sale');
+    const metricConversion    = q('#metric-conversion');
+    const metricTotalVolume   = q('#metric-total-volume');
+    const metricClarity       = q('#metric-clarity');
+    const volumeOutputs = {
+      day: q('[data-volume="day"]'),
+      week: q('[data-volume="week"]'),
+      biweek: q('[data-volume="biweek"]')
+    };
+    const rankingLists = {
+      liner: q('#liner-ranking'),
+      closer: q('#closer-ranking')
+    };
+    const topLinerName   = q('#top-liner-name');
+    const topLinerAmount = q('#top-liner-amount');
+    const topCloserName  = q('#top-closer-name');
+    const topCloserAmount= q('#top-closer-amount');
+    const comparisonBars = {
+      liner: q('[data-bar="liner"]'),
+      closer: q('[data-bar="closer"]')
+    };
+    const comparisonValues = {
+      liner: q('[data-bar-value="liner"]'),
+      closer: q('[data-bar-value="closer"]')
+    };
+
+    const translations = {
+      es: {
+        'header.allInclusive': 'Resorts Todo Incluido',
+        'header.worldwide': 'Worldwide',
+        'header.travelAgency': 'Agencia de Viajes',
+        'col1.title': 'Beneficios del Resort',
+        'col1.benefit1': '+100 Resorts.',
+        'col1.benefit2': '25% Mejor Precio Garantizado.',
+        'col1.benefit3': 'Free Upgrade.',
+        'col1.benefit4': '185 USD.',
+        'col1.benefit5': 'Concierge Service.',
+        'col1.benefit6': '25 USD Extra Reservation.',
+        'col1.notes': '20 habitaciones · $1000 = 5000 pts · Mínimo 2 noches · 72 hrs · Best price',
+        'col2.title': 'Worldwide Exchange',
+        'col2.list1': '4500+ Resorts',
+        'col2.list2': '100+ Países',
+        'col2.hyatt1': '1200 Hoteles',
+        'col2.hyatt2': '72 Países',
+        'col2.notes': '599 tarifa fija · 2 recámaras · 6 personas · 7N/8D · 2 años free – Worldwide [109 USD]',
+        'col3.title': 'UExperience',
+        'col3.titleTail': 'Experience',
+        'col3.cruisesLabel': 'Cruises Rewards',
+        'col3.flightsLabel': 'Flights',
+        'col3.note': '3500 / 3000 / 1000 · 2 años free – Travel Agency · 5000 USD · 18 meses · Travel Agency [399 USD]',
+        'priceChecker.label': 'Price Checker',
+        'priceChecker.title': 'Comparador en vivo',
+        'priceChecker.subtitle': 'Secrets Puerto Los Cabos vs Zoëtry Los Cabos',
+        'priceChecker.publicRate': 'Tarifa Pública',
+        'priceChecker.memberRate': 'Tarifa UVC',
+        'priceChecker.savingsInline': 'Ahorro UVC {value}%',
+        'priceChecker.note': 'Mayor ahorro con UVC: {value}%.',
+        'home.title': 'Centro de Control 3-Way Pitch',
+        'home.subtitle': 'Unlimited Vacation Club',
+        'home.presentationPassLabel': 'Contraseña para iniciar',
+        'home.linerLabel': 'Nombre del Liner',
+        'home.closerLabel': 'Nombre del Closer',
+        'home.nameError': 'Agrega el Liner y el Closer antes de iniciar.',
+        'home.lockedMessage': 'Ingresa el PIN para desbloquear esta sección privada.',
+        'home.lockPanel': 'Bloquear panel',
+        'home.startPassError': 'Contraseña incorrecta.',
+        'home.startPassSuccess': 'Listo. ¡A presentar!',
+        'sale.promptTitle': 'Registra este pitch',
+        'sale.promptSubtitle': '¿Se concretó la venta?',
+        'sale.successBtn': 'Venta lograda',
+        'sale.pendingBtn': 'Aún no',
+        'sale.skipBtn': 'Omitir',
+        'sale.closedLabel': 'Cerradas',
+        'sale.pendingLabel': 'Pendientes',
+        'sale.winQ1': '¿Qué convenció más al socio?',
+        'sale.winQ2': '¿Qué contenido cerró la decisión?',
+        'sale.winAmount': 'Monto vendido (USD)',
+        'sale.lossQ1': '¿Qué no cumplió tus expectativas?',
+        'sale.lossQ2': '¿Qué tan clara fue la información?',
+        'sale.lossQ3': '¿Qué parte debemos mejorar?',
+        'sale.notesLabel': 'Notas',
+        'sale.backBtn': 'Regresar',
+        'sale.saveBtn': 'Guardar',
+        'sale.optionPrice': 'Precio',
+        'sale.optionQuality': 'Calidad',
+        'sale.optionServiceOnly': 'Servicio',
+        'sale.optionService': 'Servicio y acompañamiento',
+        'sale.optionBenefits': 'Beneficios exclusivos',
+        'sale.optionUrgency': 'Incentivos de tiempo limitado',
+        'sale.optionComparison': 'Comparador de precios',
+        'sale.optionGallery': 'Galería y videos',
+        'sale.optionTravelAgency': 'Agencia de viajes',
+        'sale.optionOther': 'Otro',
+        'sale.optionTiming': 'Momento / presupuesto',
+        'sale.optionInfo': 'Faltó información',
+        'sale.optionTrust': 'Confianza / credibilidad',
+        'sale.optionPresentation': 'Historia / presentación',
+        'sale.optionFollowup': 'Seguimiento / urgencia',
+        'sale.optionBenefitsDetail': 'Explicar beneficios',
+        'sale.optionFlow': 'Flujo de la presentación',
+        'sale.optionProfessionalism': 'Profesionalismo del equipo',
+        'sale.optionResorts': 'Opciones de resorts',
+        'sale.optionValue': 'Valor y beneficios',
+        'sale.clarity1': '1 · Muy confusa',
+        'sale.clarity2': '2 · Podría mejorar',
+        'sale.clarity3': '3 · Neutral',
+        'sale.clarity4': '4 · Clara',
+        'sale.clarity5': '5 · Extremadamente clara',
+        'sale.reportInfo': 'Descarga un resumen de ventas.',
+        'sale.reportBtn': 'Descargar CSV',
+        'home.start': 'Iniciar presentación',
+        'home.configTitle': 'Panel de administración',
+        'home.configSubtitle': 'Ingresa el PIN para editar precios en vivo.',
+        'home.language': 'Idioma',
+        'home.unlock': 'Desbloquear',
+        'home.destinationLabel': 'Nombre del hotel',
+        'home.expediaLabel': 'Expedia (USD)',
+        'home.bookingLabel': 'Booking (USD)',
+        'home.despegarLabel': 'Despegar (USD)',
+        'home.discountLabel': 'Descuento UVC %',
+        'home.saveProperty': 'Guardar precios',
+        'home.summaryLabel': 'Tarifa UVC lista',
+        'home.pinSuccess': 'PIN correcto. Edición habilitada.',
+        'home.pinError': 'PIN incorrecto. Intenta de nuevo.',
+        'analytics.linerInput': 'Nombre del Liner',
+        'analytics.closerInput': 'Nombre del Closer',
+        'analytics.avgSale': 'Promedio de ventas',
+        'analytics.avgSaleHint': 'Promedio por venta cerrada',
+        'analytics.conversion': 'Porcentaje de cierre',
+        'analytics.conversionHint': 'Intentos registrados',
+        'analytics.totalVolume': 'Volumen total',
+        'analytics.totalVolumeHint': 'Ventas acumuladas',
+        'analytics.clarityScore': 'Índice de claridad',
+        'analytics.clarityHint': 'Encuestas de clientes',
+        'analytics.dayVolume': 'Volumen diario',
+        'analytics.weekVolume': 'Volumen semanal',
+        'analytics.biweekVolume': 'Volumen quincenal',
+        'analytics.linerRanking': 'Ranking Liners',
+        'analytics.closerRanking': 'Ranking Closers',
+        'analytics.topLiner': 'Top Liner',
+        'analytics.topCloser': 'Top Closer',
+        'analytics.teamCompare': 'Comparación Liners vs Closers',
+        'analytics.linersLabel': 'Liners',
+        'analytics.closersLabel': 'Closers',
+        'analytics.noData': 'Sin datos disponibles',
+        'analytics.resetBtn': 'Limpiar datos',
+        'analytics.resetConfirm': '¿Seguro que quieres borrar el historial de ventas? Esta acción no se puede deshacer.'
+      },
+      en: {
+        'header.allInclusive': 'All Inclusive Resorts',
+        'header.worldwide': 'Worldwide',
+        'header.travelAgency': 'Travel Agency',
+        'col1.title': 'Resort Benefits',
+        'col1.benefit1': '+100 Resorts.',
+        'col1.benefit2': '25% Best Price Guaranteed.',
+        'col1.benefit3': 'Free Upgrade.',
+        'col1.benefit4': '185 USD.',
+        'col1.benefit5': 'Concierge Service.',
+        'col1.benefit6': '25 USD Extra Reservation.',
+        'col1.notes': '20 Rooms · $1000 = 5000 points · Minimum 2 nights · 72 hrs · Best price',
+        'col2.title': 'Worldwide Exchange',
+        'col2.list1': '4500+ Resorts',
+        'col2.list2': '100+ Countries',
+        'col2.hyatt1': '1200 Hotels',
+        'col2.hyatt2': '72 Countries',
+        'col2.notes': '599 fixed price · 2 bedrooms · 6 people · 7N/8D · 2 years free – Worldwide [109 USD]',
+        'col3.title': 'UExperience',
+        'col3.titleTail': 'Experience',
+        'col3.cruisesLabel': 'Cruises Rewards',
+        'col3.flightsLabel': 'Flights',
+        'col3.note': '3500 / 3000 / 1000 · 2 years free – Travel Agency · 5000 USD · 18 Months · Travel Agency [399 USD]',
+        'priceChecker.label': 'Price Checker',
+        'priceChecker.title': 'Live Price Checker',
+        'priceChecker.subtitle': 'Secrets Puerto Los Cabos vs Zoëtry Los Cabos',
+        'priceChecker.publicRate': 'Public Rate',
+        'priceChecker.memberRate': 'Member Rate',
+        'priceChecker.savingsInline': 'UVC savings {value}%',
+        'priceChecker.note': 'Best UVC savings: {value}%.',
+        'home.title': '3-Way Pitch Control Center',
+        'home.subtitle': 'Unlimited Vacation Club',
+        'home.presentationPassLabel': 'Presentation password',
+        'home.linerLabel': 'Liner name',
+        'home.closerLabel': 'Closer name',
+        'home.nameError': 'Add the liner and closer names before starting.',
+        'home.lockedMessage': 'Enter the PIN to reveal these private settings.',
+        'home.lockPanel': 'Re-lock panel',
+        'home.startPassError': 'Wrong password.',
+        'home.startPassSuccess': 'Access granted. Ready!',
+        'sale.promptTitle': 'Log this pitch',
+        'sale.promptSubtitle': 'Did this presentation close a sale?',
+        'sale.successBtn': 'Sale closed',
+        'sale.pendingBtn': 'Not this time',
+        'sale.skipBtn': 'Skip',
+        'sale.closedLabel': 'Closed',
+        'sale.pendingLabel': 'Pending',
+        'sale.winQ1': 'What convinced the member the most?',
+        'sale.winQ2': 'What content sealed the decision?',
+        'sale.winAmount': 'Sale amount (USD)',
+        'sale.lossQ1': 'What did not meet your expectations?',
+        'sale.lossQ2': 'How clear was the information?',
+        'sale.lossQ3': 'Which part should we improve?',
+        'sale.notesLabel': 'Notes',
+        'sale.backBtn': 'Back',
+        'sale.saveBtn': 'Save',
+        'sale.optionPrice': 'Price',
+        'sale.optionQuality': 'Quality',
+        'sale.optionServiceOnly': 'Service',
+        'sale.optionService': 'Service & support',
+        'sale.optionBenefits': 'Member benefits',
+        'sale.optionUrgency': 'Limited-time incentives',
+        'sale.optionComparison': 'Price comparison',
+        'sale.optionGallery': 'Gallery & videos',
+        'sale.optionTravelAgency': 'Travel agency perks',
+        'sale.optionOther': 'Other',
+        'sale.optionTiming': 'Timing / budget',
+        'sale.optionInfo': 'Need more information',
+        'sale.optionTrust': 'Trust / credibility',
+        'sale.optionPresentation': 'Presentation / storytelling',
+        'sale.optionFollowup': 'Follow-up / urgency',
+        'sale.optionBenefitsDetail': 'Benefit explanation',
+        'sale.optionFlow': 'Presentation flow',
+        'sale.optionProfessionalism': 'Staff professionalism',
+        'sale.optionResorts': 'Resort options',
+        'sale.optionValue': 'Overall value & benefits',
+        'sale.clarity1': '1 · Very unclear',
+        'sale.clarity2': '2 · Needs clarity',
+        'sale.clarity3': '3 · Neutral',
+        'sale.clarity4': '4 · Clear',
+        'sale.clarity5': '5 · Extremely clear',
+        'sale.reportInfo': 'Download your sales summary.',
+        'sale.reportBtn': 'Download CSV',
+        'home.start': 'Start presentation',
+        'home.configTitle': 'Admin console',
+        'home.configSubtitle': 'Enter the PIN to edit live pricing.',
+        'home.language': 'Language',
+        'home.unlock': 'Unlock',
+        'home.destinationLabel': 'Hotel name',
+        'home.expediaLabel': 'Expedia (USD)',
+        'home.bookingLabel': 'Booking (USD)',
+        'home.despegarLabel': 'Despegar (USD)',
+        'home.discountLabel': 'UVC Discount %',
+        'home.saveProperty': 'Save prices',
+        'home.summaryLabel': 'Member rate ready',
+        'home.pinSuccess': 'PIN accepted. Editing enabled.',
+        'home.pinError': 'Wrong PIN. Please try again.',
+        'analytics.linerInput': 'Liner name',
+        'analytics.closerInput': 'Closer name',
+        'analytics.avgSale': 'Average sale',
+        'analytics.avgSaleHint': 'Average per closed sale',
+        'analytics.conversion': 'Close rate',
+        'analytics.conversionHint': 'Based on logged attempts',
+        'analytics.totalVolume': 'Total volume',
+        'analytics.totalVolumeHint': 'Accumulated wins',
+        'analytics.clarityScore': 'Clarity index',
+        'analytics.clarityHint': 'Client survey results',
+        'analytics.dayVolume': 'Daily volume',
+        'analytics.weekVolume': 'Weekly volume',
+        'analytics.biweekVolume': 'Biweekly volume',
+        'analytics.linerRanking': 'Liner ranking',
+        'analytics.closerRanking': 'Closer ranking',
+        'analytics.topLiner': 'Top Liner',
+        'analytics.topCloser': 'Top Closer',
+        'analytics.teamCompare': 'Liners vs Closers',
+        'analytics.linersLabel': 'Liners',
+        'analytics.closersLabel': 'Closers',
+        'analytics.noData': 'No data yet',
+        'analytics.resetBtn': 'Clear data',
+        'analytics.resetConfirm': 'Clear all sales history? This cannot be undone.'
+      }
+    };
+
+    function getTranslation(key){
+      const dict = translations[state.lang] || translations.es;
+      return (dict && dict[key]) || (translations.es && translations.es[key]) || '';
+    }
+
+    const startPassInput   = q('#start-pass-input');
+    const startPassStatus  = q('#start-pass-status');
+
+    const propertyPriceTargets = {};
+    qa('[data-price-target]').forEach(el => {
+      const idx = Number(el.dataset.propertyIndex || 0);
+      const key = el.dataset.priceTarget;
+      if (!key) return;
+      propertyPriceTargets[idx] = propertyPriceTargets[idx] || {};
+      propertyPriceTargets[idx][key] = el;
+    });
+
+    const propertyNameTargets = {};
+    qa('[data-destination-target]').forEach(el => {
+      const idx = Number(el.dataset.propertyIndex || 0);
+      propertyNameTargets[idx] = el;
+    });
+
+    const propertySavingsTargets = {};
+    qa('[data-savings-target]').forEach(el => {
+      const idx = Number(el.dataset.savingsTarget || 0);
+      propertySavingsTargets[idx] = el;
+    });
+
+    const uvcSummaryOutputs = {};
+    qa('[data-uvc-summary]').forEach(el => {
+      const idx = Number(el.dataset.uvcSummary || 0);
+      uvcSummaryOutputs[idx] = el;
+    });
+
+    const summaryOutputs = {};
+    qa('[data-summary-output]').forEach(el => {
+      const idx = Number(el.dataset.summaryOutput || 0);
+      summaryOutputs[idx] = el;
+    });
+
+    const configSummaryOutputs = {};
+    qa('[data-config-summary]').forEach(el => {
+      const idx = Number(el.dataset.configSummary || 0);
+      configSummaryOutputs[idx] = el;
+    });
+
+    const configSummaryLabels = {};
+    qa('[data-config-summary-label]').forEach(el => {
+      const idx = Number(el.dataset.configSummaryLabel || 0);
+      configSummaryLabels[idx] = el;
+    });
+
+    const configTitleTargets = {};
+    qa('[data-config-title-target]').forEach(el => {
+      const idx = Number(el.dataset.configTitleTarget || 0);
+      configTitleTargets[idx] = el;
+    });
+
+    const state = {
+      lang: 'en',
+      pinUnlocked: false,
+      properties: [],
+      presentationPassword: '1234',
+      session: { liner: '', closer: '' },
+      sales: { win: 0, pending: 0, entries: [] },
+      dynamicPrices: []
+    };
+
+    function loadSessionData(){
+      if (typeof localStorage === 'undefined') return;
+      try {
+        const raw = localStorage.getItem(SESSION_STORAGE_KEY);
+        if (!raw) return;
+        const parsed = JSON.parse(raw);
+        if (parsed && typeof parsed === 'object'){
+          state.session.liner = parsed.liner || '';
+          state.session.closer = parsed.closer || '';
+        }
+      } catch(err){}
+    }
+
+    function persistSessionData(){
+      if (typeof localStorage === 'undefined') return;
+      try {
+        localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(state.session));
+      } catch(err){}
+    }
+
+    function syncSessionInputs(){
+      sessionInputs.forEach(input => {
+        const field = input.dataset.sessionField;
+        if (!field) return;
+        if (document.activeElement === input) return;
+        input.value = state.session[field] || '';
+      });
+    }
+
+    function loadSalesData(){
+      if (typeof localStorage === 'undefined') return;
+      try {
+        const raw = localStorage.getItem(SALES_STORAGE_KEY);
+        if (!raw) return;
+        const parsed = JSON.parse(raw);
+        const entries = Array.isArray(parsed && parsed.entries) ? parsed.entries : [];
+        entries.forEach(entry => {
+          if (entry && entry.result === 'pending'){
+            entry.result = 'loss';
+          }
+        });
+        state.sales.entries = entries;
+        state.sales.win = entries.filter(item => item && item.result === 'win').length;
+        state.sales.pending = entries.filter(item => item && item.result === 'loss').length;
+      } catch(err){}
+    }
+
+    function persistSalesData(){
+      if (typeof localStorage === 'undefined') return;
+      try {
+        localStorage.setItem(SALES_STORAGE_KEY, JSON.stringify(state.sales));
+      } catch(err){}
+    }
+
+    function loadAdminConfig(){
+      if (typeof localStorage === 'undefined') return;
+      try {
+        const raw = localStorage.getItem(ADMIN_CONFIG_STORAGE_KEY);
+        if (!raw) return;
+        const parsed = JSON.parse(raw);
+        if (parsed && Array.isArray(parsed.properties)){
+          parsed.properties.forEach((savedProp, idx) => {
+            if (!savedProp) return;
+            const prop = ensureProperty(idx);
+            if (savedProp.destination){
+              prop.destination = savedProp.destination;
+            }
+            if (typeof savedProp.discount !== 'undefined'){
+              prop.discount = Number(savedProp.discount) || 0;
+            }
+            if (savedProp.prices && typeof savedProp.prices === 'object'){
+              ['expedia','booking','despegar'].forEach(key => {
+                if (typeof savedProp.prices[key] !== 'undefined'){
+                  prop.prices[key] = Number(savedProp.prices[key]) || 0;
+                  syncDynamicBase(idx, key, prop.prices[key]);
+                }
+              });
+            }
+          });
+        }
+        if (parsed && typeof parsed.presentationPassword === 'string'){
+          state.presentationPassword = parsed.presentationPassword;
+        }
+      } catch(err){}
+    }
+
+    function persistAdminConfig(){
+      if (typeof localStorage === 'undefined') return;
+      try {
+        const payload = {
+          presentationPassword: state.presentationPassword || '',
+          properties: state.properties.map(prop => {
+            if (!prop) return null;
+            return {
+              destination: prop.destination || '',
+              discount: Number(prop.discount) || 0,
+              prices: {
+                expedia: Number(prop.prices && prop.prices.expedia || 0),
+                booking: Number(prop.prices && prop.prices.booking || 0),
+                despegar: Number(prop.prices && prop.prices.despegar || 0)
+              }
+            };
+          })
+        };
+        localStorage.setItem(ADMIN_CONFIG_STORAGE_KEY, JSON.stringify(payload));
+      } catch(err){}
+    }
+
+    function syncConfigInputsFromState(){
+      configInputs.forEach(input => {
+        const field = input.dataset.configField;
+        if (!field) return;
+        if (field === 'presentation-pass'){
+          input.value = state.presentationPassword || '';
+          return;
+        }
+        const idx = Number(input.dataset.propertyIndex || 0);
+        const prop = ensureProperty(idx);
+        if (field === 'destination'){
+          input.value = prop.destination || '';
+        } else if (field === 'discount'){
+          input.value = prop.discount;
+        } else if (field.startsWith('price-')){
+          const key = field.replace('price-', '');
+          input.value = prop.prices[key] || 0;
+        }
+      });
+    }
+
+    function syncPropertyFromInputs(idx){
+      const prop = ensureProperty(idx);
+      const scopedInputs = qa(`[data-config-field][data-property-index="${idx}"]`);
+      scopedInputs.forEach(input => {
+        const field = input.dataset.configField;
+        if (field === 'destination'){
+          prop.destination = input.value;
+        } else if (field === 'discount'){
+          prop.discount = parseFloat(input.value) || 0;
+        } else if (field && field.startsWith('price-')){
+          const key = field.replace('price-', '');
+          prop.prices[key] = parseFloat(input.value) || 0;
+          syncDynamicBase(idx, key, prop.prices[key]);
+        }
+      });
+    }
+
+    loadSessionData();
+    loadSalesData();
+
+    function ensureProperty(idx){
+      if (!state.properties[idx]){
+        state.properties[idx] = {
+          destination: `Property ${idx + 1}`,
+          prices: { expedia: 0, booking: 0, despegar: 0 },
+          discount: 0
+        };
+      }
+      return state.properties[idx];
+    }
+
+    function ensureDynamicStore(idx){
+      if (!state.dynamicPrices[idx]){
+        state.dynamicPrices[idx] = {};
+      }
+      ['expedia','booking','despegar'].forEach(key => {
+        if (!state.dynamicPrices[idx][key]){
+          const prop = ensureProperty(idx);
+          const base = Number(prop.prices[key]) || 0;
+          state.dynamicPrices[idx][key] = {
+            base,
+            live: base,
+            lastUpdate: Date.now()
+          };
+        }
+      });
+    }
+
+    function syncDynamicBase(idx, key, base){
+      ensureDynamicStore(idx);
+      const record = state.dynamicPrices[idx][key];
+      if (!record) return;
+      record.base = Number(base) || 0;
+      record.live = record.base;
+      record.lastUpdate = Date.now();
+    }
+
+    function getLivePrice(idx, key){
+      ensureDynamicStore(idx);
+      const record = state.dynamicPrices[idx][key];
+      if (!record) return 0;
+      return Number(record.live || record.base || 0);
+    }
+
+    function getCompetitorLivePrices(idx){
+      ensureDynamicStore(idx);
+      return ['expedia','booking','despegar']
+        .map(key => getLivePrice(idx, key))
+        .filter(val => val > 0);
+    }
+
+    function applyPriceDrift(force = false){
+      const now = Date.now();
+      state.dynamicPrices.forEach(brands => {
+        if (!brands) return;
+        ['expedia','booking','despegar'].forEach(key => {
+          const record = brands[key];
+          if (!record) return;
+          if (!force && now - record.lastUpdate < PRICE_DRIFT_INTERVAL) return;
+          const base = Number(record.base) || 0;
+          if (base <= 0) return;
+          const direction = Math.random() < 0.5 ? -1 : 1;
+          const delta = Math.round(Math.random() * PRICE_DRIFT_STEP);
+          const min = Math.max(0, base - PRICE_DRIFT_RANGE);
+          const max = base + PRICE_DRIFT_RANGE;
+          let next = (record.live || base) + direction * delta;
+          if (next < min) next = min;
+          if (next > max) next = max;
+          record.live = next;
+          record.lastUpdate = now;
+        });
+      });
+    }
+
+    configInputs.forEach(input => {
+      const idx = Number(input.dataset.propertyIndex || 0);
+      const field = input.dataset.configField;
+      if (field === 'presentation-pass'){
+        state.presentationPassword = input.value || '1234';
+        return;
+      }
+      const prop = ensureProperty(idx);
+      if (field === 'destination'){
+        prop.destination = input.value;
+      } else if (field === 'discount'){
+        prop.discount = parseFloat(input.value) || 0;
+      } else if (field && field.startsWith('price-')){
+        const key = field.replace('price-', '');
+        prop.prices[key] = parseFloat(input.value) || 0;
+        syncDynamicBase(idx, key, prop.prices[key]);
+      }
+    });
+
+    loadAdminConfig();
+    syncConfigInputsFromState();
+
+    state.properties.forEach((_, idx) => ensureDynamicStore(idx));
+    applyPriceDrift(true);
+
+    function formatCurrency(value){
+      const locale = state.lang === 'es' ? 'es-MX' : 'en-US';
+      try {
+        return new Intl.NumberFormat(locale, {
+          style: 'currency',
+          currency: 'USD',
+          maximumFractionDigits: 0
+        }).format(Number(value) || 0);
+      } catch(err){
+        return `$${Math.round(Number(value) || 0)}`;
+      }
+    }
+
+    function computeUvcPrice(propertyIdx){
+      const prop = ensureProperty(propertyIdx);
+      const priceValues = getCompetitorLivePrices(propertyIdx);
+      if (!priceValues.length) return 0;
+      const base = Math.min(...priceValues);
+      const discountFactor = (parseFloat(prop.discount) || 0) / 100;
+      const raw = base * (1 - discountFactor);
+      return Math.max(99, Math.round(raw));
+    }
+
+    function calcSavings(propertyIdx){
+      const priceValues = getCompetitorLivePrices(propertyIdx);
+      if (!priceValues.length) return 0;
+      const lowest = Math.min(...priceValues);
+      if (!isFinite(lowest) || lowest <= 0) return 0;
+      const uvcPrice = computeUvcPrice(propertyIdx);
+      if (!uvcPrice) return 0;
+      return Math.max(0, Math.round(((lowest - uvcPrice) / lowest) * 100));
+    }
+
+    function setPriceText(propertyIdx, target, value){
+      const map = propertyPriceTargets[propertyIdx];
+      if (!map) return;
+      const el = map[target];
+      if (!el) return;
+      el.textContent = formatCurrency(value);
+    }
+
+    function updatePriceUI(){
+      const totalProperties = Math.max(
+        state.properties.length,
+        Object.keys(propertyNameTargets).length
+      );
+      let bestSavings = 0;
+
+      for (let idx = 0; idx < totalProperties; idx++){
+        const prop = ensureProperty(idx);
+        const uvcPrice = computeUvcPrice(idx);
+        ['expedia','booking','despegar'].forEach(key => {
+          setPriceText(idx, key, getLivePrice(idx, key));
+        });
+        setPriceText(idx, 'uvc', uvcPrice);
+        if (uvcSummaryOutputs[idx]){
+          uvcSummaryOutputs[idx].textContent = formatCurrency(uvcPrice);
+        }
+
+        const label = prop.destination || `Property ${idx + 1}`;
+        if (propertyNameTargets[idx]){
+          propertyNameTargets[idx].textContent = label;
+        }
+        if (configTitleTargets[idx]){
+          configTitleTargets[idx].textContent = label;
+        }
+        if (summaryOutputs[idx]){
+          summaryOutputs[idx].textContent = `${label} · ${formatCurrency(uvcPrice)}`;
+        }
+        if (configSummaryOutputs[idx]){
+          configSummaryOutputs[idx].textContent = formatCurrency(uvcPrice);
+        }
+        if (configSummaryLabels[idx]){
+          configSummaryLabels[idx].textContent = label;
+        }
+
+        const savings = calcSavings(idx);
+        bestSavings = Math.max(bestSavings, savings);
+        if (propertySavingsTargets[idx]){
+          const template = getTranslation('priceChecker.savingsInline');
+          propertySavingsTargets[idx].textContent = template
+            ? template.replace('{value}', savings)
+            : `Savings ${savings}%`;
+        }
+      }
+
+      if (priceCheckerNote){
+        const template = getTranslation('priceChecker.note');
+        priceCheckerNote.textContent = template.replace('{value}', bestSavings);
+      }
+    }
+
+    function syncLangButtons(){
+      qa('.lang-pill[data-lang]').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.lang === state.lang);
+      });
+    }
+
+    function applyTranslations(lang){
+      const dict = translations[lang] || translations.es;
+      qa('[data-i18n]').forEach(el => {
+        const key = el.dataset.i18n;
+        if (!key || !dict[key]) return;
+        el.textContent = dict[key];
+      });
+      if (pinStatus && pinStatus.dataset.status){
+        const statusKey = pinStatus.dataset.status === 'success' ? 'home.pinSuccess' : 'home.pinError';
+        pinStatus.textContent = getTranslation(statusKey);
+      }
+    }
+
+    function setLanguage(lang){
+      if (!translations[lang]) lang = 'es';
+      state.lang = lang;
+      document.documentElement.setAttribute('lang', lang);
+      syncLangButtons();
+      applyTranslations(lang);
+      updatePriceUI();
+    }
+
+    function setConfigInputsDisabled(flag){
+      configInputs.forEach(input => {
+        input.disabled = flag;
+      });
+      configSaveButtons.forEach(btn => {
+        btn.disabled = flag;
+      });
+      if (homeConfig){
+        homeConfig.classList.toggle('locked', !!flag);
+      }
+      if (configLockedMessage){
+        configLockedMessage.hidden = !flag;
+      }
+      if (relockBtn){
+        relockBtn.hidden = !!flag;
+      }
+    }
+
+    function setPinStatus(type){
+      if (!pinStatus) return;
+      pinStatus.dataset.status = type;
+      pinStatus.style.color = type === 'success' ? '#1f7c4d' : '#d4444f';
+      const key = type === 'success' ? 'home.pinSuccess' : 'home.pinError';
+      pinStatus.textContent = getTranslation(key);
+    }
+
+    function updateSaleStats(){
+      if (saleWinCount) saleWinCount.textContent = state.sales.win;
+      if (saleLossCount) saleLossCount.textContent = state.sales.pending;
+      updateAnalyticsUI();
+    }
+
+    function updateReportControls(){
+      if (downloadSalesReportBtn){
+        const hasData = Array.isArray(state.sales.entries) && state.sales.entries.length > 0;
+        const hasNames = !!(state.session.liner && state.session.closer);
+        downloadSalesReportBtn.disabled = !(hasData && hasNames);
+      }
+    }
+
+    function aggregateRoleStats(role){
+      const map = {};
+      (state.sales.entries || []).forEach(entry => {
+        const name = entry && entry[role];
+        if (!name) return;
+        if (!map[name]){
+          map[name] = { name, wins: 0, attempts: 0, amount: 0 };
+        }
+        map[name].attempts++;
+        if (entry.result === 'win'){
+          map[name].wins++;
+          map[name].amount += Number(entry.amount) || 0;
+        }
+      });
+      return Object.values(map).sort((a, b) => b.amount - a.amount);
+    }
+
+    function renderRanking(listEl, stats){
+      if (!listEl) return;
+      listEl.innerHTML = '';
+      if (!stats.length){
+        const li = document.createElement('li');
+        li.textContent = getTranslation('analytics.noData') || 'No data';
+        listEl.appendChild(li);
+        return;
+      }
+      stats.slice(0, 5).forEach((item, index) => {
+        const li = document.createElement('li');
+        const row = document.createElement('div');
+        row.className = 'ranking-row';
+        const nameSpan = document.createElement('span');
+        nameSpan.textContent = `${index + 1}. ${item.name}`;
+        const valueSpan = document.createElement('span');
+        valueSpan.textContent = formatCurrency(item.amount);
+        row.appendChild(nameSpan);
+        row.appendChild(valueSpan);
+        const details = document.createElement('small');
+        const rate = item.attempts ? Math.round((item.wins / item.attempts) * 100) : 0;
+        details.textContent = `${item.wins}/${item.attempts || 0} · ${rate}%`;
+        li.appendChild(row);
+        li.appendChild(details);
+        listEl.appendChild(li);
+      });
+    }
+
+    function updateAnalyticsUI(){
+      const entries = state.sales.entries || [];
+      const wins = entries.filter(entry => entry && entry.result === 'win');
+      const attempts = entries.length;
+      const totalVolume = wins.reduce((sum, entry) => sum + (Number(entry.amount) || 0), 0);
+      const avgSale = wins.length ? totalVolume / wins.length : 0;
+      if (metricAvgSale) metricAvgSale.textContent = wins.length ? formatCurrency(avgSale) : '--';
+      const conversion = attempts ? Math.round((wins.length / attempts) * 100) : 0;
+      if (metricConversion) metricConversion.textContent = `${conversion}%`;
+      if (metricTotalVolume) metricTotalVolume.textContent = formatCurrency(totalVolume);
+
+      const clarityScores = entries
+        .filter(entry => entry && entry.result === 'loss' && Number(entry.clarity) > 0)
+        .map(entry => Number(entry.clarity));
+      if (metricClarity){
+        if (clarityScores.length){
+          const clarityAvg = clarityScores.reduce((a,b)=>a+b,0) / clarityScores.length;
+          metricClarity.textContent = `${clarityAvg.toFixed(1)} / 5`;
+        } else {
+          metricClarity.textContent = '--';
+        }
+      }
+
+      const periods = {
+        day: 24 * 60 * 60 * 1000,
+        week: 7 * 24 * 60 * 60 * 1000,
+        biweek: 14 * 24 * 60 * 60 * 1000
+      };
+      const now = Date.now();
+      Object.keys(volumeOutputs).forEach(key => {
+        const el = volumeOutputs[key];
+        if (!el) return;
+        const range = periods[key];
+        const amount = wins
+          .filter(entry => {
+            const time = Date.parse(entry.timestamp || '');
+            return isFinite(time) && (now - time) <= range;
+          })
+          .reduce((sum, entry) => sum + (Number(entry.amount) || 0), 0);
+        el.textContent = formatCurrency(amount);
+      });
+
+      const linerStats = aggregateRoleStats('liner');
+      const closerStats = aggregateRoleStats('closer');
+      renderRanking(rankingLists.liner, linerStats);
+      renderRanking(rankingLists.closer, closerStats);
+
+      const topLiner = linerStats[0];
+      const topCloser = closerStats[0];
+      if (topLinerName) topLinerName.textContent = topLiner ? topLiner.name : '--';
+      if (topLinerAmount) topLinerAmount.textContent = topLiner ? formatCurrency(topLiner.amount) : formatCurrency(0);
+      if (topCloserName) topCloserName.textContent = topCloser ? topCloser.name : '--';
+      if (topCloserAmount) topCloserAmount.textContent = topCloser ? formatCurrency(topCloser.amount) : formatCurrency(0);
+
+      const maxComparison = Math.max(
+        topLiner ? topLiner.amount : 0,
+        topCloser ? topCloser.amount : 0,
+        1
+      );
+      if (comparisonBars.liner){
+        const pct = Math.round(((topLiner ? topLiner.amount : 0) / maxComparison) * 100);
+        comparisonBars.liner.style.width = `${pct}%`;
+      }
+      if (comparisonBars.closer){
+        const pct = Math.round(((topCloser ? topCloser.amount : 0) / maxComparison) * 100);
+        comparisonBars.closer.style.width = `${pct}%`;
+      }
+      if (comparisonValues.liner){
+        comparisonValues.liner.textContent = formatCurrency(topLiner ? topLiner.amount : 0);
+      }
+      if (comparisonValues.closer){
+        comparisonValues.closer.textContent = formatCurrency(topCloser ? topCloser.amount : 0);
+      }
+    }
+
+    function resetSaleOverlay(){
+      if (saleChoiceSection){
+        saleChoiceSection.classList.remove('hidden');
+      }
+      Object.values(saleForms).forEach(form => {
+        if (form){
+          form.classList.remove('active');
+          if (typeof form.reset === 'function') form.reset();
+        }
+      });
+    }
+
+    function showSaleForm(type){
+      if (!saleForms[type]) return;
+      if (saleChoiceSection){
+        saleChoiceSection.classList.add('hidden');
+      }
+      Object.keys(saleForms).forEach(key => {
+        const form = saleForms[key];
+        if (form){
+          form.classList.toggle('active', key === type);
+        }
+      });
+    }
+
+    function openSaleOverlay(){
+      if (!saleOverlay) {
+        openHomeScreen();
+        return;
+      }
+      resetSaleOverlay();
+      saleOverlay.classList.add('active');
+    }
+
+    function closeSaleOverlay(){
+      if (saleOverlay) saleOverlay.classList.remove('active');
+      resetSaleOverlay();
+    }
+
+    function getOptionLabel(option){
+      if (!option) return '';
+      const key = option.dataset ? option.dataset.i18n : null;
+      if (key){
+        const translated = getTranslation(key);
+        if (translated) return translated;
+      }
+      return option.textContent ? option.textContent.trim() : '';
+    }
+
+    function buildSaleEntry(type){
+      if (!state.session.liner || !state.session.closer) return null;
+      const isWin = type === 'win';
+      const q1El = q(isWin ? '#sale-win-q1' : '#sale-loss-q1');
+      const q2El = q(isWin ? '#sale-win-q2' : '#sale-loss-q2');
+      const q3El = !isWin ? q('#sale-loss-q3') : null;
+      const notesEl = q(isWin ? '#sale-win-notes' : '#sale-loss-notes');
+      const amountEl = isWin ? q('#sale-win-amount') : null;
+      const q1Option = q1El && q1El.options[q1El.selectedIndex];
+      const q2Option = q2El && q2El.options[q2El.selectedIndex];
+      const q3Option = q3El && q3El.options[q3El.selectedIndex];
+
+      const entry = {
+        timestamp: new Date().toISOString(),
+        lang: state.lang,
+        liner: state.session.liner,
+        closer: state.session.closer,
+        amount: isWin ? Number(amountEl && amountEl.value) || 0 : 0,
+        clarity: !isWin ? Number(q2El && q2El.value) || 0 : null,
+        answers: [],
+        notes: notesEl ? notesEl.value.trim() : ''
+      };
+
+      entry.answers.push({
+        question: getTranslation(isWin ? 'sale.winQ1' : 'sale.lossQ1'),
+        answer: getOptionLabel(q1Option)
+      });
+      entry.answers.push({
+        question: getTranslation(isWin ? 'sale.winQ2' : 'sale.lossQ2'),
+        answer: getOptionLabel(q2Option)
+      });
+      if (!isWin && q3Option){
+        entry.answers.push({
+          question: getTranslation('sale.lossQ3'),
+          answer: getOptionLabel(q3Option)
+        });
+      }
+
+      return entry;
+    }
+
+    function recordSale(resultKey, payload){
+      if (!payload){
+        closeSaleOverlay();
+        openHomeScreen();
+        return;
+      }
+      if (resultKey === 'win') state.sales.win++;
+      if (resultKey === 'loss') state.sales.pending++;
+      state.sales.entries.push({
+        ...payload,
+        result: resultKey
+      });
+      persistSalesData();
+      updateSaleStats();
+      updateReportControls();
+      updateAnalyticsUI();
+      closeSaleOverlay();
+      openHomeScreen();
+    }
+
+    function resetSalesHistory(){
+      state.sales.win = 0;
+      state.sales.pending = 0;
+      state.sales.entries = [];
+      persistSalesData();
+      updateSaleStats();
+      updateReportControls();
+      updateAnalyticsUI();
+    }
+
+    function escapeCsvValue(value){
+      const text = (value == null ? '' : String(value)).replace(/\r?\n/g, ' ').trim();
+      if (text.includes('"') || text.includes(',')){
+        return `"${text.replace(/"/g, '""')}"`;
+      }
+      return text;
+    }
+
+    function buildSalesCsv(){
+      const rows = [
+        ['Timestamp','Result','Language','Liner','Closer','Amount USD','Clarity','Question 1','Answer 1','Question 2','Answer 2','Question 3','Answer 3','Notes']
+      ];
+      (state.sales.entries || []).forEach(entry => {
+        const ans1 = entry.answers && entry.answers[0] || {};
+        const ans2 = entry.answers && entry.answers[1] || {};
+        const ans3 = entry.answers && entry.answers[2] || {};
+        rows.push([
+          entry.timestamp || '',
+          entry.result || '',
+          entry.lang || '',
+          entry.liner || '',
+          entry.closer || '',
+          Number(entry.amount || 0),
+          entry.clarity || '',
+          ans1.question || '',
+          ans1.answer || '',
+          ans2.question || '',
+          ans2.answer || '',
+          ans3.question || '',
+          ans3.answer || '',
+          entry.notes || ''
+        ].map(escapeCsvValue));
+      });
+      return rows.map(row => row.join(',')).join('\n');
+    }
+
+    function downloadSalesReport(){
+      if (!state.sales.entries || !state.sales.entries.length) return;
+      const csv = buildSalesCsv();
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      const date = new Date().toISOString().slice(0,10);
+      link.download = `uvc-sales-${date}.csv`;
+      document.body.appendChild(link);
+      link.click();
+      setTimeout(()=>{
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+      }, 0);
+    }
+
+    function relockPanel(){
+      state.pinUnlocked = false;
+      setConfigInputsDisabled(true);
+      if (pinStatus){
+        pinStatus.dataset.status = '';
+        pinStatus.textContent = '';
+      }
+      if (startPassInput) startPassInput.value = '';
+      if (startPassStatus){
+        startPassStatus.textContent = '';
+        startPassStatus.classList.remove('success');
+      }
+    }
+
+    function handleConfigInput(ev){
+      if (!state.pinUnlocked) return;
+      const input = ev.target;
+      const field = input.dataset.configField;
+      if (!field) return;
+      if (field === 'presentation-pass'){
+        state.presentationPassword = input.value || '1234';
+        return;
+      }
+      const idx = Number(input.dataset.propertyIndex || 0);
+      const prop = ensureProperty(idx);
+      if (field === 'destination'){
+        prop.destination = input.value;
+      } else if (field === 'discount'){
+        prop.discount = parseFloat(input.value) || 0;
+      } else if (field.startsWith('price-')){
+        const key = field.replace('price-', '');
+        prop.prices[key] = parseFloat(input.value) || 0;
+        syncDynamicBase(idx, key, prop.prices[key]);
+      }
+      updatePriceUI();
+      persistAdminConfig();
+    }
+
+    function handleConfigSave(ev){
+      if (!state.pinUnlocked) return;
+      const btn = ev.currentTarget;
+      const idx = Number(btn && btn.dataset.configSave || 0);
+      syncPropertyFromInputs(idx);
+      updatePriceUI();
+      persistAdminConfig();
+    }
+
+    function togglePriceChecker(force){
+      if (!priceCheckerPanel) return;
+      applyPriceDrift(true);
+      updatePriceUI();
+      const show = typeof force === 'boolean' ? force : !priceCheckerPanel.classList.contains('active');
+      priceCheckerPanel.classList.toggle('active', show);
+    }
+
+    function closeHomeScreen(){
+      if (homeScreen){
+        homeScreen.classList.remove('active');
+      }
+    }
+
+    function openHomeScreen(){
+      if (homeScreen){
+        homeScreen.classList.add('active');
+      }
+    }
+
+    sessionInputs.forEach(input => {
+      const field = input.dataset.sessionField;
+      if (!field) return;
+      input.addEventListener('input', ()=>{
+        state.session[field] = input.value.trim();
+        persistSessionData();
+        sessionInputs.forEach(other => {
+          if (other === input) return;
+          if (other.dataset.sessionField === field){
+            other.value = state.session[field];
+          }
+        });
+        updateReportControls();
+      });
+    });
+
+    syncSessionInputs();
+
+    setConfigInputsDisabled(!state.pinUnlocked);
+
+    configInputs.forEach(input => {
+      input.addEventListener('input', handleConfigInput);
+    });
+
+    configSaveButtons.forEach(btn => {
+      btn.addEventListener('click', handleConfigSave);
+    });
+
+    if (pinForm){
+      pinForm.addEventListener('submit', (ev)=>{
+        ev.preventDefault();
+        const value = (pinInput && pinInput.value || '').trim();
+        if (value === PIN_CODE){
+          state.pinUnlocked = true;
+          setConfigInputsDisabled(false);
+          setPinStatus('success');
+        } else {
+          setPinStatus('error');
+        }
+        if (pinInput) pinInput.value = '';
+      });
+    }
+
+    if (relockBtn){
+      relockBtn.addEventListener('click', ()=>{
+        relockPanel();
+      });
+    }
+
+    function setStartPassStatus(type){
+      if (!startPassStatus) return;
+      startPassStatus.classList.toggle('success', type === 'success');
+      const key = type === 'success' ? 'home.startPassSuccess' : 'home.startPassError';
+      startPassStatus.textContent = type ? getTranslation(key) : '';
+    }
+
+    if (startDemoBtn){
+      startDemoBtn.addEventListener('click', ()=>{
+        const entered = (startPassInput && startPassInput.value || '').trim();
+        if (!state.session.liner || !state.session.closer){
+          if (startPassStatus){
+            startPassStatus.classList.remove('success');
+            startPassStatus.textContent = getTranslation('home.nameError');
+          }
+          return;
+        }
+        if (entered === state.presentationPassword){
+          setStartPassStatus('success');
+          closeHomeScreen();
+          togglePriceChecker(false);
+          if (startPassInput) startPassInput.value = '';
+        } else {
+          setStartPassStatus('error');
+        }
+      });
+    }
+
+    if (adminBtn){
+      adminBtn.addEventListener('click', ()=>{
+        togglePriceChecker(false);
+        if (homeScreen && !homeScreen.classList.contains('active')){
+          openSaleOverlay();
+        } else {
+          openHomeScreen();
+        }
+      });
+    }
+
+    if (priceCheckerToggle){
+      priceCheckerToggle.addEventListener('click', ()=>{
+        togglePriceChecker();
+      });
+    }
+
+    if (priceCheckerClose){
+      priceCheckerClose.addEventListener('click', ()=>{
+        togglePriceChecker(false);
+      });
+    }
+
+    document.addEventListener('click', (ev)=>{
+      const langBtn = ev.target.closest('.lang-pill[data-lang]');
+      if (langBtn){
+        ev.preventDefault();
+        if (state.pinUnlocked || !homeConfig || !homeConfig.classList.contains('locked')){
+          setLanguage(langBtn.dataset.lang);
+        }
+      }
+      if (priceCheckerPanel && priceCheckerPanel.classList.contains('active')){
+        if (!ev.target.closest('#price-checker-panel') && !ev.target.closest('#price-checker-toggle')){
+          togglePriceChecker(false);
+        }
+      }
+    });
+
+    document.addEventListener('keydown', (ev)=>{
+      if (ev.key === 'Escape'){
+        togglePriceChecker(false);
+        if (saleOverlay && saleOverlay.classList.contains('active')){
+          closeSaleOverlay();
+          openHomeScreen();
+        }
+      }
+    });
+
+    saleChoiceButtons.forEach(btn => {
+      btn.addEventListener('click', ()=>{
+        const choice = btn.dataset.choice === 'win' ? 'win' : 'loss';
+        showSaleForm(choice);
+      });
+    });
+
+    saleBackButtons.forEach(btn => {
+      btn.addEventListener('click', ()=>{
+        resetSaleOverlay();
+      });
+    });
+
+    if (saleForms.win){
+      saleForms.win.addEventListener('submit', (ev)=>{
+        ev.preventDefault();
+        recordSale('win', buildSaleEntry('win'));
+      });
+    }
+
+    if (saleForms.loss){
+      saleForms.loss.addEventListener('submit', (ev)=>{
+        ev.preventDefault();
+        recordSale('loss', buildSaleEntry('loss'));
+      });
+    }
+
+    if (downloadSalesReportBtn){
+      downloadSalesReportBtn.addEventListener('click', downloadSalesReport);
+    }
+    if (resetSalesBtn){
+      resetSalesBtn.addEventListener('click', ()=>{
+        const message = getTranslation('analytics.resetConfirm') || 'Clear all sales history?';
+        if (confirm(message)){
+          resetSalesHistory();
+        }
+      });
+    }
+
+    if (saleOverlay){
+      saleOverlay.addEventListener('click', (ev)=>{
+        if (ev.target === saleOverlay){
+          closeSaleOverlay();
+          openHomeScreen();
+        }
+      });
+    }
+
+    updateSaleStats();
+    updateReportControls();
+
+    setLanguage(state.lang);
+
+    setInterval(()=>{
+      applyPriceDrift();
+      updatePriceUI();
+    }, PRICE_DRIFT_INTERVAL);
+
+    // Pausa TODOS los videos (menos uno opcional si lo quieres excluir)
+    function stopAllVideos(exclude = null){
+      qa('video').forEach(v => {
+        if (exclude && v === exclude) return;
+        try{
+          v.pause();
+          try{ v.currentTime = 0; }catch(e){}
+          // Solo limpiamos sources del video de la galería (overlay)
+          if (v.classList && v.classList.contains('gallery-video')){
+            qa('source', v).forEach(s => s.remove());
+            try{ v.removeAttribute('src'); }catch(e){}
+          } else {
+            v.load && v.load();
+          }
+        }catch(e){}
+      });
+    }
+
+    // ---------- OVERLAY DE GALERÍA (IMÁGENES / VIDEO GRANDE) ----------
+    function createGalleryOverlay(){
+      const overlay = document.createElement('div');
+      overlay.id = 'gallery-overlay';
+      overlay.innerHTML = `
+        <button class="gallery-close" aria-label="Cerrar">&times;</button>
+        <button class="gallery-prev" aria-label="Anterior">‹</button>
+        <img class="gallery-img" src="" alt="">
+        <video class="gallery-video" controls playsinline style="display:none"></video>
+        <div class="gallery-caption"></div>
+        <button class="gallery-next" aria-label="Siguiente">›</button>
+      `;
+      document.body.appendChild(overlay);
+
+      const imgEl   = q('.gallery-img', overlay);
+      const vidEl   = q('.gallery-video', overlay);
+      const caption = q('.gallery-caption', overlay);
+      const btnClose= q('.gallery-close', overlay);
+      const btnPrev = q('.gallery-prev', overlay);
+      const btnNext = q('.gallery-next', overlay);
+
+      let list  = [];
+      let index = 0;
+
+      function render(){
+        const item = list[index];
+        if (!item) return;
+
+        if (item.type === 'video'){
+          imgEl.style.display = 'none';
+          vidEl.style.display = 'block';
+          try{
+            vidEl.pause();
+            vidEl.removeAttribute('src');
+            qa('source', vidEl).forEach(s=>s.remove());
+            const s = document.createElement('source');
+            s.src = item.src;
+            if (/\.mp4/i.test(item.src)) s.type='video/mp4';
+            vidEl.appendChild(s);
+            vidEl.load();
+            vidEl.currentTime = 0;
+            vidEl.play().catch(()=>{});
+          }catch(e){}
+        } else {
+          try{
+            vidEl.pause();
+            vidEl.removeAttribute('src');
+            qa('source', vidEl).forEach(s=>s.remove());
+          }catch(e){}
+          vidEl.style.display = 'none';
+          imgEl.style.display = 'block';
+          imgEl.src = item.src;
+        }
+
+        if (item.caption && item.caption.trim()){
+          caption.innerHTML = item.caption;
+          caption.style.display = 'block';
+        } else {
+          caption.innerHTML = '';
+          caption.style.display = 'none';
+        }
+      }
+
+      function open(items, i=0, large=false){
+        // Apagar todos los videos antes de abrir la galería grande
+        stopAllVideos();
+
+        list  = items.slice();
+        index = i || 0;
+        overlay.classList.toggle('large', !!large);
+        render();
+        overlay.classList.add('active');
+        document.addEventListener('keydown', onKey);
+      }
+
+      function close(){
+        overlay.classList.remove('active');
+        try{
+          vidEl.pause();
+          vidEl.removeAttribute('src');
+          qa('source', vidEl).forEach(s=>s.remove());
+        }catch(e){}
+        document.removeEventListener('keydown', onKey);
+      }
+
+      function show(i){
+        if (!list.length) return;
+        index = (i + list.length) % list.length;
+        render();
+      }
+
+      function onKey(e){
+        if (e.key === 'Escape')      close();
+        if (e.key === 'ArrowLeft')  show(index-1);
+        if (e.key === 'ArrowRight') show(index+1);
+      }
+
+      btnClose.addEventListener('click', close);
+      btnPrev.addEventListener('click', ()=> show(index-1));
+      btnNext.addEventListener('click', ()=> show(index+1));
+
+      overlay.addEventListener('click', (ev)=>{
+        if (ev.target === overlay) close();
+      });
+
+      return { open, close };
+    }
+
+    const gallery = createGalleryOverlay();
+
+    // ---------- ABRIR / CERRAR MODALES DE MARCAS ----------
+    document.addEventListener('click', (ev)=>{
+      const btn = ev.target.closest('[data-modal]');
+      if (btn){
+        ev.preventDefault();
+        const key = btn.getAttribute('data-modal');
+        const overlay = document.getElementById('modal-' + key);
+        if (overlay){
+          overlay.classList.add('active');
+          const v = q('video', overlay);
+          if (v){
+            try{
+              // Apagamos todos los demás videos excepto el que se va a mostrar
+              stopAllVideos(v);
+              v.setAttribute('playsinline', '');
+              v.setAttribute('webkit-playsinline', '');
+              v.currentTime = 0;
+              v.load && v.load();
+              v.play().catch(()=>{});
+            }catch(e){}
+          }
+        }
+      }
+
+      const closeBtn = ev.target.closest('[data-close]');
+      if (closeBtn){
+        const overlay = closeBtn.closest('.modal-overlay');
+        if (overlay){
+          overlay.classList.remove('active');
+          const v = q('video', overlay);
+          if (v){
+            try{
+              v.pause();
+              v.currentTime = 0;
+            }catch(e){}
+          }
+        }
+      }
+    });
+
+    // Cerrar modal haciendo clic fuera de la tarjeta
+    qa('.modal-overlay').forEach(o =>
+      o.addEventListener('click', (ev) => {
+        if (ev.target === o){
+          o.classList.remove('active');
+          const v = q('video', o);
+          if (v){
+            try{
+              v.pause();
+              v.currentTime = 0;
+            }catch(e){}
+          }
+        }
+      })
+    );
+
+    // ---------- LÓGICA PARA GALERÍAS DE IMÁGENES / VIDEOS ----------
+    function looksLikeVideo(url){
+      return !!(url && /\.(mp4|webm|ogg)(\?|$)/i.test(url));
+    }
+
+    function buildItemsFromGallery(galleryEl){
+      const thumbs = qa('img', galleryEl);
+      return thumbs.map(img => {
+        const dataVideo   = img.dataset.video || '';
+        const srcCandidate= dataVideo || img.dataset.full || img.src || '';
+        const isVideo     = !!dataVideo || looksLikeVideo(srcCandidate);
+        return {
+          type: isVideo ? 'video' : 'image',
+          src:  srcCandidate,
+          caption: img.dataset.caption || img.alt || ''
+        };
+      });
+    }
+
+    // Click en miniaturas dentro de un modal
+    document.addEventListener('click', (ev)=>{
+      const thumb = ev.target.closest('.modal-gallery img');
+      if (!thumb) return;
+
+      ev.stopPropagation();
+      const parentGallery = thumb.closest('.modal-gallery');
+      const parentModal   = thumb.closest('.modal-overlay');
+      const items         = buildItemsFromGallery(parentGallery);
+      const idx           = Array.prototype.indexOf.call(parentGallery.querySelectorAll('img'), thumb);
+      const isHyatt       = parentModal && parentModal.id === 'modal-hyatt';
+
+      const explicitVideo = thumb.dataset.video;
+      const candidate     = explicitVideo || thumb.dataset.full || thumb.src || '';
+      const isVideo       = !!explicitVideo || looksLikeVideo(candidate);
+
+      // Caso especial: en Hyatt puedes cambiar el video principal del modal
+      if (isHyatt && isVideo){
+        const mainVid = q('#hyatt-main-video', parentModal);
+        if (mainVid){
+          stopAllVideos(mainVid);
+          try{
+            const src = encodeURI(explicitVideo || candidate);
+            qa('source', mainVid).forEach(s => s.remove());
+            try{ mainVid.removeAttribute('src'); }catch(e){}
+            const ns = document.createElement('source');
+            ns.src = src;
+            if (/\.mp4/i.test(src)) ns.type='video/mp4';
+            mainVid.appendChild(ns);
+            if (thumb.dataset.caption) mainVid.dataset.caption = thumb.dataset.caption;
+            mainVid.load();
+            mainVid.currentTime = 0;
+            mainVid.play().catch(()=>{});
+          }catch(e){}
+          return;
+        }
+      }
+
+      // Para Zoëtry (y cualquier otra): abrir overlay grande
+      const large = parentModal && (parentModal.id === 'modal-zoetry' || parentModal.id === 'modal-hyatt');
+      gallery.open(items, idx, large);
+    });
+
+    // ---------- DOBLE CLICK EN EL VIDEO PRINCIPAL (Zoëtry / Hyatt) ----------
+    function attachDblToMain(id){
+      const el = document.getElementById(id);
+      if (!el) return;
+
+      el.addEventListener('dblclick', ()=>{
+        const parentModal = el.closest('.modal-overlay');
+        if (!parentModal) return;
+
+        // Apagar todos los videos, incluido Zoëtry, antes de abrir el grande
+        stopAllVideos();
+
+        const items = [];
+        const src   = el.currentSrc || el.src || (q('source', el) && q('source', el).src);
+        if (src){
+          items.push({
+            type: 'video',
+            src:  src,
+            caption: el.dataset.caption || ''
+          });
+        }
+        const galleryEl = parentModal.querySelector('.modal-gallery');
+        if (galleryEl){
+          items.push(...buildItemsFromGallery(galleryEl));
+        }
+        const large = parentModal.id === 'modal-zoetry' || parentModal.id === 'modal-hyatt';
+        gallery.open(items, 0, large);
+      });
+    }
+
+    attachDblToMain('hyatt-main-video');
+    attachDblToMain('zoetry-main-video');
+
+  })();
+  </script>
+</body>
+</html>
