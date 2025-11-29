@@ -94,9 +94,6 @@
     }
 
     .close-pitch-btn {
-      position: absolute;
-      top: 18px;
-      right: 80px;
       width: 36px;
       height: 36px;
       border: none;
@@ -109,9 +106,9 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 8px 20px rgba(210, 50, 50, 0.35);
+      box-shadow: 0 4px 12px rgba(210, 50, 50, 0.3);
       transition: transform 0.2s ease, background 0.2s ease;
-      z-index: 26;
+      margin-left: 8px;
     }
 
     .close-pitch-btn:hover {
@@ -121,11 +118,10 @@
 
     @media (max-width: 600px) {
       .close-pitch-btn {
-        top: 12px;
-        right: 60px;
         width: 32px;
         height: 32px;
         font-size: 18px;
+        margin-left: 6px;
       }
     }
 
@@ -2912,15 +2908,13 @@
         <span data-i18n="utility.toggle">Herramientas</span>
         <span aria-hidden="true">▾</span>
       </button>
+      <button class="close-pitch-btn" id="close-pitch-btn" type="button" title="Cerrar presentación" aria-label="Cerrar presentación">&times;</button>
       <div class="utility-menu" id="utility-menu">
         <div class="utility-menu-title" data-i18n="utility.menuTitle">Control Center</div>
         <button class="utility-action" id="price-checker-toggle" type="button" data-i18n="utility.priceChecker">Checker Price</button>
-        <button class="utility-action" id="admin-btn" type="button" data-i18n="utility.settings">Configuración</button>
         <button class="utility-action" data-sim-open="retail" type="button" data-i18n="utility.simulators">Simuladores</button>
       </div>
     </div>
-
-    <button class="close-pitch-btn" id="close-pitch-btn" type="button" title="Cerrar presentación" aria-label="Cerrar presentación">&times;</button>
 
     <div class="price-checker-panel" id="price-checker-panel" aria-live="polite">
       <div class="pc-header">
@@ -5934,18 +5928,6 @@
       startDemoBtn.addEventListener('click', ()=>{
         closeHomeScreen();
         togglePriceChecker(false);
-      });
-    }
-
-    if (adminBtn){
-      adminBtn.addEventListener('click', ()=>{
-        closeUtilityMenu();
-        togglePriceChecker(false);
-        if (homeScreen && !homeScreen.classList.contains('active')){
-          openSaleOverlay();
-        } else {
-          openHomeScreen();
-        }
       });
     }
 
