@@ -904,14 +904,26 @@
 
     .analytics-panel {
       margin-top: 24px;
-      border: 2px solid #d0d9eb;
-      border-radius: 24px;
-      padding: 32px;
-      background: linear-gradient(135deg, #ffffff 0%, #f8f9fc 100%);
       display: flex;
       flex-direction: column;
-      gap: 28px;
+      gap: 32px;
+    }
+
+    .admin-section {
+      border: 2px solid #d0d9eb;
+      border-radius: 24px;
+      padding: 28px;
+      background: linear-gradient(135deg, #ffffff 0%, #f8f9fc 100%);
       box-shadow: 0 4px 20px rgba(15, 38, 84, 0.08);
+    }
+
+    .admin-section h3 {
+      margin: 0 0 20px 0;
+      font-size: 20px;
+      font-weight: 700;
+      color: #0f2654;
+      padding-bottom: 16px;
+      border-bottom: 2px solid #e0e7f5;
     }
 
     .analytics-header {
@@ -3534,93 +3546,187 @@
             <button type="button" id="reset-sales-btn" class="reset-btn" data-i18n="analytics.resetBtn">Limpiar datos</button>
           </div>
           <div class="analytics-panel" id="analytics-panel">
-            <div class="analytics-header">
-              <img src="UVC-Logo-Standalone-Gray.webp" alt="Unlimited Vacation Club" loading="lazy" />
-              <div class="analytics-names" data-i18n="analytics.staffInfo">Los nombres del equipo se llenan al registrar cada encuesta.</div>
-            </div>
-            <div class="analytics-grid">
-              <div class="metric-card">
-                <span data-i18n="analytics.avgSale">Promedio de ventas</span>
-                <strong id="metric-avg-sale">--</strong>
-                <small data-i18n="analytics.avgSaleHint">Promedio por venta cerrada</small>
-              </div>
-              <div class="metric-card">
-                <span data-i18n="analytics.conversion">Porcentaje de cierre</span>
-                <strong id="metric-conversion">0%</strong>
-                <small data-i18n="analytics.conversionHint">Tasa de éxito</small>
-              </div>
-              <div class="metric-card">
-                <span data-i18n="analytics.totalVolume">Volumen total</span>
-                <strong id="metric-total-volume">$0</strong>
-                <small data-i18n="analytics.totalVolumeHint">Ventas acumuladas</small>
-              </div>
-              <div class="metric-card">
-                <span data-i18n="analytics.clarityScore">Índice de claridad</span>
-                <strong id="metric-clarity">--</strong>
-                <small data-i18n="analytics.clarityHint">Satisfacción cliente</small>
-              </div>
-              <div class="metric-card">
-                <span>Total presentaciones</span>
-                <strong id="metric-total-pitches">0</strong>
-                <small>Intentos registrados</small>
-              </div>
-              <div class="metric-card">
-                <span>Mejor día</span>
-                <strong id="metric-best-day">--</strong>
-                <small>Mayor volumen en 24h</small>
-              </div>
-            </div>
-            <div class="period-grid">
-              <div class="period-card">
-                <span data-i18n="analytics.dayVolume">Volumen diario</span>
-                <strong data-volume="day">$0</strong>
-              </div>
-              <div class="period-card">
-                <span data-i18n="analytics.weekVolume">Volumen semanal</span>
-                <strong data-volume="week">$0</strong>
-              </div>
-              <div class="period-card">
-                <span data-i18n="analytics.biweekVolume">Volumen quincenal</span>
-                <strong data-volume="biweek">$0</strong>
-              </div>
-              <div class="period-card">
-                <span>Proyección mensual</span>
-                <strong id="metric-monthly-projection">$0</strong>
-              </div>
-            </div>
-            <div class="ranking-grid">
-              <div class="ranking-card">
-                <h4 data-i18n="analytics.linerRanking">Ranking Liners</h4>
-                <ul class="ranking-list" id="liner-ranking"></ul>
-              </div>
-              <div class="ranking-card">
-                <h4 data-i18n="analytics.closerRanking">Ranking Closers</h4>
-                <ul class="ranking-list" id="closer-ranking"></ul>
-              </div>
-              <div class="top-card">
-                <h4 data-i18n="analytics.topLiner">Top Liner</h4>
-                <div class="top-name" id="top-liner-name">--</div>
-                <div class="top-amount" id="top-liner-amount">$0</div>
-              </div>
-              <div class="top-card">
-                <h4 data-i18n="analytics.topCloser">Top Closer</h4>
-                <div class="top-name" id="top-closer-name">--</div>
-                <div class="top-amount" id="top-closer-amount">$0</div>
-              </div>
-              <div class="comparison-card">
-                <h4 data-i18n="analytics.teamCompare">Comparación Liners vs Closers</h4>
-                <div class="comparison-row">
-                  <span data-i18n="analytics.linersLabel">Liners</span>
-                  <div class="comparison-bar"><div class="comparison-fill" data-bar="liner"></div></div>
-                  <strong data-bar-value="liner">$0</strong>
+            
+            <!-- SECTION 1: Price Checker & Incentives Configuration -->
+            <div class="admin-section">
+              <h3>⚙️ Configuración de Precios e Incentivos</h3>
+              <div class="config-properties">
+                <div class="config-property" data-config-property="0">
+                  <p class="config-property-title" data-config-title-target="0">Secrets Puerto Los Cabos</p>
+                  <div class="config-grid">
+                    <div class="config-field full">
+                      <label for="config-destination-0" data-i18n="home.destinationLabel">Nombre del hotel</label>
+                      <input id="config-destination-0" data-config-field="destination" data-property-index="0" type="text" value="Secrets Puerto Los Cabos" disabled />
+                    </div>
+                    <div class="config-field">
+                      <label for="config-expedia-0" data-i18n="home.expediaLabel">Expedia (USD)</label>
+                      <input id="config-expedia-0" data-config-field="price-expedia" data-property-index="0" type="number" min="0" step="1" value="920" disabled />
+                    </div>
+                    <div class="config-field">
+                      <label for="config-booking-0" data-i18n="home.bookingLabel">Booking (USD)</label>
+                      <input id="config-booking-0" data-config-field="price-booking" data-property-index="0" type="number" min="0" step="1" value="899" disabled />
+                    </div>
+                    <div class="config-field">
+                      <label for="config-despegar-0" data-i18n="home.despegarLabel">Despegar (USD)</label>
+                      <input id="config-despegar-0" data-config-field="price-despegar" data-property-index="0" type="number" min="0" step="1" value="940" disabled />
+                    </div>
+                    <div class="config-field">
+                      <label for="config-discount-0" data-i18n="home.discountLabel">Descuento UVC %</label>
+                      <input id="config-discount-0" data-config-field="discount" data-property-index="0" type="number" step="0.5" value="45" disabled />
+                    </div>
+                  </div>
+                  <button class="config-save-btn" type="button" data-config-save="0" disabled data-i18n="home.saveProperty">Guardar precios</button>
                 </div>
-                <div class="comparison-row">
-                  <span data-i18n="analytics.closersLabel">Closers</span>
-                  <div class="comparison-bar"><div class="comparison-fill" data-bar="closer"></div></div>
-                  <strong data-bar-value="closer">$0</strong>
+                <div class="config-property" data-config-property="1">
+                  <p class="config-property-title" data-config-title-target="1">Zoëtry Los Cabos</p>
+                  <div class="config-grid">
+                    <div class="config-field full">
+                      <label for="config-destination-1" data-i18n="home.destinationLabel">Nombre del hotel</label>
+                      <input id="config-destination-1" data-config-field="destination" data-property-index="1" type="text" value="Zoëtry Los Cabos" disabled />
+                    </div>
+                    <div class="config-field">
+                      <label for="config-expedia-1" data-i18n="home.expediaLabel">Expedia (USD)</label>
+                      <input id="config-expedia-1" data-config-field="price-expedia" data-property-index="1" type="number" min="0" step="1" value="1050" disabled />
+                    </div>
+                    <div class="config-field">
+                      <label for="config-booking-1" data-i18n="home.bookingLabel">Booking (USD)</label>
+                      <input id="config-booking-1" data-config-field="price-booking" data-property-index="1" type="number" min="0" step="1" value="1015" disabled />
+                    </div>
+                    <div class="config-field">
+                      <label for="config-despegar-1" data-i18n="home.despegarLabel">Despegar (USD)</label>
+                      <input id="config-despegar-1" data-config-field="price-despegar" data-property-index="1" type="number" min="0" step="1" value="1089" disabled />
+                    </div>
+                    <div class="config-field">
+                      <label for="config-discount-1" data-i18n="home.discountLabel">Descuento UVC %</label>
+                      <input id="config-discount-1" data-config-field="discount" data-property-index="1" type="number" step="0.5" value="48" disabled />
+                    </div>
+                  </div>
+                  <button class="config-save-btn" type="button" data-config-save="1" disabled data-i18n="home.saveProperty">Guardar precios</button>
                 </div>
               </div>
+              <div class="config-summary" id="config-summary" style="margin-top: 20px;">
+                <div class="config-summary-item">
+                  <span data-config-summary-label="0">Secrets Puerto Los Cabos</span>
+                  <strong data-config-summary="0">$0</strong>
+                </div>
+                <div class="config-summary-item">
+                  <span data-config-summary-label="1">Zoëtry Los Cabos</span>
+                  <strong data-config-summary="1">$0</strong>
+                </div>
+              </div>
+              <div class="config-field" style="margin-top: 24px;">
+                <label data-i18n="home.incentiveTitle">Costos manuales de incentivos</label>
+                <div class="config-grid">
+                  <div class="config-field">
+                    <label for="config-incentive-ai" data-i18n="home.incentiveAiLabel">Valor noche all inclusive (USD)</label>
+                    <input id="config-incentive-ai" data-config-field="incentive-ai" type="number" step="1" min="0" placeholder="Auto" disabled />
+                  </div>
+                  <div class="config-field">
+                    <label for="config-incentive-hyatt" data-i18n="home.incentiveHyattLabel">Valor semana Hyatt (USD)</label>
+                    <input id="config-incentive-hyatt" data-config-field="incentive-hyatt" type="number" step="1" min="0" value="2000" disabled />
+                  </div>
+                  <div class="config-field">
+                    <label for="config-incentive-credits" data-i18n="home.incentiveCreditsLabel">Valor por reward credit (USD)</label>
+                    <input id="config-incentive-credits" data-config-field="incentive-credits" type="number" step="0.5" min="0" value="1" disabled />
+                  </div>
+                </div>
+                <small data-i18n="home.incentiveHint">Deja vacío el valor de noche para usar el precio público del Price Checker.</small>
+              </div>
             </div>
+
+            <!-- SECTION 2: Financial Metrics & Projections -->
+            <div class="admin-section">
+              <h3>📊 Métricas Financieras y Proyecciones</h3>
+              <div class="analytics-grid">
+                <div class="metric-card">
+                  <span data-i18n="analytics.avgSale">Promedio de ventas</span>
+                  <strong id="metric-avg-sale">--</strong>
+                  <small data-i18n="analytics.avgSaleHint">Promedio por venta cerrada</small>
+                </div>
+                <div class="metric-card">
+                  <span data-i18n="analytics.conversion">Porcentaje de cierre</span>
+                  <strong id="metric-conversion">0%</strong>
+                  <small data-i18n="analytics.conversionHint">Tasa de éxito</small>
+                </div>
+                <div class="metric-card">
+                  <span data-i18n="analytics.totalVolume">Volumen total</span>
+                  <strong id="metric-total-volume">$0</strong>
+                  <small data-i18n="analytics.totalVolumeHint">Ventas acumuladas</small>
+                </div>
+                <div class="metric-card">
+                  <span data-i18n="analytics.clarityScore">Índice de claridad</span>
+                  <strong id="metric-clarity">--</strong>
+                  <small data-i18n="analytics.clarityHint">Satisfacción cliente</small>
+                </div>
+                <div class="metric-card">
+                  <span>Total presentaciones</span>
+                  <strong id="metric-total-pitches">0</strong>
+                  <small>Intentos registrados</small>
+                </div>
+                <div class="metric-card">
+                  <span>Mejor día</span>
+                  <strong id="metric-best-day">--</strong>
+                  <small>Mayor volumen en 24h</small>
+                </div>
+              </div>
+              <div class="period-grid">
+                <div class="period-card">
+                  <span data-i18n="analytics.dayVolume">Volumen diario</span>
+                  <strong data-volume="day">$0</strong>
+                </div>
+                <div class="period-card">
+                  <span data-i18n="analytics.weekVolume">Volumen semanal</span>
+                  <strong data-volume="week">$0</strong>
+                </div>
+                <div class="period-card">
+                  <span data-i18n="analytics.biweekVolume">Volumen quincenal</span>
+                  <strong data-volume="biweek">$0</strong>
+                </div>
+                <div class="period-card">
+                  <span>Proyección mensual</span>
+                  <strong id="metric-monthly-projection">$0</strong>
+                </div>
+              </div>
+            </div>
+
+            <!-- SECTION 3: Staff Rankings -->
+            <div class="admin-section">
+              <h3>🏆 Rankings de Liners y Closers</h3>
+              <div class="ranking-grid">
+                <div class="ranking-card">
+                  <h4 data-i18n="analytics.linerRanking">Ranking Liners</h4>
+                  <ul class="ranking-list" id="liner-ranking"></ul>
+                </div>
+                <div class="ranking-card">
+                  <h4 data-i18n="analytics.closerRanking">Ranking Closers</h4>
+                  <ul class="ranking-list" id="closer-ranking"></ul>
+                </div>
+                <div class="top-card">
+                  <h4 data-i18n="analytics.topLiner">Top Liner</h4>
+                  <div class="top-name" id="top-liner-name">--</div>
+                  <div class="top-amount" id="top-liner-amount">$0</div>
+                </div>
+                <div class="top-card">
+                  <h4 data-i18n="analytics.topCloser">Top Closer</h4>
+                  <div class="top-name" id="top-closer-name">--</div>
+                  <div class="top-amount" id="top-closer-amount">$0</div>
+                </div>
+                <div class="comparison-card">
+                  <h4 data-i18n="analytics.teamCompare">Comparación Liners vs Closers</h4>
+                  <div class="comparison-row">
+                    <span data-i18n="analytics.linersLabel">Liners</span>
+                    <div class="comparison-bar"><div class="comparison-fill" data-bar="liner"></div></div>
+                    <strong data-bar-value="liner">$0</strong>
+                  </div>
+                  <div class="comparison-row">
+                    <span data-i18n="analytics.closersLabel">Closers</span>
+                    <div class="comparison-bar"><div class="comparison-fill" data-bar="closer"></div></div>
+                    <strong data-bar-value="closer">$0</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
           <button class="relock-btn" id="relock-btn" type="button" hidden data-i18n="home.lockPanel">Bloquear panel</button>
         </div>
@@ -5415,25 +5521,19 @@
 
     function aggregateRoleStats(role){
       const map = {};
-      const registeredNames = role === 'liner' ? state.staff.liners : state.staff.closers;
       
       (state.sales.entries || []).forEach(entry => {
         const name = entry && entry[role];
-        if (!name) return;
+        if (!name || !name.trim()) return;
         
-        // SOLO incluir si el nombre está registrado en el admin
-        const isRegistered = registeredNames.some(regName => 
-          regName.trim().toLowerCase() === name.trim().toLowerCase()
-        );
-        if (!isRegistered) return;
-        
-        if (!map[name]){
-          map[name] = { name, wins: 0, attempts: 0, amount: 0 };
+        const normalizedName = name.trim();
+        if (!map[normalizedName]){
+          map[normalizedName] = { name: normalizedName, wins: 0, attempts: 0, amount: 0 };
         }
-        map[name].attempts++;
+        map[normalizedName].attempts++;
         if (entry.result === 'win'){
-          map[name].wins++;
-          map[name].amount += Number(entry.amount) || 0;
+          map[normalizedName].wins++;
+          map[normalizedName].amount += Number(entry.amount) || 0;
         }
       });
       return Object.values(map).sort((a, b) => b.amount - a.amount);
