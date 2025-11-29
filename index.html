@@ -93,6 +93,39 @@
       display: flex;
     }
 
+    /* Staff picker dropdown */
+    .staff-picker {
+      position: absolute;
+      z-index: 3000;
+      background: #fff;
+      border: 1px solid #c5d0f0;
+      border-radius: 12px;
+      box-shadow: 0 14px 34px rgba(15,40,92,0.28);
+      padding: 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      max-height: 260px;
+      overflow-y: auto;
+      min-width: 210px;
+      font-family: inherit;
+    }
+    .staff-picker button {
+      border: none;
+      background: transparent;
+      padding: 8px 10px;
+      text-align: left;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      border-radius: 8px;
+      color: #102649;
+      transition: background .15s ease;
+    }
+    .staff-picker button:hover {
+      background: #eef3ff;
+    }
+
     .utility-menu-title {
       font-size: 12px;
       font-weight: 600;
@@ -353,35 +386,6 @@
       letter-spacing: 0.2em;
       text-transform: uppercase;
     }
-
-    .name-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 12px;
-      width: 100%;
-      margin: 10px 0;
-    }
-
-    .start-field {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .start-field label {
-      font-size: 12px;
-      font-weight: 600;
-      color: #1f335b;
-    }
-
-    .start-field input {
-      border: 1px solid #c5d0f0;
-      border-radius: 12px;
-      padding: 10px 12px;
-      font-size: 14px;
-      background: #fff;
-    }
-
     .primary-btn {
       border: none;
       background: #102649;
@@ -395,34 +399,17 @@
     }
 
     .start-panel {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
       margin: 10px 0 16px;
     }
 
-    .start-panel label {
-      font-size: 12px;
-      font-weight: 600;
+    .start-ready {
+      background: #f4f6ff;
+      border-radius: 16px;
+      border: 1px solid #dbe2fa;
+      padding: 16px;
+      font-size: 13px;
       color: #1f335b;
-    }
-
-    .start-panel input {
-      border: 1px solid #c5d0f0;
-      border-radius: 12px;
-      padding: 10px 12px;
-      font-size: 14px;
-      background: #fff;
-    }
-
-    .start-pass-status {
-      font-size: 12px;
-      min-height: 16px;
-      color: #d4444f;
-    }
-
-    .start-pass-status.success {
-      color: #1f7c4d;
+      line-height: 1.5;
     }
 
     .sale-overlay {
@@ -485,6 +472,49 @@
 
     .sale-choice.hidden {
       display: none;
+    }
+
+    .sale-staff {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .sale-staff-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+    }
+
+    .sale-staff-grid label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #0e2148;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .sale-staff-grid input {
+      width: 100%;
+      border: 1px solid #ccd5e8;
+      border-radius: 12px;
+      padding: 10px;
+      font-size: 14px;
+      background: #fff;
+    }
+
+
+    .sale-staff-hint {
+      font-size: 12px;
+      color: #4a5672;
+    }
+
+    .sale-staff-error {
+      font-size: 12px;
+      color: #d4444f;
+      min-height: 16px;
     }
 
     .sale-form {
@@ -732,6 +762,31 @@
       background: #fff;
     }
 
+    .staff-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+    }
+
+    .staff-column span {
+      font-size: 12px;
+      font-weight: 600;
+      color: #4a5672;
+      margin-bottom: 4px;
+      display: inline-block;
+    }
+
+    .staff-column textarea {
+      border: 1px solid #c5d0f0;
+      border-radius: 12px;
+      padding: 10px;
+      min-height: 110px;
+      resize: vertical;
+      font-size: 13px;
+      font-family: inherit;
+      background: #fff;
+    }
+
     .config-field.full {
       grid-column: 1 / -1;
     }
@@ -847,24 +902,9 @@
 
     .analytics-names {
       flex: 1;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 10px;
-    }
-
-    .analytics-names label {
       font-size: 12px;
       font-weight: 600;
       color: #1f335b;
-    }
-
-    .analytics-names input {
-      width: 100%;
-      margin-top: 4px;
-      border: 1px solid #c5d0f0;
-      border-radius: 10px;
-      padding: 8px 10px;
-      font-size: 13px;
     }
 
     .analytics-grid {
@@ -3312,20 +3352,8 @@
           <h1 data-i18n="home.title">3-Way Pitch Control Center</h1>
           <span data-i18n="home.subtitle">Unlimited Vacation Club</span>
         </div>
-        <div class="start-panel">
-          <div class="name-grid">
-            <div class="start-field">
-              <label for="liner-name-input" data-i18n="home.linerLabel">Nombre del Liner</label>
-              <input type="text" id="liner-name-input" data-session-field="liner" placeholder="Alexis" autocomplete="off" />
-            </div>
-            <div class="start-field">
-              <label for="closer-name-input" data-i18n="home.closerLabel">Nombre del Closer</label>
-              <input type="text" id="closer-name-input" data-session-field="closer" placeholder="Bertina" autocomplete="off" />
-            </div>
-          </div>
-          <label for="start-pass-input" data-i18n="home.presentationPassLabel">Contraseña para iniciar</label>
-          <input type="password" id="start-pass-input" placeholder="****" autocomplete="off" />
-          <div class="start-pass-status" id="start-pass-status"></div>
+        <div class="start-panel start-ready">
+          <p data-i18n="home.readyText">La presentación está lista. Presiona iniciar; los nombres del equipo se capturan al cerrar.</p>
         </div>
         <button class="primary-btn" id="start-demo-btn" type="button" data-i18n="home.start">Iniciar presentación</button>
       </div>
@@ -3400,10 +3428,6 @@
               <button class="config-save-btn" type="button" data-config-save="1" disabled data-i18n="home.saveProperty">Guardar precios</button>
             </div>
           </div>
-          <div class="config-field">
-            <label for="config-presentation-pass" data-i18n="home.presentationPassLabel">Contraseña para iniciar</label>
-            <input id="config-presentation-pass" data-config-field="presentation-pass" type="password" value="1234" disabled />
-          </div>
           <div class="config-summary" id="config-summary">
             <div class="config-summary-item">
               <span data-config-summary-label="0">Secrets Puerto Los Cabos</span>
@@ -3432,6 +3456,20 @@
             </div>
             <small data-i18n="home.incentiveHint">Deja vacío el valor de noche para usar el precio público del Price Checker.</small>
           </div>
+          <div class="config-field staff-config">
+            <label data-i18n="home.staffTitle">Equipo disponible</label>
+            <div class="staff-grid">
+              <div class="staff-column">
+                <span data-i18n="home.staffLiners">Liners</span>
+                <textarea data-staff-field="liners" placeholder="Un nombre por línea" disabled></textarea>
+              </div>
+              <div class="staff-column">
+                <span data-i18n="home.staffClosers">Closers</span>
+                <textarea data-staff-field="closers" placeholder="Un nombre por línea" disabled></textarea>
+              </div>
+            </div>
+            <small data-i18n="home.staffHint">Se mostrarán como sugerencias al registrar un cierre.</small>
+          </div>
           <div class="lang-callout">
             <span data-i18n="home.language">Idioma</span>
             <div class="lang-pill-group" id="home-lang-switch">
@@ -3447,14 +3485,7 @@
           <div class="analytics-panel" id="analytics-panel">
             <div class="analytics-header">
               <img src="UVC-Logo-Standalone-Gray.webp" alt="Unlimited Vacation Club" loading="lazy" />
-              <div class="analytics-names">
-                <label for="liner-name-admin" data-i18n="analytics.linerInput">Nombre del Liner
-                  <input type="text" id="liner-name-admin" data-session-field="liner" placeholder="Alexis" autocomplete="off" />
-                </label>
-                <label for="closer-name-admin" data-i18n="analytics.closerInput">Nombre del Closer
-                  <input type="text" id="closer-name-admin" data-session-field="closer" placeholder="Bertina" autocomplete="off" />
-                </label>
-              </div>
+              <div class="analytics-names" data-i18n="analytics.staffInfo">Los nombres del equipo se llenan al registrar cada encuesta.</div>
             </div>
             <div class="analytics-grid">
               <div class="metric-card">
@@ -3638,6 +3669,18 @@
 
   <div class="sale-overlay" id="sale-overlay" aria-live="polite">
     <div class="sale-card">
+      <div class="sale-staff">
+        <div class="sale-staff-grid">
+          <label data-i18n="sale.staffLiner">Liner asignado
+            <input type="text" id="sale-liner-input" data-session-field="liner" list="liner-options" placeholder="Selecciona o escribe el nombre" autocomplete="off" />
+          </label>
+          <label data-i18n="sale.staffCloser">Closer asignado
+            <input type="text" id="sale-closer-input" data-session-field="closer" list="closer-options" placeholder="Selecciona o escribe el nombre" autocomplete="off" />
+          </label>
+        </div>
+        <div class="sale-staff-hint" data-i18n="sale.staffHint">Usa la lista del administrador o escribe el nombre manualmente.</div>
+        <div class="sale-staff-error" id="sale-staff-error"></div>
+      </div>
       <div class="sale-choice" id="sale-choice">
         <h3 data-i18n="sale.promptTitle">Log this pitch</h3>
         <p data-i18n="sale.promptSubtitle">Did this presentation close a sale?</p>
@@ -3728,6 +3771,8 @@
           <strong id="sale-loss-count">0</strong>
         </div>
       </div>
+      <datalist id="liner-options"></datalist>
+      <datalist id="closer-options"></datalist>
     </div>
   </div>
 
@@ -3994,6 +4039,16 @@
     const configInputs        = qa('[data-config-field]');
     const relockBtn           = q('#relock-btn');
     const sessionInputs       = qa('[data-session-field]');
+    const staffInputs         = qa('[data-staff-field]');
+    const staffOptionLists    = {
+      liner: q('#liner-options'),
+      closer: q('#closer-options')
+    };
+    const saleStaffInputs     = {
+      liner: q('#sale-liner-input'),
+      closer: q('#sale-closer-input')
+    };
+    const saleStaffError      = q('#sale-staff-error');
     const configSaveButtons   = qa('[data-config-save]');
     const saleOverlay         = q('#sale-overlay');
     const saleChoiceSection   = q('#sale-choice');
@@ -4123,18 +4178,22 @@
         'priceChecker.note': 'Mayor ahorro con UVC: {value}%.',
         'home.title': 'Centro de Control 3-Way Pitch',
         'home.subtitle': 'Unlimited Vacation Club',
-        'home.presentationPassLabel': 'Contraseña para iniciar',
-        'home.linerLabel': 'Nombre del Liner',
-        'home.closerLabel': 'Nombre del Closer',
-        'home.nameError': 'Agrega el Liner y el Closer antes de iniciar.',
+        'home.readyText': 'La presentación está lista. Presiona iniciar; los nombres del equipo se capturan al cerrar.',
         'home.lockedMessage': 'Ingresa el PIN para desbloquear esta sección privada.',
         'home.lockPanel': 'Bloquear panel',
-        'home.startPassError': 'Contraseña incorrecta.',
-        'home.startPassSuccess': 'Listo. ¡A presentar!',
+        'home.staffTitle': 'Equipo disponible',
+        'home.staffLiners': 'Liners',
+        'home.staffClosers': 'Closers',
+        'home.staffHint': 'Se mostrarán como sugerencias al registrar un cierre.',
         'sale.promptTitle': 'Registra este pitch',
         'sale.promptSubtitle': '¿Se concretó la venta?',
         'sale.successBtn': 'Venta lograda',
         'sale.pendingBtn': 'Aún no',
+        'sale.staffLiner': 'Liner asignado',
+        'sale.staffCloser': 'Closer asignado',
+        'sale.staffHint': 'Usa la lista del administrador o escribe el nombre manualmente.',
+        'sale.staffEmpty': 'Agrega nombres en el administrador.',
+        'sale.staffError': 'Selecciona el liner y el closer antes de continuar.',
         'sale.skipBtn': 'Omitir',
         'sale.closedLabel': 'Cerradas',
         'sale.pendingLabel': 'Pendientes',
@@ -4195,6 +4254,7 @@
         'home.incentiveHint': 'Deja vacío el valor de noche para usar el precio público del comparador.',
         'analytics.linerInput': 'Nombre del Liner',
         'analytics.closerInput': 'Nombre del Closer',
+        'analytics.staffInfo': 'Los nombres del equipo se llenan al registrar cada encuesta.',
         'analytics.avgSale': 'Promedio de ventas',
         'analytics.avgSaleHint': 'Promedio por venta cerrada',
         'analytics.conversion': 'Porcentaje de cierre',
@@ -4306,18 +4366,22 @@
         'priceChecker.note': 'Best UVC savings: {value}%.',
         'home.title': '3-Way Pitch Control Center',
         'home.subtitle': 'Unlimited Vacation Club',
-        'home.presentationPassLabel': 'Presentation password',
-        'home.linerLabel': 'Liner name',
-        'home.closerLabel': 'Closer name',
-        'home.nameError': 'Add the liner and closer names before starting.',
+        'home.readyText': 'Everything is ready. Tap start; team names are captured when you log the pitch.',
         'home.lockedMessage': 'Enter the PIN to reveal these private settings.',
         'home.lockPanel': 'Re-lock panel',
-        'home.startPassError': 'Wrong password.',
-        'home.startPassSuccess': 'Access granted. Ready!',
+        'home.staffTitle': 'Available team',
+        'home.staffLiners': 'Liners',
+        'home.staffClosers': 'Closers',
+        'home.staffHint': 'These names appear as suggestions when you log a pitch.',
         'sale.promptTitle': 'Log this pitch',
         'sale.promptSubtitle': 'Did this presentation close a sale?',
         'sale.successBtn': 'Sale closed',
         'sale.pendingBtn': 'Not this time',
+        'sale.staffLiner': 'Assigned liner',
+        'sale.staffCloser': 'Assigned closer',
+        'sale.staffHint': 'Pick from the admin list or type it manually.',
+        'sale.staffEmpty': 'Add names from the admin panel.',
+        'sale.staffError': 'Select the liner and closer before logging the pitch.',
         'sale.skipBtn': 'Skip',
         'sale.closedLabel': 'Closed',
         'sale.pendingLabel': 'Pending',
@@ -4378,6 +4442,7 @@
         'home.incentiveHint': 'Leave the night value empty to use the public rate from the price checker.',
         'analytics.linerInput': 'Liner name',
         'analytics.closerInput': 'Closer name',
+        'analytics.staffInfo': 'Team names are recorded inside each guest survey.',
         'analytics.avgSale': 'Average sale',
         'analytics.avgSaleHint': 'Average per closed sale',
         'analytics.conversion': 'Close rate',
@@ -4406,9 +4471,6 @@
       const dict = translations[state.lang] || translations.es;
       return (dict && dict[key]) || (translations.es && translations.es[key]) || '';
     }
-
-    const startPassInput   = q('#start-pass-input');
-    const startPassStatus  = q('#start-pass-status');
 
     const propertyPriceTargets = {};
     qa('[data-price-target]').forEach(el => {
@@ -4524,7 +4586,6 @@
       lang: 'en',
       pinUnlocked: false,
       properties: [],
-      presentationPassword: '1234',
       session: { liner: '', closer: '' },
       sales: { win: 0, pending: 0, entries: [] },
       dynamicPrices: [],
@@ -4532,6 +4593,10 @@
         aiNight: 0,
         hyattWeek: HYATT_WEEK_VALUE,
         credits: INCENTIVE_REWARD_CREDITS
+      },
+      staff: {
+        liners: [],
+        closers: []
       }
     };
 
@@ -4632,9 +4697,6 @@
             }
           });
         }
-        if (parsed && typeof parsed.presentationPassword === 'string'){
-          state.presentationPassword = parsed.presentationPassword;
-        }
         if (parsed && parsed.incentives){
           if (typeof parsed.incentives.aiNight !== 'undefined'){
             state.incentives.aiNight = Number(parsed.incentives.aiNight) || 0;
@@ -4646,6 +4708,10 @@
             state.incentives.credits = Number(parsed.incentives.credits) || INCENTIVE_REWARD_CREDITS;
           }
         }
+        if (parsed && parsed.staff){
+          state.staff.liners = Array.isArray(parsed.staff.liners) ? parsed.staff.liners.filter(Boolean) : [];
+          state.staff.closers = Array.isArray(parsed.staff.closers) ? parsed.staff.closers.filter(Boolean) : [];
+        }
       } catch(err){}
     }
 
@@ -4653,7 +4719,6 @@
       if (typeof localStorage === 'undefined') return;
       try {
         const payload = {
-          presentationPassword: state.presentationPassword || '',
           properties: state.properties.map(prop => {
             if (!prop) return null;
             return {
@@ -4670,6 +4735,10 @@
             aiNight: state.incentives.aiNight || 0,
             hyattWeek: state.incentives.hyattWeek || HYATT_WEEK_VALUE,
             credits: state.incentives.credits || INCENTIVE_REWARD_CREDITS
+          },
+          staff: {
+            liners: state.staff.liners || [],
+            closers: state.staff.closers || []
           }
         };
         localStorage.setItem(ADMIN_CONFIG_STORAGE_KEY, JSON.stringify(payload));
@@ -4680,10 +4749,6 @@
       configInputs.forEach(input => {
         const field = input.dataset.configField;
         if (!field) return;
-        if (field === 'presentation-pass'){
-          input.value = state.presentationPassword || '';
-          return;
-        }
         if (field === 'incentive-ai'){
           input.value = state.incentives.aiNight > 0 ? state.incentives.aiNight : '';
           return;
@@ -4707,6 +4772,39 @@
           input.value = prop.prices[key] || 0;
         }
       });
+    }
+
+    function updateStaffOptions(){
+      const map = {
+        liner: state.staff.liners || [],
+        closer: state.staff.closers || []
+      };
+      Object.keys(staffOptionLists).forEach(role => {
+        const list = staffOptionLists[role];
+        if (!list) return;
+        list.innerHTML = '';
+        (map[role] || []).forEach(name => {
+          const option = document.createElement('option');
+          option.value = name;
+          list.appendChild(option);
+        });
+      });
+    }
+
+    function syncStaffInputsFromState(){
+      staffInputs.forEach(input => {
+        const field = input.dataset.staffField;
+        if (!field || !state.staff[field]) return;
+        input.value = (state.staff[field] || []).join('\n');
+      });
+      updateStaffOptions();
+    }
+
+    function parseStaffList(value){
+      return value
+        .split(/\r?\n|,/)
+        .map(item => item.trim())
+        .filter(Boolean);
     }
 
     function syncPropertyFromInputs(idx){
@@ -4833,10 +4931,6 @@
     configInputs.forEach(input => {
       const field = input.dataset.configField;
       if (!field) return;
-      if (field === 'presentation-pass'){
-        state.presentationPassword = input.value || '1234';
-        return;
-      }
       if (field === 'incentive-ai'){
         state.incentives.aiNight = Number(input.value) || 0;
         return;
@@ -4864,6 +4958,7 @@
 
     loadAdminConfig();
     syncConfigInputsFromState();
+    syncStaffInputsFromState();
 
     state.properties.forEach((_, idx) => ensureDynamicStore(idx));
     applyPriceDrift(true);
@@ -5202,10 +5297,14 @@
       updatePriceUI();
       updateBreakeven();
       updateIncentiveCalculator();
+      updateStaffOptions();
     }
 
     function setConfigInputsDisabled(flag){
       configInputs.forEach(input => {
+        input.disabled = flag;
+      });
+      staffInputs.forEach(input => {
         input.disabled = flag;
       });
       configSaveButtons.forEach(btn => {
@@ -5239,8 +5338,7 @@
     function updateReportControls(){
       if (downloadSalesReportBtn){
         const hasData = Array.isArray(state.sales.entries) && state.sales.entries.length > 0;
-        const hasNames = !!(state.session.liner && state.session.closer);
-        downloadSalesReportBtn.disabled = !(hasData && hasNames);
+        downloadSalesReportBtn.disabled = !hasData;
       }
     }
 
@@ -5376,6 +5474,74 @@
       });
     }
 
+    function ensureSaleStaffSelected(showMessage = false){
+      const ready = !!(state.session.liner && state.session.closer);
+      if (saleStaffError){
+        if (ready){
+          saleStaffError.textContent = '';
+        } else if (showMessage){
+          saleStaffError.textContent = getTranslation('sale.staffError') || 'Selecciona el liner y el closer antes de continuar.';
+        } else {
+          saleStaffError.textContent = '';
+        }
+      }
+      return ready;
+    }
+
+    // --- Staff picker (custom dropdown using admin lists) ---
+    let staffPickerMenu = null;
+    function closeStaffPicker(){
+      if (staffPickerMenu){
+        staffPickerMenu.remove();
+        staffPickerMenu = null;
+        document.removeEventListener('click', onStaffPickerDocClick);
+        document.removeEventListener('keydown', onStaffPickerKey);
+      }
+    }
+    function onStaffPickerDocClick(ev){
+      if (!staffPickerMenu) return;
+      if (!ev.target.closest('.staff-picker') && !ev.target.closest('#sale-liner-input') && !ev.target.closest('#sale-closer-input')){
+        closeStaffPicker();
+      }
+    }
+    function onStaffPickerKey(ev){
+      if (ev.key === 'Escape') closeStaffPicker();
+    }
+    function openStaffPicker(role){
+      const input = saleStaffInputs[role];
+      if (!input) return;
+      const names = role === 'liner' ? (state.staff.liners || []) : (state.staff.closers || []);
+      if (!names.length) return;
+      closeStaffPicker();
+      const rect = input.getBoundingClientRect();
+      const menu = document.createElement('div');
+      menu.className = 'staff-picker';
+      names.forEach(name => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.textContent = name;
+        btn.addEventListener('click', ()=>{
+          input.value = name;
+          state.session[role] = name;
+          persistSessionData();
+          ensureSaleStaffSelected(false);
+          closeStaffPicker();
+        });
+        menu.appendChild(btn);
+      });
+      document.body.appendChild(menu);
+      const top = rect.bottom + window.scrollY;
+      let left = rect.left + window.scrollX;
+      if (left + menu.offsetWidth > window.innerWidth - 12){
+        left = window.innerWidth - menu.offsetWidth - 12;
+      }
+      menu.style.top = `${top + 4}px`;
+      menu.style.left = `${left}px`;
+      staffPickerMenu = menu;
+      document.addEventListener('click', onStaffPickerDocClick);
+      document.addEventListener('keydown', onStaffPickerKey);
+    }
+
     function showSaleForm(type){
       if (!saleForms[type]) return;
       if (saleChoiceSection){
@@ -5394,6 +5560,11 @@
         openHomeScreen();
         return;
       }
+      state.session.liner = '';
+      state.session.closer = '';
+      persistSessionData();
+      syncSessionInputs();
+      ensureSaleStaffSelected(false);
       resetSaleOverlay();
       saleOverlay.classList.add('active');
     }
@@ -5414,7 +5585,7 @@
     }
 
     function buildSaleEntry(type){
-      if (!state.session.liner || !state.session.closer) return null;
+      if (!ensureSaleStaffSelected(true)) return null;
       const isWin = type === 'win';
       const q1El = q(isWin ? '#sale-win-q1' : '#sale-loss-q1');
       const q2El = q(isWin ? '#sale-win-q2' : '#sale-loss-q2');
@@ -5456,8 +5627,6 @@
 
     function recordSale(resultKey, payload){
       if (!payload){
-        closeSaleOverlay();
-        openHomeScreen();
         return;
       }
       if (resultKey === 'win') state.sales.win++;
@@ -5544,11 +5713,6 @@
         pinStatus.dataset.status = '';
         pinStatus.textContent = '';
       }
-      if (startPassInput) startPassInput.value = '';
-      if (startPassStatus){
-        startPassStatus.textContent = '';
-        startPassStatus.classList.remove('success');
-      }
     }
 
     function handleConfigInput(ev){
@@ -5556,10 +5720,6 @@
       const input = ev.target;
       const field = input.dataset.configField;
       if (!field) return;
-      if (field === 'presentation-pass'){
-        state.presentationPassword = input.value || '1234';
-        return;
-      }
       if (field === 'incentive-ai'){
         state.incentives.aiNight = Number(input.value) || 0;
         updateIncentiveCalculator();
@@ -5634,7 +5794,18 @@
             other.value = state.session[field];
           }
         });
+        if (state.session.liner && state.session.closer){
+          ensureSaleStaffSelected(false);
+        }
         updateReportControls();
+      });
+    });
+
+    Object.keys(saleStaffInputs).forEach(role => {
+      const input = saleStaffInputs[role];
+      if (!input) return;
+      input.addEventListener('focus', ()=>{
+        openStaffPicker(role);
       });
     });
 
@@ -5644,6 +5815,17 @@
 
     configInputs.forEach(input => {
       input.addEventListener('input', handleConfigInput);
+    });
+
+    staffInputs.forEach(input => {
+      input.addEventListener('input', ()=>{
+        if (!state.pinUnlocked) return;
+        const field = input.dataset.staffField;
+        if (!field || !state.staff[field]) return;
+        state.staff[field] = parseStaffList(input.value);
+        updateStaffOptions();
+        persistAdminConfig();
+      });
     });
 
     configSaveButtons.forEach(btn => {
@@ -5742,31 +5924,10 @@
       });
     }
 
-    function setStartPassStatus(type){
-      if (!startPassStatus) return;
-      startPassStatus.classList.toggle('success', type === 'success');
-      const key = type === 'success' ? 'home.startPassSuccess' : 'home.startPassError';
-      startPassStatus.textContent = type ? getTranslation(key) : '';
-    }
-
     if (startDemoBtn){
       startDemoBtn.addEventListener('click', ()=>{
-        const entered = (startPassInput && startPassInput.value || '').trim();
-        if (!state.session.liner || !state.session.closer){
-          if (startPassStatus){
-            startPassStatus.classList.remove('success');
-            startPassStatus.textContent = getTranslation('home.nameError');
-          }
-          return;
-        }
-        if (entered === state.presentationPassword){
-          setStartPassStatus('success');
-          closeHomeScreen();
-          togglePriceChecker(false);
-          if (startPassInput) startPassInput.value = '';
-        } else {
-          setStartPassStatus('error');
-        }
+        closeHomeScreen();
+        togglePriceChecker(false);
       });
     }
 
@@ -5829,6 +5990,11 @@
     saleChoiceButtons.forEach(btn => {
       btn.addEventListener('click', ()=>{
         const choice = btn.dataset.choice === 'win' ? 'win' : 'loss';
+        if (!ensureSaleStaffSelected(true)){
+          const focusTarget = !state.session.liner ? saleStaffInputs.liner : saleStaffInputs.closer;
+          if (focusTarget) focusTarget.focus();
+          return;
+        }
         showSaleForm(choice);
       });
     });
