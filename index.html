@@ -903,23 +903,25 @@
     }
 
     .analytics-panel {
-      margin-top: 18px;
-      border: 1px solid #dfe3fb;
-      border-radius: 20px;
-      padding: 18px;
-      background: #ffffff;
+      margin-top: 24px;
+      border: 2px solid #d0d9eb;
+      border-radius: 24px;
+      padding: 32px;
+      background: linear-gradient(135deg, #ffffff 0%, #f8f9fc 100%);
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 28px;
+      box-shadow: 0 4px 20px rgba(15, 38, 84, 0.08);
     }
 
     .analytics-header {
       display: flex;
       flex-wrap: wrap;
-      gap: 16px;
+      gap: 20px;
       align-items: center;
-      border-bottom: 1px solid #eef1fb;
-      padding-bottom: 12px;
+      border-bottom: 2px solid #e0e7f5;
+      padding-bottom: 20px;
+      margin-bottom: 8px;
     }
 
     .analytics-header img {
@@ -936,68 +938,89 @@
 
     .analytics-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 14px;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 18px;
     }
 
     .metric-card {
-      border: 1px solid #e2e7fb;
-      border-radius: 16px;
-      padding: 12px;
+      border: 2px solid #d5dff0;
+      border-radius: 18px;
+      padding: 20px 18px;
       display: flex;
       flex-direction: column;
-      gap: 6px;
-      background: linear-gradient(180deg, #f8faff, #f2f5ff);
+      gap: 10px;
+      background: linear-gradient(135deg, #ffffff 0%, #f0f4ff 100%);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .metric-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(15, 47, 114, 0.12);
     }
 
     .metric-card span {
-      font-size: 12px;
+      font-size: 13px;
+      font-weight: 600;
       color: #5a678a;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.1em;
     }
 
     .metric-card strong {
-      font-size: 22px;
+      font-size: 28px;
+      font-weight: 700;
       color: #0f2654;
     }
 
     .metric-card small {
-      font-size: 11px;
+      font-size: 12px;
       color: #6b7b9c;
+      margin-top: -2px;
     }
 
     .period-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 12px;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      padding: 20px;
+      background: rgba(15, 47, 114, 0.03);
+      border-radius: 16px;
     }
 
     .period-card {
-      border: 1px solid #e6eafb;
-      border-radius: 14px;
-      padding: 10px 12px;
-      background: #fdfdff;
+      border: 2px solid #dce4f5;
+      border-radius: 16px;
+      padding: 16px 18px;
+      background: #ffffff;
+      transition: border-color 0.2s ease;
+    }
+
+    .period-card:hover {
+      border-color: #0f2f72;
     }
 
     .period-card span {
-      font-size: 11px;
+      font-size: 12px;
+      font-weight: 600;
       color: #5e6b8f;
       text-transform: uppercase;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.08em;
+      display: block;
     }
 
     .period-card strong {
       display: block;
-      font-size: 18px;
+      font-size: 22px;
+      font-weight: 700;
       color: #0f2654;
-      margin-top: 4px;
+      margin-top: 8px;
     }
 
     .ranking-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 14px;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      margin-top: 8px;
     }
 
     .ranking-card {
@@ -3524,7 +3547,7 @@
               <div class="metric-card">
                 <span data-i18n="analytics.conversion">Porcentaje de cierre</span>
                 <strong id="metric-conversion">0%</strong>
-                <small data-i18n="analytics.conversionHint">Intentos registrados</small>
+                <small data-i18n="analytics.conversionHint">Tasa de éxito</small>
               </div>
               <div class="metric-card">
                 <span data-i18n="analytics.totalVolume">Volumen total</span>
@@ -3534,7 +3557,17 @@
               <div class="metric-card">
                 <span data-i18n="analytics.clarityScore">Índice de claridad</span>
                 <strong id="metric-clarity">--</strong>
-                <small data-i18n="analytics.clarityHint">Encuestas de clientes</small>
+                <small data-i18n="analytics.clarityHint">Satisfacción cliente</small>
+              </div>
+              <div class="metric-card">
+                <span>Total presentaciones</span>
+                <strong id="metric-total-pitches">0</strong>
+                <small>Intentos registrados</small>
+              </div>
+              <div class="metric-card">
+                <span>Mejor día</span>
+                <strong id="metric-best-day">--</strong>
+                <small>Mayor volumen en 24h</small>
               </div>
             </div>
             <div class="period-grid">
@@ -3549,6 +3582,10 @@
               <div class="period-card">
                 <span data-i18n="analytics.biweekVolume">Volumen quincenal</span>
                 <strong data-volume="biweek">$0</strong>
+              </div>
+              <div class="period-card">
+                <span>Proyección mensual</span>
+                <strong id="metric-monthly-projection">$0</strong>
               </div>
             </div>
             <div class="ranking-grid">
@@ -4097,6 +4134,9 @@
     const metricConversion    = q('#metric-conversion');
     const metricTotalVolume   = q('#metric-total-volume');
     const metricClarity       = q('#metric-clarity');
+    const metricTotalPitches  = q('#metric-total-pitches');
+    const metricBestDay       = q('#metric-best-day');
+    const metricMonthlyProj   = q('#metric-monthly-projection');
     const volumeOutputs = {
       day: q('[data-volume="day"]'),
       week: q('[data-volume="week"]'),
@@ -5433,10 +5473,12 @@
       const attempts = entries.length;
       const totalVolume = wins.reduce((sum, entry) => sum + (Number(entry.amount) || 0), 0);
       const avgSale = wins.length ? totalVolume / wins.length : 0;
+      
       if (metricAvgSale) metricAvgSale.textContent = wins.length ? formatCurrency(avgSale) : '--';
       const conversion = attempts ? Math.round((wins.length / attempts) * 100) : 0;
       if (metricConversion) metricConversion.textContent = `${conversion}%`;
       if (metricTotalVolume) metricTotalVolume.textContent = formatCurrency(totalVolume);
+      if (metricTotalPitches) metricTotalPitches.textContent = attempts;
 
       const clarityScores = entries
         .filter(entry => entry && entry.result === 'loss' && Number(entry.clarity) > 0)
@@ -5456,6 +5498,8 @@
         biweek: 14 * 24 * 60 * 60 * 1000
       };
       const now = Date.now();
+      
+      let dayVolume = 0;
       Object.keys(volumeOutputs).forEach(key => {
         const el = volumeOutputs[key];
         if (!el) return;
@@ -5467,7 +5511,34 @@
           })
           .reduce((sum, entry) => sum + (Number(entry.amount) || 0), 0);
         el.textContent = formatCurrency(amount);
+        if (key === 'day') dayVolume = amount;
       });
+
+      // Calculate best day
+      const salesByDay = {};
+      wins.forEach(entry => {
+        const date = new Date(entry.timestamp || '');
+        if (!isNaN(date.getTime())) {
+          const dayKey = date.toISOString().split('T')[0];
+          salesByDay[dayKey] = (salesByDay[dayKey] || 0) + (Number(entry.amount) || 0);
+        }
+      });
+      const bestDayAmount = Math.max(0, ...Object.values(salesByDay));
+      if (metricBestDay) {
+        metricBestDay.textContent = bestDayAmount > 0 ? formatCurrency(bestDayAmount) : '--';
+      }
+
+      // Monthly projection (based on daily average)
+      const daysWithSales = Object.keys(salesByDay).length;
+      if (metricMonthlyProj) {
+        if (daysWithSales > 0) {
+          const dailyAvg = totalVolume / daysWithSales;
+          const monthlyProjection = dailyAvg * 30;
+          metricMonthlyProj.textContent = formatCurrency(monthlyProjection);
+        } else {
+          metricMonthlyProj.textContent = '$0';
+        }
+      }
 
       const linerStats = aggregateRoleStats('liner');
       const closerStats = aggregateRoleStats('closer');
