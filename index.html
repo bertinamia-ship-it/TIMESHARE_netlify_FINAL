@@ -5832,14 +5832,6 @@
       });
     });
 
-    Object.keys(saleStaffInputs).forEach(role => {
-      const input = saleStaffInputs[role];
-      if (!input) return;
-      input.addEventListener('focus', ()=>{
-        openStaffPicker(role);
-      });
-    });
-
     syncSessionInputs();
 
     setConfigInputsDisabled(!state.pinUnlocked);
