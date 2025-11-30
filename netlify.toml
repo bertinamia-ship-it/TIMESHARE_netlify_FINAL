@@ -1,0 +1,12 @@
+[build]
+  publish = "TIMESHARE_netlify_FINAL"
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+
+[[redirects]]
+  from = "/api/check-prices"
+  to = "/.netlify/functions/check-prices"
+  status = 200
+  force = true

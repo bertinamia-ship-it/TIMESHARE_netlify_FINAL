@@ -5,18 +5,23 @@
 
 // Configuración del backend
 const BACKEND_CONFIG = {
-  // Usa URL inyectada si existe (por ejemplo, desde Netlify env var)
-  apiUrl: (typeof window !== 'undefined' && window.UVC_BACKEND_URL)
+  // Base primaria (Render) y fallback (Netlify Functions)
+  apiUrlPrimary: (typeof window !== 'undefined' && window.UVC_BACKEND_URL)
     ? window.UVC_BACKEND_URL
-    : 'http://localhost:8000',  // Desarrollo local por defecto
-  // Ejemplo producción: 'https://your-backend.render.com'
+    : 'http://localhost:8000',
+  apiUrlFallback: (typeof window !== 'undefined')
+    ? window.location.origin + '/.netlify/functions'
+    : 'http://localhost:8888/.netlify/functions',
   endpoints: {
-    checkPrices: '/api/check-prices',
-    destinations: '/api/destinations'
+    checkPrices: '/check-prices', // en funciones Netlify no usamos /api
   },
-  timeout: 30000, // 30 segundos
+  timeout: 20000,
   retries: 2
 };
+
+function resolveApiUrl(){
+  return BACKEND_CONFIG.apiUrlPrimary || BACKEND_CONFIG.apiUrlFallback;
+}
 
 /**
  * Verificar si el backend está disponible
@@ -45,7 +50,7 @@ async function checkBackendHealth() {
  */
 async function getRealTimePrices(destination, checkin, checkout, guests = 2, rooms = 1) {
   try {
-    const url = `${BACKEND_CONFIG.apiUrl}${BACKEND_CONFIG.endpoints.checkPrices}`;
+    let url = `${resolveApiUrl()}${BACKEND_CONFIG.endpoints.checkPrices}`;
     
     const requestBody = {
       destination,
@@ -68,8 +73,26 @@ async function getRealTimePrices(destination, checkin, checkout, guests = 2, roo
     });
     
     if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.detail || 'Error al obtener precios');
+      // Intentar fallback si era primary
+      if (url.includes(BACKEND_CONFIG.apiUrlPrimary)) {
+        console.warn('Primario falló, intentando fallback Netlify Functions');
+        url = `${BACKEND_CONFIG.apiUrlFallback}${BACKEND_CONFIG.endpoints.checkPrices}`;
+        const fallbackResp = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify(requestBody),
+          signal: AbortSignal.timeout(BACKEND_CONFIG.timeout)
+        });
+        if (!fallbackResp.ok) {
+          throw new Error('Fallback también falló');
+        }
+        const dataFb = await fallbackResp.json();
+        console.log('✅ Precios obtenidos (fallback):', dataFb);
+        return dataFb;
+      } else {
+        const error = await response.json().catch(()=>({detail:'Error desconocido'}));
+        throw new Error(error.detail || 'Error al obtener precios');
+      }
     }
     
     const data = await response.json();
