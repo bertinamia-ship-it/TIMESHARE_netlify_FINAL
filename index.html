@@ -7705,10 +7705,10 @@
         
         const basePrices = JSON.parse(stored);
         
-        // Variación aleatoria ±$10
+        // Variación MUY pequeña ±$2 para que parezca real pero no se vuelva loco
         const vary = (base) => {
           if (!base || base === 0) return 0;
-          const variation = Math.floor(Math.random() * 21) - 10; // -10 a +10
+          const variation = Math.floor(Math.random() * 5) - 2; // -2 a +2
           return Math.max(base + variation, 50); // mínimo $50
         };
         
