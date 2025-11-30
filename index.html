@@ -4685,23 +4685,70 @@
             <button class="admin-tab-btn" data-tab="settings" type="button">⚙️ Settings</button>
           </div>
           <div class="admin-panel" data-panel="prices">
-            <h4>Configuración de descuento UVC</h4>
-            <p>Ajusta el porcentaje de descuento para calcular la tarifa UVC automáticamente desde los precios online.</p>
-            <div class="admin-discount-grid">
-              <div class="admin-property">
-                <strong>Descuento UVC (%)</strong>
-                <label>
-                  Porcentaje de descuento
-                  <input type="number" id="admin-uvc-discount" min="0" max="100" step="1" value="35" inputmode="decimal" />
-                </label>
-                <small>Se aplicará sobre el promedio de precios públicos para calcular la tarifa UVC.</small>
+            <h4>Configuración de Precios Reales</h4>
+            <p>Ingresa los precios que ves en Google Travel para cada hotel. El sistema calculará automáticamente el descuento UVC.</p>
+            
+            <div class="admin-hotels-grid">
+              <div class="admin-hotel-card">
+                <h5>🏨 Secrets Puerto Los Cabos</h5>
+                <div class="price-inputs">
+                  <label>
+                    Booking.com ($/noche)
+                    <input type="number" id="secrets-booking" placeholder="647" min="0" step="1" />
+                  </label>
+                  <label>
+                    Expedia ($/noche)
+                    <input type="number" id="secrets-expedia" placeholder="650" min="0" step="1" />
+                  </label>
+                  <label>
+                    Despegar ($/noche)
+                    <input type="number" id="secrets-despegar" placeholder="655" min="0" step="1" />
+                  </label>
+                </div>
+              </div>
+
+              <div class="admin-hotel-card">
+                <h5>🏝 Zoetry Los Cabos</h5>
+                <div class="price-inputs">
+                  <label>
+                    Booking.com ($/noche)
+                    <input type="number" id="zoetry-booking" placeholder="720" min="0" step="1" />
+                  </label>
+                  <label>
+                    Expedia ($/noche)
+                    <input type="number" id="zoetry-expedia" placeholder="725" min="0" step="1" />
+                  </label>
+                  <label>
+                    Despegar ($/noche)
+                    <input type="number" id="zoetry-despegar" placeholder="730" min="0" step="1" />
+                  </label>
+                </div>
               </div>
             </div>
+
+            <div class="admin-discount-section">
+              <label>
+                <strong>Descuento UVC (%)</strong>
+                <input type="number" id="admin-uvc-discount" min="0" max="100" step="1" value="35" inputmode="decimal" />
+              </label>
+              <small>Se aplicará sobre el promedio de precios públicos para calcular la tarifa UVC.</small>
+            </div>
+
+            <button id="admin-apply-prices" class="admin-btn-primary">💾 Aplicar Precios al Price Checker</button>
+
             <style>
-              .admin-discount-grid{display:grid;gap:16px;margin-top:8px;max-width:400px}
-              .admin-property{border:1px solid #ddd;border-radius:8px;padding:16px;background:#fafafa}
-              .admin-property label{display:flex;flex-direction:column;gap:6px;margin-top:8px}
-              .admin-property small{color:#666;font-size:12px;margin-top:8px;display:block}
+              .admin-hotels-grid{display:grid;gap:20px;margin:20px 0;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+              .admin-hotel-card{border:2px solid var(--uvc-navy);border-radius:12px;padding:20px;background:#f8fafc}
+              .admin-hotel-card h5{margin:0 0 16px 0;color:var(--uvc-navy);font-size:16px}
+              .price-inputs{display:flex;flex-direction:column;gap:12px}
+              .price-inputs label{display:flex;flex-direction:column;gap:6px;font-size:14px;color:var(--uvc-slate)}
+              .price-inputs input{padding:10px;border:1px solid #ddd;border-radius:6px;font-size:15px}
+              .admin-discount-section{margin:20px 0;padding:20px;background:#fafafa;border-radius:8px}
+              .admin-discount-section label{display:flex;flex-direction:column;gap:8px}
+              .admin-discount-section input{max-width:200px;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:15px}
+              .admin-discount-section small{color:#666;font-size:13px;margin-top:8px}
+              .admin-btn-primary{background:var(--uvc-navy);color:white;border:none;padding:14px 28px;border-radius:8px;font-weight:600;font-size:15px;cursor:pointer;margin-top:10px}
+              .admin-btn-primary:hover{background:var(--uvc-navy-dark)}
             </style>
           </div>
             
@@ -7596,6 +7643,53 @@
         const uvcDiscount = getUVCDiscount();
         props.forEach(idx => {
           distributePricesForProperty(idx, priceData);
+        });
+      }
+      
+      // Admin: Aplicar precios manuales
+      const applyPricesBtn = q('#admin-apply-prices');
+      if (applyPricesBtn) {
+        applyPricesBtn.addEventListener('click', () => {
+          const secretsBooking = parseInt(q('#secrets-booking')?.value) || 0;
+          const secretsExpedia = parseInt(q('#secrets-expedia')?.value) || 0;
+          const secretsDespegar = parseInt(q('#secrets-despegar')?.value) || 0;
+          
+          const zoetryBooking = parseInt(q('#zoetry-booking')?.value) || 0;
+          const zoetryExpedia = parseInt(q('#zoetry-expedia')?.value) || 0;
+          const zoetryDespegar = parseInt(q('#zoetry-despegar')?.value) || 0;
+          
+          if (secretsBooking > 0 && secretsExpedia > 0 && secretsDespegar > 0) {
+            const secretsData = {
+              prices: {
+                booking: secretsBooking,
+                expedia: secretsExpedia,
+                despegar: secretsDespegar
+              },
+              averagePrice: (secretsBooking + secretsExpedia + secretsDespegar) / 3,
+              lowestPrice: Math.min(secretsBooking, secretsExpedia, secretsDespegar)
+            };
+            distributePricesForProperty(0, secretsData);
+          }
+          
+          if (zoetryBooking > 0 && zoetryExpedia > 0 && zoetryDespegar > 0) {
+            const zoetryData = {
+              prices: {
+                booking: zoetryBooking,
+                expedia: zoetryExpedia,
+                despegar: zoetryDespegar
+              },
+              averagePrice: (zoetryBooking + zoetryExpedia + zoetryDespegar) / 3,
+              lowestPrice: Math.min(zoetryBooking, zoetryExpedia, zoetryDespegar)
+            };
+            distributePricesForProperty(1, zoetryData);
+          }
+          
+          const lastUpdatedEl = q('[data-last-updated]');
+          const now = new Date();
+          const timeStr = now.toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' });
+          if (lastUpdatedEl) lastUpdatedEl.textContent = `✅ Actualizado ${timeStr} (Manual)`;
+          
+          alert('✅ Precios aplicados correctamente');
         });
       }
       
