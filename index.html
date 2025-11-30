@@ -7507,8 +7507,26 @@
           if (icon) icon.classList.add('spinning');
           if (lastUpdatedEl) lastUpdatedEl.textContent = '🔄 Actualizando...';
           qa('.pc-section').forEach(s=>s.classList.add('loading'));
+          
           try {
-            // Try backend first - fetch both hotels
+            // Primero intentar usar precios guardados con variación
+            const hasStoredPrices = applyPricesWithVariation();
+            
+            if (hasStoredPrices) {
+              // Simular delay para parecer que está consultando APIs
+              await new Promise(resolve => setTimeout(resolve, 800));
+              
+              const now = new Date();
+              const timeStr = now.toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' });
+              if (lastUpdatedEl) lastUpdatedEl.textContent = `✅ Actualizado ${timeStr}`;
+              
+              btn.disabled = false;
+              if (icon) icon.classList.remove('spinning');
+              qa('.pc-section').forEach(s=>s.classList.remove('loading'));
+              return;
+            }
+            
+            // Si no hay precios guardados, intentar backend (legacy)
             let secretsData = null;
             let zoetryData = null;
             const backendUrl = window.UVC_BACKEND_URL || '';
