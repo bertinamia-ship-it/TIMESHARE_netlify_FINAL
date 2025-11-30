@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover" />
   
   <!-- PWA Meta Tags -->
   <meta name="mobile-web-app-capable" content="yes" />
@@ -89,6 +89,7 @@
       font-size: 15px;
       line-height: 1.6;
       min-height: 100vh;
+      min-height: -webkit-fill-available;
       height: 100vh;
       overflow: hidden;
       margin: 0;
@@ -96,6 +97,7 @@
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       text-rendering: optimizeLegibility;
+      -webkit-tap-highlight-color: transparent;
       /* iOS safe area */
       padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
     }
@@ -1698,79 +1700,143 @@
 
     @media (max-width: 992px) {
       .app-content { 
-        padding: var(--space-md); 
+        padding: 20px 16px; 
       }
       .columns { 
-        grid-template-columns: 1fr 1fr; 
-        row-gap: var(--space-lg); 
+        grid-template-columns: 1fr; 
+        row-gap: 20px; 
+      }
+      .col-inner {
+        padding: 20px;
       }
       .uvc-title-ring { 
         height: 68px; 
       }
       .home-card { 
         grid-template-columns: 1fr; 
-        padding: var(--space-xl); 
+        padding: 32px 24px; 
+        gap: 32px;
       }
       .price-checker-panel { 
-        top: 90px; 
-        right: var(--space-md); 
-        width: min(360px, 94vw); 
+        top: 80px; 
+        right: 16px; 
+        width: min(360px, calc(100vw - 32px)); 
       }
       .admin-tab-btn {
-        padding: var(--space-md) var(--space-lg);
+        padding: 12px 20px;
         font-size: 14px;
       }
       .app-header {
-        height: 48px;
-        padding: 0 var(--space-md);
+        height: 52px;
+        padding: 0 16px;
+      }
+      .modal {
+        width: min(900px, 92vw);
+        padding: 20px 24px 24px;
+      }
+      .promo-hero {
+        grid-template-columns: 1fr;
+        gap: 20px;
       }
     }
 
     @media (max-width: 720px) {
+      :root {
+        --space-lg: 16px;
+        --space-xl: 24px;
+      }
+      body {
+        font-size: 14px;
+      }
       .app-content { 
-        padding: var(--space-md); 
+        padding: 16px 12px; 
       }
       .columns { 
         grid-template-columns: 1fr; 
-        row-gap: var(--space-md); 
+        row-gap: 16px; 
       }
       .col-title { 
-        font-size: 11px; 
+        font-size: 10px; 
         letter-spacing: 0.12em; 
       }
       .col-inner { 
-        padding: var(--space-md); 
-        border-radius: var(--radius-md); 
+        padding: 16px; 
+        border-radius: 16px; 
+      }
+      .home-hero {
+        padding: 24px 16px;
+        gap: 20px;
       }
       .home-hero img { 
-        max-width: 220px; 
+        max-width: 200px; 
+      }
+      .home-left h1 {
+        font-size: 24px;
+      }
+      .home-hero h1 {
+        font-size: 20px;
+      }
+      .home-hero span {
+        font-size: 12px;
+      }
+      .home-card {
+        padding: 24px 16px;
+        gap: 24px;
+        border-radius: 20px;
       }
       .primary-btn { 
         width: 100%; 
+        padding: 14px 24px;
+        font-size: 14px;
       }
       .price-checker-panel { 
         position: fixed; 
         top: auto; 
-        bottom: var(--space-md); 
-        right: var(--space-md); 
-        left: var(--space-md); 
+        bottom: 16px; 
+        right: 12px; 
+        left: 12px; 
         width: auto; 
       }
       .admin-tab-btn {
-        padding: var(--space-sm) var(--space-md);
-        font-size: 13px;
+        padding: 10px 12px;
+        font-size: 12px;
       }
       .admin-section {
-        padding: var(--space-lg);
+        padding: 20px 16px;
       }
       .app-header {
-        height: 48px;
-        padding: 0 var(--space-sm);
+        height: 52px;
+        padding: 0 12px;
       }
       .fullscreen-btn {
-        width: 36px;
-        height: 36px;
+        width: 40px;
+        height: 40px;
         font-size: 16px;
+      }
+      .modal {
+        width: calc(100vw - 24px);
+        max-height: calc(100vh - 40px);
+        padding: 16px 20px 20px;
+        border-radius: 20px;
+      }
+      .modal-header h2 {
+        font-size: 18px;
+      }
+      .uvc-title-ring {
+        height: 64px;
+        padding: 8px 20px;
+      }
+      .promo-thumb-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      .promo-filters {
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .promo-filter-btn {
+        font-size: 11px;
+        padding: 6px 10px;
       }
     }
 
@@ -1923,14 +1989,48 @@
       .uvc-title-ring,
       .uexperience-banner,
       .worldwide-ring {
-        width: 92%;
-      }
-
-      .uvc-title-ring,
-      .uexperience-banner,
-      .worldwide-ring {
-        height: 64px;
+        width: 95%;
+        height: 60px;
         padding: 8px 16px;
+      }
+      .utility-bar {
+        top: 12px;
+        right: 12px;
+      }
+      .utility-tab {
+        padding: 8px 12px;
+        font-size: 11px;
+      }
+      .config-grid {
+        grid-template-columns: 1fr;
+      }
+      .breakeven-grid {
+        grid-template-columns: 1fr;
+      }
+      .metric-card {
+        min-width: 100%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .app-header {
+        height: 48px;
+      }
+      .home-hero img {
+        max-width: 160px;
+      }
+      .home-left h1 {
+        font-size: 20px;
+      }
+      .col-inner {
+        padding: 14px;
+      }
+      .modal {
+        border-radius: 16px;
+        padding: 14px 16px 16px;
+      }
+      .promo-hero-media {
+        min-height: 240px;
       }
     }
 
