@@ -1,40 +1,26 @@
-"""
-UVC Price Checker Backend API
-Real-time hotel price comparison scraper
-"""
+"""UVC Price Checker Backend API (optimizado con caché y logging)"""
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from datetime import datetime, timedelta
+from datetime import datetime
 import httpx
 from typing import List, Optional
 import asyncio
+import time
 from bs4 import BeautifulSoup
-
-app = FastAPI(title="UVC Price Checker API", version="1.0.0")
-
-# CORS para permitir requests desde Netlify
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # En producción, especifica tu dominio de Netlify
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 
 class PriceRequest(BaseModel):
-    """Request model para búsqueda de precios"""
     destination: str
-    checkin: str  # formato: YYYY-MM-DD
-    checkout: str  # formato: YYYY-MM-DD
+    checkin: str
+    checkout: str
     guests: int = 2
     rooms: int = 1
+    force_refresh: bool = False
 
 
 class PriceResult(BaseModel):
-    """Modelo de respuesta con precios encontrados"""
     source: str
     hotel_name: str
     price_per_night: float
@@ -45,7 +31,6 @@ class PriceResult(BaseModel):
 
 
 class PriceComparison(BaseModel):
-    """Comparación completa de precios"""
     destination: str
     checkin: str
     checkout: str
@@ -56,127 +41,51 @@ class PriceComparison(BaseModel):
     timestamp: str
 
 
-async def scrape_booking_com(destination: str, checkin: str, checkout: str, guests: int = 2):
-    """
-    Scraper para Booking.com
-    Nota: Booking tiene protección anti-bot, considera usar APIs oficiales o proxies
-    """
-    try:
-        # Formato de URL de Booking.com
-        checkin_obj = datetime.strptime(checkin, "%Y-%m-%d")
-        checkout_obj = datetime.strptime(checkout, "%Y-%m-%d")
-        
-        url = (
-            f"https://www.booking.com/searchresults.html"
-            f"?ss={destination}"
-            f"&checkin={checkin_obj.strftime('%Y-%m-%d')}"
-            f"&checkout={checkout_obj.strftime('%Y-%m-%d')}"
-            f"&group_adults={guests}"
-            f"&no_rooms=1"
-        )
-        
-        headers = {
-            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
-        }
-        
-        async with httpx.AsyncClient(timeout=30.0) as client:
-            response = await client.get(url, headers=headers, follow_redirects=True)
-            
-            if response.status_code == 200:
-                soup = BeautifulSoup(response.text, 'html.parser')
-                
-                # Parsear resultados (estos selectores pueden cambiar)
-                results = []
-                
-                # Buscar cards de hoteles
-                hotel_cards = soup.select('[data-testid="property-card"]')[:5]
-                
-                for card in hotel_cards:
-                    try:
-                        name_elem = card.select_one('[data-testid="title"]')
-                        price_elem = card.select_one('[data-testid="price-and-discounted-price"]')
-                        
-                        if name_elem and price_elem:
-                            hotel_name = name_elem.text.strip()
-                            price_text = price_elem.text.strip()
-                            
-                            # Extraer precio numérico
-                            price = float(''.join(filter(str.isdigit, price_text.replace(',', ''))))
-                            
-                            nights = (checkout_obj - checkin_obj).days
-                            price_per_night = price / nights if nights > 0 else price
-                            
-                            results.append(PriceResult(
-                                source="Booking.com",
-                                hotel_name=hotel_name,
-                                price_per_night=round(price_per_night, 2),
-                                total_price=round(price, 2),
-                                url=url,
-                                last_updated=datetime.now().isoformat()
-                            ))
-                    except Exception as e:
-                        continue
-                
-                return results
-    except Exception as e:
-        print(f"Error scraping Booking.com: {e}")
-        return []
+app = FastAPI(title="UVC Price Checker API", version="1.1.0")
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-async def scrape_hotels_com(destination: str, checkin: str, checkout: str, guests: int = 2):
-    """
-    Scraper para Hotels.com
-    Similar approach con headers y parsing
-    """
-    try:
-        checkin_obj = datetime.strptime(checkin, "%Y-%m-%d")
-        checkout_obj = datetime.strptime(checkout, "%Y-%m-%d")
-        
-        url = (
-            f"https://www.hotels.com/Hotel-Search"
-            f"?destination={destination}"
-            f"&startDate={checkin_obj.strftime('%Y-%m-%d')}"
-            f"&endDate={checkout_obj.strftime('%Y-%m-%d')}"
-            f"&adults={guests}"
-        )
-        
-        headers = {
-            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"
-        }
-        
-        async with httpx.AsyncClient(timeout=30.0) as client:
-            response = await client.get(url, headers=headers, follow_redirects=True)
-            
-            if response.status_code == 200:
-                # Implementar parsing similar a Booking
-                # Por ahora retornamos mock data para testing
-                nights = (checkout_obj - checkin_obj).days
-                
-                return [
-                    PriceResult(
-                        source="Hotels.com",
-                        hotel_name=f"Hotel in {destination}",
-                        price_per_night=185.00,
-                        total_price=185.00 * nights,
-                        url=url,
-                        last_updated=datetime.now().isoformat()
-                    )
-                ]
-    except Exception as e:
-        print(f"Error scraping Hotels.com: {e}")
-        return []
+# ------------------ CACHÉ ------------------
+CACHE_TTL_SECONDS = 600
+price_cache: dict = {}
+
+def make_cache_key(r: PriceRequest) -> str:
+    return f"{r.destination}|{r.checkin}|{r.checkout}|{r.guests}|{r.rooms}"
+
+def get_cached_response(key: str):
+    entry = price_cache.get(key)
+    if not entry:
+        return None
+    if entry["expires"] < time.time():
+        price_cache.pop(key, None)
+        return None
+    return entry["data"]
+
+def set_cache(key: str, data: dict):
+    price_cache[key] = {"expires": time.time() + CACHE_TTL_SECONDS, "data": data}
+
+# ------------------ MIDDLEWARE LOGGING ------------------
+@app.middleware("http")
+async def timing_middleware(request: Request, call_next):
+    start = time.time()
+    response = await call_next(request)
+    duration = (time.time() - start) * 1000
+    print(f"[REQ] {request.method} {request.url.path} {duration:.1f}ms")
+    response.headers["X-Process-Time-ms"] = f"{duration:.1f}"
+    return response
 
 
 async def get_mock_prices(destination: str, checkin: str, checkout: str, guests: int):
-    """
-    Datos mock para testing mientras configuramos los scrapers reales
-    """
     checkin_obj = datetime.strptime(checkin, "%Y-%m-%d")
     checkout_obj = datetime.strptime(checkout, "%Y-%m-%d")
     nights = (checkout_obj - checkin_obj).days
-    
     base_price = 150
-    
     return [
         PriceResult(
             source="Booking.com",
@@ -207,62 +116,46 @@ async def get_mock_prices(destination: str, checkin: str, checkout: str, guests:
 
 @app.get("/")
 async def root():
-    """Health check endpoint"""
     return {
         "status": "online",
         "service": "UVC Price Checker API",
-        "version": "1.0.0",
+        "version": "1.1.0",
+        "cache_entries": len(price_cache),
         "timestamp": datetime.now().isoformat()
     }
 
 
 @app.post("/api/check-prices", response_model=PriceComparison)
 async def check_prices(request: PriceRequest):
-    """
-    Endpoint principal para comparar precios
-    
-    Example request:
-    {
-        "destination": "Cancun",
-        "checkin": "2025-06-01",
-        "checkout": "2025-06-05",
-        "guests": 2,
-        "rooms": 1
-    }
-    """
     try:
-        # Validar fechas
         checkin_obj = datetime.strptime(request.checkin, "%Y-%m-%d")
         checkout_obj = datetime.strptime(request.checkout, "%Y-%m-%d")
-        
         if checkin_obj >= checkout_obj:
             raise HTTPException(status_code=400, detail="Check-out debe ser después de check-in")
-        
         if checkin_obj < datetime.now():
             raise HTTPException(status_code=400, detail="Check-in debe ser fecha futura")
-        
         nights = (checkout_obj - checkin_obj).days
-        
-        # Ejecutar scrapers en paralelo
-        results = await asyncio.gather(
+
+        cache_key = make_cache_key(request)
+        if not request.force_refresh:
+            cached = get_cached_response(cache_key)
+            if cached:
+                return PriceComparison(**cached)
+
+        results_sets = await asyncio.gather(
             get_mock_prices(request.destination, request.checkin, request.checkout, request.guests),
-            # scrape_booking_com(request.destination, request.checkin, request.checkout, request.guests),
-            # scrape_hotels_com(request.destination, request.checkin, request.checkout, request.guests),
             return_exceptions=True
         )
-        
-        # Combinar resultados
-        all_results = []
-        for result_set in results:
-            if isinstance(result_set, list):
-                all_results.extend(result_set)
-        
-        # Calcular estadísticas
+        all_results: List[PriceResult] = []
+        for rs in results_sets:
+            if isinstance(rs, list):
+                all_results.extend(rs)
+
         prices = [r.price_per_night for r in all_results if r.price_per_night > 0]
         lowest_price = min(prices) if prices else None
         average_price = sum(prices) / len(prices) if prices else None
-        
-        return PriceComparison(
+
+        response_obj = PriceComparison(
             destination=request.destination,
             checkin=request.checkin,
             checkout=request.checkout,
@@ -272,7 +165,8 @@ async def check_prices(request: PriceRequest):
             average_price=round(average_price, 2) if average_price else None,
             timestamp=datetime.now().isoformat()
         )
-        
+        set_cache(cache_key, response_obj.model_dump())
+        return response_obj
     except ValueError as e:
         raise HTTPException(status_code=400, detail=f"Formato de fecha inválido: {str(e)}")
     except Exception as e:
@@ -281,7 +175,6 @@ async def check_prices(request: PriceRequest):
 
 @app.get("/api/destinations")
 async def get_destinations():
-    """Lista de destinos disponibles"""
     return {
         "destinations": [
             {"code": "CUN", "name": "Cancún", "country": "Mexico"},
@@ -295,4 +188,4 @@ async def get_destinations():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run(app, host="0.0.0.0", port=8000)
