@@ -4684,73 +4684,7 @@
             <button class="admin-tab-btn" data-tab="rankings" type="button">🏆 Rankings</button>
             <button class="admin-tab-btn" data-tab="settings" type="button">⚙️ Settings</button>
           </div>
-          <div class="admin-panel" data-panel="prices">
-            <h4>Configuración de Precios Reales</h4>
-            <p>Ingresa los precios que ves en Google Travel para cada hotel. El sistema calculará automáticamente el descuento UVC.</p>
-            
-            <div class="admin-hotels-grid">
-              <div class="admin-hotel-card">
-                <h5>🏨 Secrets Puerto Los Cabos</h5>
-                <div class="price-inputs">
-                  <label>
-                    Booking.com ($/noche)
-                    <input type="number" id="secrets-booking" value="647" min="0" step="1" />
-                  </label>
-                  <label>
-                    Expedia ($/noche)
-                    <input type="number" id="secrets-expedia" value="650" min="0" step="1" />
-                  </label>
-                  <label>
-                    Despegar ($/noche)
-                    <input type="number" id="secrets-despegar" value="655" min="0" step="1" />
-                  </label>
-                </div>
-              </div>
-
-              <div class="admin-hotel-card">
-                <h5>🏝 Zoetry Los Cabos</h5>
-                <div class="price-inputs">
-                  <label>
-                    Booking.com ($/noche)
-                    <input type="number" id="zoetry-booking" value="800" min="0" step="1" />
-                  </label>
-                  <label>
-                    Expedia ($/noche)
-                    <input type="number" id="zoetry-expedia" value="805" min="0" step="1" />
-                  </label>
-                  <label>
-                    Despegar ($/noche)
-                    <input type="number" id="zoetry-despegar" value="810" min="0" step="1" />
-                  </label>
-                </div>
-              </div>
-            </div>
-
-            <div class="admin-discount-section">
-              <label>
-                <strong>Descuento UVC (%)</strong>
-                <input type="number" id="admin-uvc-discount" min="0" max="100" step="1" value="35" inputmode="decimal" />
-              </label>
-              <small>Se aplicará sobre el promedio de precios públicos para calcular la tarifa UVC.</small>
-            </div>
-
-            <button id="admin-apply-prices" class="admin-btn-primary">💾 Aplicar Precios al Price Checker</button>
-
-            <style>
-              .admin-hotels-grid{display:grid;gap:20px;margin:20px 0;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
-              .admin-hotel-card{border:2px solid var(--uvc-navy);border-radius:12px;padding:20px;background:#f8fafc}
-              .admin-hotel-card h5{margin:0 0 16px 0;color:var(--uvc-navy);font-size:16px}
-              .price-inputs{display:flex;flex-direction:column;gap:12px}
-              .price-inputs label{display:flex;flex-direction:column;gap:6px;font-size:14px;color:var(--uvc-slate)}
-              .price-inputs input{padding:10px;border:1px solid #ddd;border-radius:6px;font-size:15px}
-              .admin-discount-section{margin:20px 0;padding:20px;background:#fafafa;border-radius:8px}
-              .admin-discount-section label{display:flex;flex-direction:column;gap:8px}
-              .admin-discount-section input{max-width:200px;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:15px}
-              .admin-discount-section small{color:#666;font-size:13px;margin-top:8px}
-              .admin-btn-primary{background:var(--uvc-navy);color:white;border:none;padding:14px 28px;border-radius:8px;font-weight:600;font-size:15px;cursor:pointer;margin-top:10px}
-              .admin-btn-primary:hover{background:var(--uvc-navy-dark)}
-            </style>
-          </div>
+          
             
             <!-- SECTION 1: Price Checker & Incentives Configuration -->
             <div class="admin-section active" data-section="prices">
@@ -6352,6 +6286,7 @@
 
 
     function applyPriceDrift(force = false){
+      if (state.lockedPrices) return; // cuando se guardan precios manuales, no drift
       const now = Date.now();
       state.dynamicPrices.forEach(brands => {
         if (!brands) return;
@@ -7687,29 +7622,53 @@
               booking: zoetryBooking,
               expedia: zoetryExpedia,
               despegar: zoetryDespegar
+            },
+            discounts: {
+              secrets: parseFloat(q('[data-config-field="discount"][data-property-index="0"]')?.value) || 0,
+              zoetry: parseFloat(q('[data-config-field="discount"][data-property-index="1"]')?.value) || 0
             }
           };
           localStorage.setItem('uvc_base_prices', JSON.stringify(basePrices));
-          
-          // Aplicar inmediatamente con variación pequeña
+      
+          // Bloquear drift y sincronizar al modelo interno
+          state.lockedPrices = true;
+          // idx 0: Secrets, idx 1: Zoetry
+          const secretsIdx = 0, zoetryIdx = 1;
+          const setPropPrices = (idx, src) => {
+            const prop = ensureProperty(idx);
+            prop.prices.booking = Number(src.booking) || 0;
+            prop.prices.expedia = Number(src.expedia) || 0;
+            prop.prices.despegar = Number(src.despegar) || 0;
+            // aplicar descuento si viene
+            if (basePrices.discounts){
+              if (idx === secretsIdx) prop.discount = Number(basePrices.discounts.secrets) || 0;
+              if (idx === zoetryIdx)  prop.discount = Number(basePrices.discounts.zoetry) || 0;
+            }
+            syncDynamicBase(idx, 'booking', prop.prices.booking);
+            syncDynamicBase(idx, 'expedia', prop.prices.expedia);
+            syncDynamicBase(idx, 'despegar', prop.prices.despegar);
+          };
+          setPropPrices(secretsIdx, basePrices.secrets);
+          setPropPrices(zoetryIdx, basePrices.zoetry);
+      
+          // Aplicar inmediatamente sin variación
           applyPricesWithVariation();
-          
-          alert('✅ Precios guardados. Ahora usa el botón "Actualizar Precios" en el Price Checker.');
+          updatePriceUI();
+      
+          alert('✅ Precios guardados y fijados. Permanecerán iguales hasta que los cambies.');
         });
       }
       
-      // Función para aplicar precios con variación realista
+      // Función para aplicar precios SIN variación - EXACTOS como se configuran
       function applyPricesWithVariation() {
         const stored = localStorage.getItem('uvc_base_prices');
         if (!stored) return false;
         
         const basePrices = JSON.parse(stored);
         
-        // Variación MUY pequeña ±$2 para que parezca real pero no se vuelva loco
+        // SIN variación - usar precios exactos
         const vary = (base) => {
-          if (!base || base === 0) return 0;
-          const variation = Math.floor(Math.random() * 5) - 2; // -2 a +2
-          return Math.max(base + variation, 50); // mínimo $50
+          return base || 0;
         };
         
         // Aplicar Secrets con variación
@@ -8337,6 +8296,32 @@
     
     document.addEventListener('mousemove', resetHideTimer);
     document.addEventListener('click', resetHideTimer);
+
+    // AUTO-APLICAR PRECIOS AL CARGAR LA PÁGINA
+    // Si ya hay precios guardados en admin, aplicarlos automáticamente
+    setTimeout(() => {
+      const stored = localStorage.getItem('uvc_base_prices');
+      if (stored) {
+        try {
+          const basePrices = JSON.parse(stored);
+          state.lockedPrices = true;
+          const setProp = (idx, src) => {
+            const prop = ensureProperty(idx);
+            prop.prices.booking = Number(src.booking) || 0;
+            prop.prices.expedia = Number(src.expedia) || 0;
+            prop.prices.despegar = Number(src.despegar) || 0;
+            syncDynamicBase(idx, 'booking', prop.prices.booking);
+            syncDynamicBase(idx, 'expedia', prop.prices.expedia);
+            syncDynamicBase(idx, 'despegar', prop.prices.despegar);
+          };
+          setProp(0, basePrices.secrets);
+          setProp(1, basePrices.zoetry);
+        } catch {}
+        console.log('✅ Auto-aplicando precios guardados (fijados)...');
+        applyPricesWithVariation();
+        updatePriceUI();
+      }
+    }, 500);
 
   })();
   </script>
