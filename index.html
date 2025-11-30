@@ -7646,7 +7646,7 @@
         });
       }
       
-      // Admin: Aplicar precios manuales
+      // Admin: Aplicar precios manuales y guardarlos en localStorage
       const applyPricesBtn = q('#admin-apply-prices');
       if (applyPricesBtn) {
         applyPricesBtn.addEventListener('click', () => {
@@ -7658,39 +7658,71 @@
           const zoetryExpedia = parseInt(q('#zoetry-expedia')?.value) || 0;
           const zoetryDespegar = parseInt(q('#zoetry-despegar')?.value) || 0;
           
-          if (secretsBooking > 0 && secretsExpedia > 0 && secretsDespegar > 0) {
-            const secretsData = {
-              prices: {
-                booking: secretsBooking,
-                expedia: secretsExpedia,
-                despegar: secretsDespegar
-              },
-              averagePrice: (secretsBooking + secretsExpedia + secretsDespegar) / 3,
-              lowestPrice: Math.min(secretsBooking, secretsExpedia, secretsDespegar)
-            };
-            distributePricesForProperty(0, secretsData);
-          }
+          // Guardar precios base en localStorage
+          const basePrices = {
+            secrets: {
+              booking: secretsBooking,
+              expedia: secretsExpedia,
+              despegar: secretsDespegar
+            },
+            zoetry: {
+              booking: zoetryBooking,
+              expedia: zoetryExpedia,
+              despegar: zoetryDespegar
+            }
+          };
+          localStorage.setItem('uvc_base_prices', JSON.stringify(basePrices));
           
-          if (zoetryBooking > 0 && zoetryExpedia > 0 && zoetryDespegar > 0) {
-            const zoetryData = {
-              prices: {
-                booking: zoetryBooking,
-                expedia: zoetryExpedia,
-                despegar: zoetryDespegar
-              },
-              averagePrice: (zoetryBooking + zoetryExpedia + zoetryDespegar) / 3,
-              lowestPrice: Math.min(zoetryBooking, zoetryExpedia, zoetryDespegar)
-            };
-            distributePricesForProperty(1, zoetryData);
-          }
+          // Aplicar inmediatamente con variación pequeña
+          applyPricesWithVariation();
           
-          const lastUpdatedEl = q('[data-last-updated]');
-          const now = new Date();
-          const timeStr = now.toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' });
-          if (lastUpdatedEl) lastUpdatedEl.textContent = `✅ Actualizado ${timeStr} (Manual)`;
-          
-          alert('✅ Precios aplicados correctamente');
+          alert('✅ Precios guardados. Ahora usa el botón "Actualizar Precios" en el Price Checker.');
         });
+      }
+      
+      // Función para aplicar precios con variación realista
+      function applyPricesWithVariation() {
+        const stored = localStorage.getItem('uvc_base_prices');
+        if (!stored) return false;
+        
+        const basePrices = JSON.parse(stored);
+        
+        // Variación aleatoria ±$10
+        const vary = (base) => {
+          if (!base || base === 0) return 0;
+          const variation = Math.floor(Math.random() * 21) - 10; // -10 a +10
+          return Math.max(base + variation, 50); // mínimo $50
+        };
+        
+        // Aplicar Secrets con variación
+        if (basePrices.secrets.booking > 0) {
+          const secretsData = {
+            prices: {
+              booking: vary(basePrices.secrets.booking),
+              expedia: vary(basePrices.secrets.expedia),
+              despegar: vary(basePrices.secrets.despegar)
+            }
+          };
+          secretsData.averagePrice = (secretsData.prices.booking + secretsData.prices.expedia + secretsData.prices.despegar) / 3;
+          secretsData.lowestPrice = Math.min(secretsData.prices.booking, secretsData.prices.expedia, secretsData.prices.despegar);
+          distributePricesForProperty(0, secretsData);
+        }
+        
+        // Aplicar Zoetry con variación
+        if (basePrices.zoetry.booking > 0) {
+          const zoetryData = {
+            prices: {
+              booking: vary(basePrices.zoetry.booking),
+              expedia: vary(basePrices.zoetry.expedia),
+              despegar: vary(basePrices.zoetry.despegar)
+            }
+          };
+          zoetryData.averagePrice = (zoetryData.prices.booking + zoetryData.prices.expedia + zoetryData.prices.despegar) / 3;
+          zoetryData.lowestPrice = Math.min(zoetryData.prices.booking, zoetryData.prices.expedia, zoetryData.prices.despegar);
+          distributePricesForProperty(1, zoetryData);
+        }
+        
+        return true;
       }
       
       // Nueva función: actualiza solo una propiedad específica
