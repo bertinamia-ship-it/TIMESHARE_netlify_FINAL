@@ -6245,10 +6245,10 @@
     }
 
     function getLivePrice(idx, key){
-      ensureDynamicStore(idx);
-      const record = state.dynamicPrices[idx][key];
-      if (!record) return 0;
-      return Number(record.live || record.base || 0);
+      // Usar SIEMPRE el precio ingresado en admin, sin variación
+      const prop = ensureProperty(idx);
+      const val = prop && prop.prices ? prop.prices[key] : 0;
+      return Number(val) || 0;
     }
 
     function getCompetitorLivePrices(idx){
@@ -6286,27 +6286,8 @@
 
 
     function applyPriceDrift(force = false){
-      if (state.lockedPrices) return; // cuando se guardan precios manuales, no drift
-      const now = Date.now();
-      state.dynamicPrices.forEach(brands => {
-        if (!brands) return;
-        ['expedia','booking','despegar'].forEach(key => {
-          const record = brands[key];
-          if (!record) return;
-          if (!force && now - record.lastUpdate < PRICE_DRIFT_INTERVAL) return;
-          const base = Number(record.base) || 0;
-          if (base <= 0) return;
-          const direction = Math.random() < 0.5 ? -1 : 1;
-          const delta = Math.round(Math.random() * PRICE_DRIFT_STEP);
-          const min = Math.max(0, base - PRICE_DRIFT_RANGE);
-          const max = base + PRICE_DRIFT_RANGE;
-          let next = (record.live || base) + direction * delta;
-          if (next < min) next = min;
-          if (next > max) next = max;
-          record.live = next;
-          record.lastUpdate = now;
-        });
-      });
+      // Desactivado: el price checker debe ser ESTÁTICO según valores del admin
+      return;
     }
 
     configInputs.forEach(input => {
@@ -7444,143 +7425,17 @@
           qa('.pc-section').forEach(s=>s.classList.add('loading'));
           
           try {
-            // Primero intentar usar precios guardados con variación
-            const hasStoredPrices = applyPricesWithVariation();
+            // Leer precios directamente del admin y actualizar
+            updatePriceUI();
             
-            if (hasStoredPrices) {
-              // Simular delay para parecer que está consultando APIs
-              await new Promise(resolve => setTimeout(resolve, 800));
-              
-              const now = new Date();
-              const timeStr = now.toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' });
-              if (lastUpdatedEl) lastUpdatedEl.textContent = `✅ Actualizado ${timeStr}`;
-              
-              btn.disabled = false;
-              if (icon) icon.classList.remove('spinning');
-              qa('.pc-section').forEach(s=>s.classList.remove('loading'));
-              return;
-            }
-            
-            // Si no hay precios guardados, intentar backend (legacy)
-            let secretsData = null;
-            let zoetryData = null;
-            const backendUrl = window.UVC_BACKEND_URL || '';
-            
-            if (backendUrl) {
-              const checkin = new Date(Date.now() + 86400000).toISOString().slice(0,10);
-              const checkout = new Date(Date.now() + 86400000*3).toISOString().slice(0,10);
-              
-              // Fetch Secrets Puerto Los Cabos (property 0)
-              const secretsReq = {
-                destination: 'Secrets Puerto Los Cabos',
-                checkin,
-                checkout,
-                guests: 2,
-                rooms: 1,
-                force_refresh: true
-              };
-              
-              // Fetch Zoetry Los Cabos (property 1)
-              const zoetryReq = {
-                destination: 'Zoetry Los Cabos',
-                checkin,
-                checkout,
-                guests: 2,
-                rooms: 1,
-                force_refresh: true
-              };
-              
-              console.log('🔍 Fetching prices from backend for both hotels...');
-              
-              const [secretsRes, zoetryRes] = await Promise.all([
-                fetch(`${backendUrl}/api/check-prices`, {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify(secretsReq)
-                }),
-                fetch(`${backendUrl}/api/check-prices`, {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify(zoetryReq)
-                })
-              ]);
-              
-              if (secretsRes.ok) {
-                const comp = await secretsRes.json();
-                console.log('✅ Secrets data:', comp);
-                secretsData = {
-                  prices: {
-                    booking: Math.round((comp.results.find(r=>/booking/i.test(r.source))?.price_per_night)||0),
-                    expedia: Math.round((comp.results.find(r=>/expedia/i.test(r.source))?.price_per_night)||0),
-                    hotels: Math.round((comp.results.find(r=>/hotels|despegar/i.test(r.source))?.price_per_night)||0)
-                  },
-                  lowestPrice: comp.lowest_price,
-                  averagePrice: comp.average_price
-                };
-              }
-              
-              if (zoetryRes.ok) {
-                const comp = await zoetryRes.json();
-                console.log('✅ Zoetry data:', comp);
-                zoetryData = {
-                  prices: {
-                    booking: Math.round((comp.results.find(r=>/booking/i.test(r.source))?.price_per_night)||0),
-                    expedia: Math.round((comp.results.find(r=>/expedia/i.test(r.source))?.price_per_night)||0),
-                    hotels: Math.round((comp.results.find(r=>/hotels|despegar/i.test(r.source))?.price_per_night)||0)
-                  },
-                  lowestPrice: comp.lowest_price,
-                  averagePrice: comp.average_price
-                };
-              }
-              
-              // Distribute to both properties
-              if (secretsData) distributePricesForProperty(0, secretsData);
-              if (zoetryData) distributePricesForProperty(1, zoetryData);
-              
-              if (secretsData || zoetryData) {
-                const now = new Date();
-                const timeStr = now.toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' });
-                if (lastUpdatedEl) lastUpdatedEl.textContent = `✅ Actualizado ${timeStr}`;
-                btn.disabled = false;
-                if (icon) icon.classList.remove('spinning');
-                qa('.pc-section').forEach(s=>s.classList.remove('loading'));
-                return; // Exit early, we got real data
-              }
-            }
-
-            // Fallbacks (solo si no se obtuvo data del backend)
-            let data = null;
-            if (!secretsData && !zoetryData) {
-              // Try static cache
-              try {
-                const cacheRes = await fetch('/prices-cache.json');
-                if (cacheRes.ok) {
-                  const cacheData = await cacheRes.json();
-                  data = cacheData.destinations?.[0] || null;
-                }
-              } catch {}
-              
-              if (!data) {
-                // Netlify Function fallback (if configured)
-                try {
-                  const fnRes = await fetch('/.netlify/functions/check-prices');
-                  if (fnRes.ok) data = await fnRes.json();
-                } catch {}
-              }
-
-              if (data && data.prices) {
-                distributePricesAcrossProperties(data);
-              } else {
-                simulateRandomPriceUpdate();
-              }
-            }
+            // Simular delay mínimo
+            await new Promise(resolve => setTimeout(resolve, 300));
             
             const now = new Date();
             const timeStr = now.toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' });
             if (lastUpdatedEl) lastUpdatedEl.textContent = `✅ Actualizado ${timeStr}`;
           } catch (e) {
             console.error('Refresh error', e);
-            simulateRandomPriceUpdate();
             if (lastUpdatedEl) lastUpdatedEl.textContent = '⚠️ Error al actualizar';
           } finally {
             btn.disabled = false;
@@ -7658,49 +7513,7 @@
           alert('✅ Precios guardados y fijados. Permanecerán iguales hasta que los cambies.');
         });
       }
-      
-      // Función para aplicar precios SIN variación - EXACTOS como se configuran
-      function applyPricesWithVariation() {
-        const stored = localStorage.getItem('uvc_base_prices');
-        if (!stored) return false;
-        
-        const basePrices = JSON.parse(stored);
-        
-        // SIN variación - usar precios exactos
-        const vary = (base) => {
-          return base || 0;
-        };
-        
-        // Aplicar Secrets con variación
-        if (basePrices.secrets.booking > 0) {
-          const secretsData = {
-            prices: {
-              booking: vary(basePrices.secrets.booking),
-              expedia: vary(basePrices.secrets.expedia),
-              despegar: vary(basePrices.secrets.despegar)
-            }
-          };
-          secretsData.averagePrice = (secretsData.prices.booking + secretsData.prices.expedia + secretsData.prices.despegar) / 3;
-          secretsData.lowestPrice = Math.min(secretsData.prices.booking, secretsData.prices.expedia, secretsData.prices.despegar);
-          distributePricesForProperty(0, secretsData);
-        }
-        
-        // Aplicar Zoetry con variación
-        if (basePrices.zoetry.booking > 0) {
-          const zoetryData = {
-            prices: {
-              booking: vary(basePrices.zoetry.booking),
-              expedia: vary(basePrices.zoetry.expedia),
-              despegar: vary(basePrices.zoetry.despegar)
-            }
-          };
-          zoetryData.averagePrice = (zoetryData.prices.booking + zoetryData.prices.expedia + zoetryData.prices.despegar) / 3;
-          zoetryData.lowestPrice = Math.min(zoetryData.prices.booking, zoetryData.prices.expedia, zoetryData.prices.despegar);
-          distributePricesForProperty(1, zoetryData);
-        }
-        
-        return true;
-      }
+
       
       // Nueva función: actualiza solo una propiedad específica
       function distributePricesForProperty(propertyIndex, priceData){
@@ -7733,19 +7546,7 @@
         if (uvcSummaryEl) uvcSummaryEl.textContent = `$${Math.round(uvcPrice)}`;
       }
 
-      // Simulación de actualización de precios (fallback)
-      function simulateRandomPriceUpdate() {
-        const variation = 0.95 + Math.random() * 0.1; // ±5% variación
-      
-        qa('[data-price-target]').forEach(el => {
-          const currentText = el.textContent.replace(/[^0-9]/g, '');
-          const currentPrice = parseInt(currentText) || 0;
-          if (currentPrice > 0) {
-            const newPrice = Math.round(currentPrice * variation);
-            el.textContent = `$${newPrice}`;
-          }
-        });
-      }
+
 
     document.addEventListener('click', (ev)=>{
       const langBtn = ev.target.closest('.lang-pill[data-lang]');
@@ -7852,10 +7653,8 @@
 
     setLanguage(state.lang);
 
-    setInterval(()=>{
-      applyPriceDrift();
-      updatePriceUI();
-    }, PRICE_DRIFT_INTERVAL);
+    // Desactivar actualización periódica para mantener precios estáticos
+    updatePriceUI();
 
     initPromotionsViewer();
 
