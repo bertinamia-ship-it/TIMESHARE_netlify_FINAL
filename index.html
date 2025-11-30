@@ -18,26 +18,32 @@
     :root {
       /* Brand Colors */
       --uvc-navy: #102649;
-      --uvc-navy-dark: #0e2148;
+      --uvc-navy-dark: #0a1a35;
       --uvc-navy-light: #1a4d7a;
-      --uvc-slate: #4a5672;
-      --uvc-slate-light: #6b7b9c;
-      --uvc-light: #f2f5fa;
+      --uvc-slate: #475569;
+      --uvc-slate-light: #64748b;
+      --uvc-light: #f8fafc;
       --uvc-panel: #ffffff;
+      --uvc-glass: rgba(255, 255, 255, 0.7);
       
       /* Semantic Colors */
       --uvc-success: #10b981;
+      --uvc-success-light: #d1fae5;
       --uvc-warning: #f59e0b;
+      --uvc-warning-light: #fef3c7;
       --uvc-error: #ef4444;
+      --uvc-error-light: #fee2e2;
       --uvc-info: #3b82f6;
+      --uvc-info-light: #dbeafe;
       
       /* Borders & Shadows */
-      --uvc-border: rgba(16, 38, 73, 0.12);
-      --uvc-border-medium: rgba(16, 38, 73, 0.18);
-      --uvc-border-strong: rgba(16, 38, 73, 0.25);
-      --uvc-shadow-sm: 0 4px 12px rgba(16, 38, 73, 0.08);
-      --uvc-shadow: 0 16px 48px rgba(16, 38, 73, 0.12);
-      --uvc-shadow-lg: 0 20px 60px rgba(16, 38, 73, 0.18);
+      --uvc-border: rgba(16, 38, 73, 0.08);
+      --uvc-border-medium: rgba(16, 38, 73, 0.12);
+      --uvc-border-strong: rgba(16, 38, 73, 0.18);
+      --uvc-shadow-sm: 0 1px 3px rgba(16, 38, 73, 0.08), 0 1px 2px rgba(16, 38, 73, 0.06);
+      --uvc-shadow: 0 4px 6px rgba(16, 38, 73, 0.07), 0 10px 15px rgba(16, 38, 73, 0.1);
+      --uvc-shadow-lg: 0 10px 25px rgba(16, 38, 73, 0.1), 0 20px 40px rgba(16, 38, 73, 0.08);
+      --uvc-shadow-xl: 0 20px 50px rgba(16, 38, 73, 0.15), 0 30px 60px rgba(16, 38, 73, 0.1);
       
       /* Spacing System */
       --space-xs: 4px;
@@ -73,14 +79,15 @@
     }
 
     body {
-      font-family: "Poppins", sans-serif;
-      background: linear-gradient(135deg, var(--uvc-light) 0%, #e9eef6 100%);
+      font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #cbd5e1 100%);
       background-attachment: fixed;
       display: flex;
       justify-content: center;
       align-items: flex-start;
       color: var(--uvc-navy);
-      font-size: 16px;
+      font-size: 15px;
+      line-height: 1.6;
       min-height: 100vh;
       height: 100vh;
       overflow: hidden;
@@ -88,6 +95,7 @@
       padding: 0;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
       /* iOS safe area */
       padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
     }
@@ -128,15 +136,16 @@
       top: 0;
       left: 0;
       right: 0;
-      height: 50px;
-      background: linear-gradient(135deg, var(--uvc-navy) 0%, var(--uvc-navy-dark) 100%);
+      height: 56px;
+      background: linear-gradient(135deg, #0a1a35 0%, #102649 100%);
       display: flex;
       align-items: center;
       justify-content: flex-end;
-      padding: 0 var(--space-lg);
+      padding: 0 var(--space-xl);
       z-index: 100;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.08);
+      backdrop-filter: blur(12px) saturate(180%);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
 
     .app-logo-container {
@@ -154,23 +163,30 @@
     }
 
     .fullscreen-btn {
-      background: rgba(255, 255, 255, 0.15);
-      border: none;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.15);
       color: white;
-      width: 40px;
-      height: 40px;
-      border-radius: var(--radius-md);
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all var(--transition-base);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       font-size: 18px;
+      backdrop-filter: blur(8px);
     }
 
     .fullscreen-btn:hover {
-      background: rgba(255, 255, 255, 0.25);
-      transform: scale(1.05);
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .fullscreen-btn:active {
+      transform: translateY(0);
     }
 
     .app-content {
@@ -589,35 +605,38 @@
 
     .home-card {
       width: min(1100px, 95vw);
-      background: var(--uvc-panel);
-      border-radius: var(--radius-lg);
-      padding: var(--space-xl);
-      box-shadow: var(--uvc-shadow-lg);
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(40px) saturate(180%);
+      border-radius: 24px;
+      padding: 40px;
+      box-shadow: 0 25px 50px rgba(10, 26, 53, 0.2), 0 10px 25px rgba(10, 26, 53, 0.1);
+      border: 1px solid rgba(16, 38, 73, 0.08);
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-      gap: var(--space-xl);
+      gap: 48px;
       max-height: 90vh;
       overflow-y: auto;
-      border: 1px solid var(--uvc-border);
-      animation: scaleIn var(--transition-slow) ease;
+      animation: scaleIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     @keyframes scaleIn {
       from {
-        transform: scale(0.9);
+        transform: scale(0.92) translateY(20px);
         opacity: 0;
       }
       to {
-        transform: scale(1);
+        transform: scale(1) translateY(0);
         opacity: 1;
       }
     }
 
     .home-left h1 {
-      margin: 0 0 var(--space-sm);
-      font-size: 28px;
-      color: var(--uvc-navy);
-      font-weight: 700;
+      margin: 0 0 12px;
+      font-size: 32px;
+      color: #0a1a35;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
     }
 
     .home-hero {
@@ -625,19 +644,20 @@
       flex-direction: column;
       align-items: center;
       text-align: center;
-      gap: var(--space-lg);
-      padding: var(--space-lg);
+      gap: 28px;
+      padding: 32px 24px;
     }
 
     .home-hero img {
       max-width: 280px;
       width: 100%;
-      filter: drop-shadow(0 20px 40px rgba(0,0,0,0.2));
-      transition: transform var(--transition-slow);
+      filter: drop-shadow(0 20px 40px rgba(16, 38, 73, 0.15));
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .home-hero img:hover {
-      transform: scale(1.02);
+      transform: scale(1.03) translateY(-4px);
+      filter: drop-shadow(0 25px 50px rgba(16, 38, 73, 0.2));
     }
 
     .home-hero h1 {
@@ -657,23 +677,37 @@
     }
     .primary-btn {
       border: none;
-      background: var(--uvc-navy);
+      background: linear-gradient(135deg, #102649 0%, #1a4d7a 100%);
       color: #fff;
-      padding: var(--space-md) var(--space-lg);
-      border-radius: var(--radius-md);
+      padding: 16px 32px;
+      border-radius: 14px;
       font-size: 15px;
       font-weight: 700;
       cursor: pointer;
-      box-shadow: var(--uvc-shadow-sm);
-      transition: all var(--transition-base);
-      letter-spacing: 0.03em;
+      box-shadow: 0 4px 12px rgba(16, 38, 73, 0.25), 0 2px 4px rgba(16, 38, 73, 0.15);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      letter-spacing: 0.05em;
       text-transform: uppercase;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .primary-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 100%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
     }
 
     .primary-btn:hover {
       transform: translateY(-2px);
-      background: var(--uvc-navy-dark);
-      box-shadow: var(--uvc-shadow);
+      box-shadow: 0 8px 20px rgba(16, 38, 73, 0.3), 0 4px 8px rgba(16, 38, 73, 0.2);
+    }
+
+    .primary-btn:hover::before {
+      opacity: 1;
     }
 
     .primary-btn:active {
@@ -685,26 +719,26 @@
     }
 
     .start-ready {
-      background: linear-gradient(135deg, #f8faff 0%, #eef4ff 100%);
-      border-radius: var(--radius-md);
-      border: 1px solid #d0ddf5;
-      padding: var(--space-lg);
-      font-size: 13px;
-      color: #2c4a6b;
-      line-height: 1.6;
-      box-shadow: var(--uvc-shadow-sm);
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%);
+      border-radius: 16px;
+      border: 1px solid rgba(59, 130, 246, 0.15);
+      padding: 20px 24px;
+      font-size: 14px;
+      color: #334155;
+      line-height: 1.7;
+      box-shadow: 0 2px 8px rgba(59, 130, 246, 0.08);
     }
 
     .sale-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(8,14,35,0.55);
-      backdrop-filter: blur(4px);
+      background: rgba(10, 26, 53, 0.6);
+      backdrop-filter: blur(12px) saturate(120%);
       display: none;
       align-items: center;
       justify-content: center;
       z-index: 1500;
-      animation: fadeIn var(--transition-base) ease;
+      animation: fadeIn 0.25s ease;
     }
 
     .sale-overlay.active {
@@ -1773,34 +1807,36 @@
     }
 
     .col-inner {
-      border-radius: 16px;
-      padding: 18px 16px;
-      background: var(--uvc-panel);
-      border: 1px solid var(--uvc-border);
+      border-radius: 20px;
+      padding: 24px 20px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid rgba(16, 38, 73, 0.08);
       height: 100%;
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      box-shadow: var(--uvc-shadow);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 4px 6px rgba(16, 38, 73, 0.05), 0 10px 20px rgba(16, 38, 73, 0.08);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
     
     .col-inner:hover {
-      box-shadow: 0 18px 56px rgba(16, 38, 73, 0.16);
-      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(16, 38, 73, 0.08), 0 20px 40px rgba(16, 38, 73, 0.12);
+      transform: translateY(-3px);
+      border-color: rgba(16, 38, 73, 0.12);
     }
 
     .col-title {
       text-align: center;
-      font-size: 12px;
-      font-weight: 700;
+      font-size: 11px;
+      font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 0.14em;
+      letter-spacing: 0.15em;
       color: var(--uvc-slate);
-      margin-bottom: 14px;
+      margin-bottom: 16px;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       justify-content: center;
       width: 100%;
     }
@@ -1813,20 +1849,20 @@
       width: min(100%, 320px);
       height: 78px;
       border-radius: 999px;
-      border: 2px solid rgba(30, 58, 95, 0.15);
-      background: #ffffff;
-      box-shadow: 0 8px 24px rgba(30, 58, 95, 0.15), 0 4px 12px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(16, 38, 73, 0.08);
+      background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+      box-shadow: 0 4px 12px rgba(16, 38, 73, 0.08), 0 8px 24px rgba(16, 38, 73, 0.06), inset 0 1px 2px rgba(255, 255, 255, 0.8);
       display: inline-flex;
       align-items: center;
       justify-content: center;
       padding: 10px 26px;
       overflow: hidden;
-      transition: all 0.3s ease;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
     
     .uvc-title-ring:hover {
-      box-shadow: 0 12px 32px rgba(30, 58, 95, 0.2), 0 6px 16px rgba(0, 0, 0, 0.15);
-      transform: scale(1.02);
+      box-shadow: 0 8px 20px rgba(16, 38, 73, 0.12), 0 12px 32px rgba(16, 38, 73, 0.08), inset 0 1px 2px rgba(255, 255, 255, 0.8);
+      transform: translateY(-2px) scale(1.02);
     }
 
     .uvc-title-ring img {
@@ -2326,9 +2362,9 @@
     }
 
     .breakeven-section {
-      margin: 36px 0 22px;
+      margin: 28px 0 18px;
       padding: 2px;
-      border-radius: 32px;
+      border-radius: 28px;
       background: linear-gradient(120deg, rgba(15, 90, 150, 0.25), rgba(41, 163, 125, 0.2));
       position: relative;
       overflow: hidden;
@@ -2358,12 +2394,12 @@
 
     .breakeven-card {
       background: linear-gradient(135deg, #fcfdff, #f1f6ff);
-      border-radius: 28px;
-      padding: 28px 28px 30px;
+      border-radius: 24px;
+      padding: 20px 24px;
       box-shadow: 0 25px 70px rgba(14, 33, 79, 0.18);
       display: flex;
       flex-direction: column;
-      gap: 22px;
+      gap: 16px;
       position: relative;
       z-index: 1;
     }
@@ -2372,7 +2408,7 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
-      gap: 16px;
+      gap: 12px;
       align-items: flex-start;
     }
 
@@ -2389,21 +2425,21 @@
 
     .breakeven-header h2 {
       margin: 0;
-      font-size: 22px;
+      font-size: 20px;
       color: #0f1b3d;
     }
 
     .breakeven-header p {
-      margin: 4px 0 0;
+      margin: 3px 0 0;
       color: #54638a;
-      font-size: 14px;
+      font-size: 13px;
     }
 
 
     .breakeven-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 32px;
+      gap: 24px;
       align-items: start;
     }
 
@@ -2417,7 +2453,7 @@
     .breakeven-form {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 20px;
+      gap: 12px;
     }
 
     @media (max-width: 768px) {
@@ -2428,18 +2464,18 @@
 
     .breakeven-form-group {
       border: 1px solid rgba(15, 40, 92, 0.08);
-      border-radius: 18px;
-      padding: 14px 16px;
+      border-radius: 14px;
+      padding: 10px 12px;
       background: #f9fbff;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-      gap: 12px 16px;
+      gap: 8px 12px;
     }
 
     .breakeven-form-group h4 {
       grid-column: 1 / -1;
-      margin: 2px 0 6px;
-      font-size: 13px;
+      margin: 0 0 4px;
+      font-size: 12px;
       letter-spacing: 0.06em;
       text-transform: uppercase;
       color: #5c6b8f;
@@ -2448,17 +2484,17 @@
     .breakeven-form label {
       display: flex;
       flex-direction: column;
-      gap: 4px;
-      font-size: 12px;
+      gap: 3px;
+      font-size: 11px;
       font-weight: 600;
       color: #1f335b;
     }
 
     .breakeven-form input {
       border: 1px solid #cdd6f0;
-      border-radius: 12px;
-      padding: 10px 12px;
-      font-size: 15px;
+      border-radius: 10px;
+      padding: 8px 10px;
+      font-size: 14px;
       background: #fff;
     }
 
@@ -2471,19 +2507,19 @@
     .breakeven-results {
       display: flex;
       flex-direction: column;
-      gap: 28px;
+      gap: 16px;
     }
 
     .breakeven-stats {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
+      gap: 12px;
     }
 
     .breakeven-stats > div {
       background: linear-gradient(135deg, #ffffff 0%, #f8fafb 100%);
-      padding: 20px 24px;
-      border-radius: 16px;
+      padding: 14px 18px;
+      border-radius: 14px;
       border: 2px solid #e8ecf1;
       display: flex;
       flex-direction: column;
@@ -2498,7 +2534,7 @@
     }
 
     .breakeven-stats span {
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.08em;
@@ -2506,7 +2542,7 @@
     }
 
     .breakeven-stats strong {
-      font-size: 26px;
+      font-size: 22px;
       font-weight: 800;
       color: var(--uvc-navy);
       letter-spacing: -0.02em;
@@ -2529,7 +2565,7 @@
 
     .breakeven-stats > div:nth-child(5) strong {
       color: #fff;
-      font-size: 32px;
+      font-size: 26px;
     }
 
     .breakeven-incentives {
@@ -2602,15 +2638,15 @@
     .breakeven-visuals {
       display: flex;
       flex-direction: column;
-      gap: 24px;
+      gap: 16px;
     }
 
     .breakeven-chart {
       position: relative;
       background: linear-gradient(135deg, var(--uvc-navy) 0%, #1a4d7a 50%, #2c6b9e 100%);
-      border-radius: 20px;
-      padding: 36px 32px;
-      min-height: 360px;
+      border-radius: 18px;
+      padding: 24px 20px;
+      min-height: 280px;
       overflow: hidden;
       color: #fff;
       box-shadow: 0 12px 40px rgba(16, 38, 73, 0.25);
@@ -2640,9 +2676,9 @@
       position: relative;
       display: flex;
       align-items: flex-end;
-      gap: 20px;
-      height: 240px;
-      margin-top: 24px;
+      gap: 16px;
+      height: 180px;
+      margin-top: 16px;
       padding: 0 8px;
       z-index: 1;
     }
@@ -2650,13 +2686,13 @@
     .be-bar {
       flex: 1;
       background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.85));
-      border-radius: 12px 12px 0 0;
+      border-radius: 10px 10px 0 0;
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
       align-items: center;
-      padding: 16px 10px 12px;
-      min-width: 60px;
+      padding: 12px 8px 10px;
+      min-width: 55px;
       position: relative;
       box-shadow: 0 -4px 20px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.1);
       transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -2687,16 +2723,16 @@
     }
 
     .be-bar strong {
-      font-size: 16px;
+      font-size: 14px;
       font-weight: 800;
       color: var(--uvc-navy);
-      margin-bottom: 6px;
+      margin-bottom: 4px;
       text-align: center;
       letter-spacing: -0.01em;
     }
 
     .be-bar span {
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.06em;
@@ -3028,13 +3064,47 @@
     }
 
     .promotions-modal {
-      max-width: 960px;
+      max-width: 1200px;
     }
 
     .promotions-body {
       display: flex;
       flex-direction: column;
       gap: 28px;
+    }
+
+    .promo-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .promo-filter-btn {
+      border: 1px solid var(--uvc-border-medium);
+      background: #fff;
+      color: var(--uvc-navy);
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all var(--transition-base);
+    }
+
+    .promo-filter-btn:hover {
+      background: var(--uvc-light);
+      transform: translateY(-1px);
+      box-shadow: var(--uvc-shadow-sm);
+    }
+
+    .promo-filter-btn.active {
+      background: var(--uvc-navy);
+      color: #fff;
+      border-color: var(--uvc-navy);
+      box-shadow: var(--uvc-shadow-sm);
     }
 
     .promo-hero {
@@ -3058,6 +3128,49 @@
       background: #010913;
       box-shadow: 0 25px 60px rgba(5, 18, 44, 0.35);
     }
+
+    .promo-hero-price {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: linear-gradient(135deg, #29a37d, #1a8f68);
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      box-shadow: 0 10px 24px rgba(41,163,125,0.35);
+    }
+
+    .promo-hero-nav {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 8px;
+      pointer-events: none;
+    }
+
+    .promo-hero-btn {
+      pointer-events: auto;
+      border: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      background: rgba(0,0,0,0.45);
+      color: #fff;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background var(--transition-base), transform var(--transition-base);
+    }
+
+    .promo-hero-btn:hover { background: rgba(0,0,0,0.6); transform: scale(1.05); }
+    .promo-hero-btn:active { transform: scale(0.98); }
 
     .promo-hero-media img {
       width: 100%;
@@ -3144,6 +3257,13 @@
       line-height: 1.5;
     }
 
+    .promo-legal {
+      margin-top: 10px;
+      font-size: 12px;
+      line-height: 1.4;
+      color: rgba(255,255,255,0.7);
+    }
+
     .promo-hero-stats {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -3168,21 +3288,34 @@
 
     .promo-thumb-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 16px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
     }
 
     .promo-thumb {
-      border-radius: 20px;
+      border-radius: 16px;
       border: 1px solid rgba(9, 30, 66, 0.15);
-      padding: 16px 18px;
-      background: #f7f9ff;
-      box-shadow: 0 12px 30px rgba(9, 30, 66, 0.1);
+      background: #ffffff;
+      box-shadow: 0 10px 24px rgba(9, 30, 66, 0.1);
       text-align: left;
       cursor: pointer;
       position: relative;
       overflow: hidden;
       transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      display: grid;
+      grid-template-rows: 140px auto;
+    }
+
+    .promo-thumb-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      background: #eef2f9;
+    }
+
+    .promo-thumb-content {
+      padding: 12px 14px 14px;
     }
 
     .promo-thumb::after {
@@ -3473,20 +3606,22 @@
     .modal {
       width: min(1000px, 95vw);
       max-height: calc(100vh - 32px);
-      background: #ffffff;
-      border-radius: 24px;
-      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
-      padding: 18px 22px 22px;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(40px) saturate(180%);
+      border-radius: 28px;
+      border: 1px solid rgba(16, 38, 73, 0.1);
+      box-shadow: 0 25px 50px rgba(10, 26, 53, 0.25), 0 10px 25px rgba(10, 26, 53, 0.15);
+      padding: 24px 28px 28px;
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      animation: modalIn 0.25s ease-out;
+      animation: modalIn 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     @keyframes modalIn {
       from {
         opacity: 0;
-        transform: translateY(12px) scale(0.96);
+        transform: translateY(20px) scale(0.95);
       }
       to {
         opacity: 1;
@@ -3498,32 +3633,43 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 10px;
-      gap: 12px;
+      margin-bottom: 16px;
+      gap: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(16, 38, 73, 0.08);
     }
 
     .modal-header h2 {
-      font-size: 20px;
+      font-size: 22px;
+      font-weight: 700;
       margin: 0;
-      color: #102649;
+      color: #0a1a35;
+      letter-spacing: -0.01em;
     }
 
     .modal-close {
       border: none;
-      background: #edf0fb;
+      background: rgba(16, 38, 73, 0.06);
       border-radius: 999px;
-      width: 32px;
-      height: 32px;
+      width: 36px;
+      height: 36px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 18px;
+      font-size: 20px;
       cursor: pointer;
-      color: #102649;
+      color: #475569;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .modal-close:hover {
-      background: #d8def8;
+      background: rgba(16, 38, 73, 0.1);
+      color: #0a1a35;
+      transform: scale(1.05);
+    }
+
+    .modal-close:active {
+      transform: scale(0.95);
     }
 
     .modal-body {
@@ -4207,26 +4353,23 @@
             <h3 data-i18n="home.configTitle">Panel de administración</h3>
             <p data-i18n="home.configSubtitle">Ingresa el PIN para editar precios en vivo.</p>
           </div>
+          <div class="pin-form">
+            <input type="password" id="pin-input" placeholder="PIN" maxlength="6" disabled />
+            <button id="unlock-btn" type="button" data-i18n="home.unlock" disabled>Desbloquear</button>
+          </div>
         </div>
-        <form class="pin-form" id="pin-form">
-          <input type="password" id="pin-input" placeholder="PIN" autocomplete="off" inputmode="numeric" maxlength="7" />
-          <button type="submit" data-i18n="home.unlock">Desbloquear</button>
-        </form>
-        <div class="pin-status" id="pin-status" role="status"></div>
-        <div class="config-locked-message" id="config-locked-message">
-          <div class="lock-icon" aria-hidden="true">🔒</div>
-          <p data-i18n="home.lockedMessage">Ingresa el PIN para desbloquear esta sección privada.</p>
+        <div class="pin-status" id="pin-status"></div>
+        <div class="config-locked-message">
+          <div class="lock-icon">🔒</div>
+          <p data-i18n="home.lockedMessage">Ingresa el PIN para revelar esta sección privada.</p>
         </div>
         <div class="config-body">
-          <div class="analytics-panel" id="analytics-panel">
-            
-            <!-- Admin Tabs -->
-            <div class="admin-tabs">
-              <button class="admin-tab-btn active" data-tab="prices" type="button">⚙️ Precios e Incentivos</button>
-              <button class="admin-tab-btn" data-tab="financial" type="button">📊 Área Financiera</button>
-              <button class="admin-tab-btn" data-tab="rankings" type="button">🏆 Rankings</button>
-              <button class="admin-tab-btn" data-tab="settings" type="button">⚙️ Settings</button>
-            </div>
+          <div class="admin-tabs">
+            <button class="admin-tab-btn active" data-tab="prices" type="button">💰 Price Checker</button>
+            <button class="admin-tab-btn" data-tab="financial" type="button">📊 Área Financiera</button>
+            <button class="admin-tab-btn" data-tab="rankings" type="button">🏆 Rankings</button>
+            <button class="admin-tab-btn" data-tab="settings" type="button">⚙️ Settings</button>
+          </div>
             
             <!-- SECTION 1: Price Checker & Incentives Configuration -->
             <div class="admin-section active" data-section="prices">
@@ -4440,12 +4583,23 @@
       </div>
       <div class="modal-body promotions-body">
         <p data-i18n="promos.subtitle">Selecciona una campaña para mostrar las fotos en formato grande.</p>
+        <div class="promo-filters" role="tablist" aria-label="Promo filters">
+          <button type="button" class="promo-filter-btn active" data-filter="all"><span data-i18n="promos.filterAll">Todas</span></button>
+          <button type="button" class="promo-filter-btn" data-filter="breathless"><span data-i18n="promos.filterBreathless">Breathless</span></button>
+          <button type="button" class="promo-filter-btn" data-filter="dreams"><span data-i18n="promos.filterDreams">Dreams</span></button>
+          <button type="button" class="promo-filter-btn" data-filter="secrets"><span data-i18n="promos.filterSecrets">Secrets</span></button>
+        </div>
 
         <div class="promo-hero">
           <div class="promo-hero-media">
             <img id="promo-hero-image" src="breathless 1.webp" alt="May the 4th Offer" loading="lazy" />
+              <div class="promo-hero-price" id="promo-hero-price"></div>
+              <div class="promo-hero-nav" id="promo-hero-nav" aria-hidden="true" style="display:none;">
+                <button type="button" class="promo-hero-btn" id="promo-hero-prev" aria-label="Anterior">◀</button>
+                <button type="button" class="promo-hero-btn" id="promo-hero-next" aria-label="Siguiente">▶</button>
+              </div>
             <div class="promo-hero-tagbar">
-              <span class="promo-pill" id="promo-hero-season">Temporada especial</span>
+              <span class="promo-pill" id="promo-hero-season">Special season</span>
               <span class="promo-pill" id="promo-hero-window">4 - 10 MAY</span>
             </div>
           </div>
@@ -4454,80 +4608,100 @@
               <img src="logo uexperience.png" alt="UVC" loading="lazy" />
             </div>
             <div>
-              <p class="promo-hero-eyebrow" data-i18n="promos.heroLabel">Campaña activa</p>
+              <p class="promo-hero-eyebrow" data-i18n="promos.heroLabel">Live campaign</p>
               <h3 id="promo-hero-title">May the 4th</h3>
-              <p id="promo-hero-description">Upgrades dobles y noches gratis en reservas del 4 al 10 de mayo.</p>
+              <p id="promo-hero-description">Double upgrades and free nights on bookings made May 4-10.</p>
               <div class="promo-hero-stats">
                 <div>
-                  <span class="promo-stat-label" data-i18n="promos.marketLabel">Mercado objetivo</span>
+                  <span class="promo-stat-label" data-i18n="promos.marketLabel">Target market</span>
                   <strong id="promo-hero-market">US + LATAM Fans</strong>
                 </div>
                 <div>
-                  <span class="promo-stat-label" data-i18n="promos.valueLabel">Beneficio clave</span>
-                  <strong id="promo-hero-value">Upgrades & noches</strong>
+                  <span class="promo-stat-label" data-i18n="promos.valueLabel">Key benefit</span>
+                  <strong id="promo-hero-value">Upgrades & nights</strong>
                 </div>
               </div>
+              <p class="promo-legal" id="promo-hero-legal"></p>
             </div>
           </div>
         </div>
 
         <div>
-          <div class="promo-thumb-heading" data-i18n="promos.timelineLabel">Elige la promoción que quieres contar</div>
+          <div class="promo-thumb-heading" data-i18n="promos.timelineLabel">Choose the promotion you want to pitch</div>
           <div class="promo-thumb-grid">
             <button class="promo-thumb active" type="button"
               data-img="breathless 1.webp"
-              data-alt="Suite Breathless con decoración temática"
-              data-title="May the 4th"
-              data-desc="Upgrades dobles y noches gratis en reservas del 4 al 10 de mayo."
-              data-window="4 - 10 MAY"
-              data-season="Temporada especial"
-              data-market="US + LATAM Fans"
-              data-value="Upgrades & noches ilimitadas">
-              <span>Mayo</span>
-              <strong>May the 4th</strong>
-              <small>Semana temática galáctica</small>
+              data-alt="Oferta 4 de mayo todo incluido"
+              data-brand="breathless dreams secrets"
+              data-gallery="breathless 1.webp, breathless 4.webp"
+              data-title="4 de Mayo — Todo Incluido"
+              data-desc="Desde $75 USD por persona por noche en propiedades participantes."
+              data-window="4 MAY"
+              data-season="Fecha especial"
+              data-market="US · LATAM"
+              data-value="$75 p/p/noche AI"
+              data-legal="Tarifa por persona por noche, en ocupación doble. Cupo limitado y sujeto a disponibilidad. Marcas participantes: Breathless, Dreams y Secrets. Válido el 4 de mayo. Aplican restricciones.">
+              <img class="promo-thumb-img" src="breathless 1.webp" alt="4 de mayo - $75 AI" loading="lazy" />
+              <div class="promo-thumb-content">
+                <span>4 MAY</span>
+                <strong>$75 USD p/p/noche</strong>
+                <small>Todo incluido · Breathless · Dreams · Secrets</small>
+              </div>
             </button>
+            
 
             <button class="promo-thumb" type="button"
               data-img="breathless 4.webp"
               data-alt="Escena nocturna en Breathless con luces neón"
+              data-brand="breathless"
               data-title="Black Friday"
               data-desc="Descuento adicional del 20% y certificados exclusivos para cerrar ese mismo día."
               data-window="Nov 24 - 27"
               data-season="Venta Anual"
               data-market="US · Canadá · LATAM"
               data-value="20% OFF + certificados">
-              <span>Nov</span>
-              <strong>Black Friday</strong>
-              <small>Oferta relámpago</small>
+              <img class="promo-thumb-img" src="breathless 4.webp" alt="Black Friday thumb" loading="lazy" />
+              <div class="promo-thumb-content">
+                <span>Nov</span>
+                <strong>Black Friday</strong>
+                <small>Oferta relámpago</small>
+              </div>
             </button>
 
             <button class="promo-thumb" type="button"
               data-img="dreams 1.webp"
               data-alt="Familia disfrutando Dreams Resort"
+              data-brand="dreams"
               data-title="Cyber Monday"
               data-desc="Créditos UVC extra y noches ilimitadas durante las primeras 72 horas de la semana."
               data-window="Nov 27 - 30"
               data-season="Venta Digital"
               data-market="Global Online"
               data-value="Créditos UVC extra">
-              <span>Nov</span>
-              <strong>Cyber Monday</strong>
-              <small>72 hrs digitales</small>
+              <img class="promo-thumb-img" src="dreams 1.webp" alt="Cyber Monday thumb" loading="lazy" />
+              <div class="promo-thumb-content">
+                <span>Nov</span>
+                <strong>Cyber Monday</strong>
+                <small>72 hrs digitales</small>
+              </div>
             </button>
 
             <button class="promo-thumb" type="button"
               data-img="conde 1.jpg"
               data-alt="Promoción de verano frente al mar"
+              data-brand="secrets"
               data-title="Forever Summer"
               data-desc="Experiencias de spa incluidas y upgrade de suite durante la temporada de verano."
               data-window="Jun - Ago"
               data-season="Verano"
               data-market="Resorts Caribe & Med"
               data-value="Spa + upgrade suite">
-              <span>Verano</span>
-              <strong>Forever Summer</strong>
-              <small>Campaña anual</small>
+              <img class="promo-thumb-img" src="conde 1.jpg" alt="Forever Summer thumb" loading="lazy" />
+              <div class="promo-thumb-content">
+                <span>Verano</span>
+                <strong>Forever Summer</strong>
+                <small>Campaña anual</small>
+              </div>
             </button>
           </div>
         </div>
@@ -5046,6 +5220,10 @@
         'promos.marketLabel': 'Mercado objetivo',
         'promos.valueLabel': 'Beneficio clave',
         'promos.timelineLabel': 'Elige la promoción que quieres contar',
+        'promos.filterAll': 'Todas',
+        'promos.filterBreathless': 'Breathless',
+        'promos.filterDreams': 'Dreams',
+        'promos.filterSecrets': 'Secrets',
         'priceChecker.label': 'Price Checker',
         'priceChecker.title': 'Comparador en vivo',
         'priceChecker.subtitle': 'Secrets Puerto Los Cabos vs Zoëtry Los Cabos',
@@ -5237,6 +5415,10 @@
         'promos.marketLabel': 'Target market',
         'promos.valueLabel': 'Key benefit',
         'promos.timelineLabel': 'Choose the promotion you want to pitch',
+        'promos.filterAll': 'All',
+        'promos.filterBreathless': 'Breathless',
+        'promos.filterDreams': 'Dreams',
+        'promos.filterSecrets': 'Secrets',
         'priceChecker.label': 'Price Checker',
         'priceChecker.title': 'Live Price Checker',
         'priceChecker.subtitle': 'Secrets Puerto Los Cabos vs Zoëtry Los Cabos',
@@ -7042,23 +7224,75 @@
       const heroSeason = q('#promo-hero-season');
       const heroMarket = q('#promo-hero-market');
       const heroValue  = q('#promo-hero-value');
+      const heroLegal  = q('#promo-hero-legal');
+      const heroPrice  = q('#promo-hero-price');
+      const heroNav    = q('#promo-hero-nav');
+      const btnPrev    = q('#promo-hero-prev');
+      const btnNext    = q('#promo-hero-next');
       const thumbs     = qa('.promo-thumb');
+      const filterBtns = qa('.promo-filter-btn');
 
       if (!heroImage || !heroTitle || !thumbs.length) return;
 
+      let gallery = [];
+      let gIndex = 0;
+
+      const setImg = (i)=>{
+        if (!gallery.length) return;
+        gIndex = (i + gallery.length) % gallery.length;
+        const src = gallery[gIndex];
+        heroImage.src = src;
+      };
+
       const applyPromo = (btn)=>{
         if (!btn || !btn.dataset) return;
-        if (btn.dataset.img){
-          heroImage.src = btn.dataset.img;
-          heroImage.alt = btn.dataset.alt || btn.dataset.title || 'UVC Promotion';
-        }
-        if (heroTitle && btn.dataset.title) heroTitle.textContent = btn.dataset.title;
-        if (heroDesc && btn.dataset.desc) heroDesc.textContent = btn.dataset.desc;
-        if (heroWindow && btn.dataset.window) heroWindow.textContent = btn.dataset.window;
-        if (heroSeason && btn.dataset.season) heroSeason.textContent = btn.dataset.season;
-        if (heroMarket && btn.dataset.market) heroMarket.textContent = btn.dataset.market;
-        if (heroValue && btn.dataset.value) heroValue.textContent = btn.dataset.value;
+        const langKey = state.lang === 'es' ? 'Es' : 'En';
+        const pick = (base)=> btn.dataset[`${base}${langKey}`] || btn.dataset[base.toLowerCase()] || btn.dataset[base] || '';
+        const baseImg = btn.dataset.img;
+        const galAttr = btn.dataset.gallery || '';
+        gallery = (galAttr ? galAttr.split(',') : []).map(s => s.trim()).filter(Boolean);
+        if (!gallery.length && baseImg) gallery = [baseImg];
+        if (gallery.length) setImg(0);
+        heroImage.alt = btn.dataset.alt || btn.dataset.title || 'UVC Promotion';
+        if (heroNav) heroNav.style.display = gallery.length > 1 ? '' : 'none';
+        if (heroTitle)  heroTitle.textContent  = pick('title');
+        if (heroDesc)   heroDesc.textContent   = pick('desc');
+        if (heroWindow) heroWindow.textContent = btn.dataset.window || '';
+        if (heroSeason) heroSeason.textContent = pick('season');
+        if (heroMarket) heroMarket.textContent = pick('market');
+        if (heroValue)  heroValue.textContent  = pick('value');
+        if (heroLegal)  heroLegal.textContent  = pick('legal');
+        if (heroPrice)  heroPrice.textContent  = pick('banner') || pick('value');
       };
+
+      if (btnPrev) btnPrev.addEventListener('click', ()=> setImg(gIndex - 1));
+      if (btnNext) btnNext.addEventListener('click', ()=> setImg(gIndex + 1));
+
+      // Filters
+      const applyFilter = (key)=>{
+        const token = (key || 'all').toLowerCase();
+        let firstVisible = null;
+        thumbs.forEach(btn => {
+          const brands = (btn.dataset.brand || '').toLowerCase();
+          const show = token === 'all' || brands.split(/\s+/).includes(token);
+          btn.style.display = show ? '' : 'none';
+          if (show && !firstVisible) firstVisible = btn;
+        });
+        const active = thumbs.find(b => b.classList.contains('active'));
+        if (!active || active.style.display === 'none'){
+          thumbs.forEach(t => t.classList.remove('active'));
+          if (firstVisible){
+            firstVisible.classList.add('active');
+            applyPromo(firstVisible);
+          }
+        }
+      };
+
+      filterBtns.forEach(b => b.addEventListener('click', ()=>{
+        filterBtns.forEach(x => x.classList.remove('active'));
+        b.classList.add('active');
+        applyFilter(b.dataset.filter || 'all');
+      }));
 
       thumbs.forEach(btn => {
         btn.addEventListener('click', ()=>{
@@ -7071,6 +7305,8 @@
 
       const first = thumbs.find(btn => btn.classList.contains('active')) || thumbs[0];
       applyPromo(first);
+      // Ensure initial filter state
+      applyFilter('all');
     }
 
     // Pausa TODOS los videos (menos uno opcional si lo quieres excluir)
