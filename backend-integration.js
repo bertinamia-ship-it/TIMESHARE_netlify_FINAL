@@ -73,7 +73,9 @@ function formatCacheEntry(entry){
  */
 async function checkBackendHealth() {
   try {
-    const response = await fetch(`${BACKEND_CONFIG.apiUrl}/`, {
+    const api = resolveApiUrl();
+    if(!api) return false;
+    const response = await fetch(`${api}/`, {
       method: 'GET',
       headers: { 'Accept': 'application/json' }
     });
@@ -225,8 +227,9 @@ async function updatePriceCheckerWithRealData(destination, checkin, checkout) {
     // 1. Intentar cache estático primero para respuesta instantánea
     const cache = await loadPricesCache();
     const cachedEntry = findCachedEntry(cache, destination, checkin, checkout);
+    let formattedCached = null;
     if(cachedEntry){
-      const formattedCached = formatCacheEntry(cachedEntry);
+      formattedCached = formatCacheEntry(cachedEntry);
       updatePriceCheckerUI(formattedCached);
       if (loadingIndicator) {
         loadingIndicator.innerHTML = '⚡ Precios rápidos (cache) • Actualizando...';
@@ -238,7 +241,7 @@ async function updatePriceCheckerWithRealData(destination, checkin, checkout) {
       if (loadingIndicator) {
         loadingIndicator.innerHTML = '⚡ Modo estático (cache)';
       }
-      return cachedEntry ? formattedCached : null;
+      return formattedCached;
     }
 
     // Si hay backend disponible, intentar precios reales
@@ -253,14 +256,14 @@ async function updatePriceCheckerWithRealData(destination, checkin, checkout) {
       }
       return formattedPrices;
     }
-    return cachedEntry ? formattedCached : null;
+    return formattedCached;
     
   } catch (error) {
     console.error('Error actualizando precios:', error);
     if (loadingIndicator) {
       loadingIndicator.innerHTML = BACKEND_CONFIG.isGithubPages ? '⚡ Sólo cache disponible' : '⚠️ Error backend • usando cache';
     }
-    return cachedEntry ? formattedCached : null;
+    return formattedCached;
   }
 }
 
