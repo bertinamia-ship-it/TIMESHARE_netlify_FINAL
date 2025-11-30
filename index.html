@@ -2247,7 +2247,6 @@
       stroke-linecap: round;
       stroke-linejoin: round;
     }
-
     .worldwide-wordmark {
       font-size: 14px;
       letter-spacing: 0.25em;
@@ -2261,6 +2260,58 @@
       margin: 10px 0;
       background: linear-gradient(90deg, transparent, #cbd3e6, transparent);
     }
+      .pc-refresh {
+        border: none;
+        background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        color: white;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        transition: all 0.3s;
+        box-shadow: 0 2px 8px rgba(59, 130, 246, 0.25);
+      }
+
+      .pc-refresh:hover {
+        background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.35);
+      }
+
+      .pc-refresh:active {
+        transform: translateY(0);
+      }
+
+      .pc-refresh:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none !important;
+      }
+
+      .pc-refresh-icon {
+        display: inline-block;
+        transition: transform 0.5s ease;
+      }
+
+      .pc-refresh-icon.spinning {
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+
+      .pc-header-actions {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+
 
     /* ---- COLUMNA 1: ALL INCLUSIVE RESORTS ---- */
 
@@ -4096,7 +4147,17 @@
     #gallery-overlay .gallery-next:hover {
       background: rgba(255,255,255,0.12);
     }
+
+      /* Loading state for price checker */
+      .pc-section.loading {
+        opacity: 0.6;
+        pointer-events: none;
+      }
   </style>
+
+    <!-- Backend Integration Script -->
+    <script src="backend-integration.js"></script>
+
 </head>
 
 <body>
@@ -4140,7 +4201,13 @@
           <div class="pc-subtitle" data-i18n="priceChecker.subtitle">Secrets Puerto Los Cabos vs Zoëtry Los Cabos</div>
           <div id="pc-last-updated" style="font-size: 11px; color: var(--uvc-slate); margin-top: 4px;">Updated just now • Simulated live</div>
         </div>
-        <button class="pc-close" type="button" aria-label="Close price checker">&times;</button>
+          <div class="pc-header-actions">
+            <button class="pc-refresh" id="pc-refresh-btn" type="button" aria-label="Refresh prices" title="Actualizar precios">
+              <span class="pc-refresh-icon">↻</span>
+              <span data-i18n="priceChecker.refresh">Actualizar</span>
+            </button>
+            <button class="pc-close" type="button" aria-label="Close price checker">&times;</button>
+          </div>
       </div>
 
       <div class="pc-section" data-property-index="0">
@@ -5312,6 +5379,7 @@
     const priceCheckerPanel   = q('#price-checker-panel');
     const priceCheckerNote    = q('#price-checker-note');
     const priceCheckerClose   = priceCheckerPanel ? q('.pc-close', priceCheckerPanel) : null;
+      const priceCheckerRefresh = q('#pc-refresh-btn');
     const homeScreen          = q('#home-screen');
     const homeConfig          = q('#home-config');
     const startDemoBtn        = q('#start-demo-btn');
@@ -5469,6 +5537,7 @@
         'priceChecker.subtitle': 'Secrets Puerto Los Cabos vs Zoëtry Los Cabos',
         'priceChecker.publicRate': 'Tarifa Pública',
         'priceChecker.memberRate': 'Tarifa UVC',
+          'priceChecker.refresh': 'Actualizar',
         'priceChecker.savingsInline': 'Ahorro UVC {value}%',
         'priceChecker.note': 'Mayor ahorro con UVC: {value}%.',
         'home.title': 'Centro de Control 3-Way Pitch',
@@ -5664,6 +5733,7 @@
         'priceChecker.subtitle': 'Secrets Puerto Los Cabos vs Zoëtry Los Cabos',
         'priceChecker.publicRate': 'Public Rate',
         'priceChecker.memberRate': 'Member Rate',
+          'priceChecker.refresh': 'Refresh',
         'priceChecker.savingsInline': 'UVC savings {value}%',
         'priceChecker.note': 'Best UVC savings: {value}%.',
         'home.title': '3-Way Pitch Control Center',
@@ -7343,6 +7413,147 @@
         togglePriceChecker(false);
       });
     }
+
+      // Botón de actualización de precios en tiempo real
+      if (priceCheckerRefresh){
+        priceCheckerRefresh.addEventListener('click', async ()=>{
+          const btn = priceCheckerRefresh;
+          const icon = btn.querySelector('.pc-refresh-icon');
+          const lastUpdatedEl = q('#pc-last-updated');
+        
+          // Estado de loading
+          btn.disabled = true;
+          if (icon) icon.classList.add('spinning');
+          if (lastUpdatedEl) lastUpdatedEl.innerHTML = '🔄 Buscando precios en tiempo real...';
+        
+          // Agregar clase loading a las secciones
+          qa('.pc-section').forEach(section => section.classList.add('loading'));
+        
+          try {
+            // Intentar obtener precios reales del backend
+            if (window.UVCBackend && typeof window.UVCBackend.getRealTimePrices === 'function') {
+              const today = new Date();
+              const checkin = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000); // +7 días
+              const checkout = new Date(today.getTime() + 11 * 24 * 60 * 60 * 1000); // +11 días
+            
+              const checkinStr = checkin.toISOString().split('T')[0];
+              const checkoutStr = checkout.toISOString().split('T')[0];
+            
+              const destination = 'Cancun'; // Puedes hacerlo dinámico
+            
+              const backendData = await window.UVCBackend.getRealTimePrices(
+                destination, 
+                checkinStr, 
+                checkoutStr, 
+                2
+              );
+            
+              // Formatear y actualizar UI
+              const formattedPrices = window.UVCBackend.formatBackendPrices(backendData);
+              updatePriceCheckerUIFromBackend(formattedPrices);
+            
+              // Actualizar timestamp
+              if (lastUpdatedEl) {
+                const lastUpdate = new Date(backendData.timestamp);
+                const timeStr = lastUpdate.toLocaleTimeString(state.language === 'es' ? 'es-MX' : 'en-US', { 
+                  hour: '2-digit', 
+                  minute: '2-digit' 
+                });
+                lastUpdatedEl.innerHTML = `✅ ${state.language === 'es' ? 'Actualizado' : 'Updated'} ${timeStr} • ${state.language === 'es' ? 'Precios en vivo' : 'Live prices'}`;
+              }
+            } else {
+              // Fallback: simular actualización
+              await new Promise(resolve => setTimeout(resolve, 1500));
+              simulateRandomPriceUpdate();
+            
+              if (lastUpdatedEl) {
+                const now = new Date();
+                const timeStr = now.toLocaleTimeString(state.language === 'es' ? 'es-MX' : 'en-US', { 
+                  hour: '2-digit', 
+                  minute: '2-digit' 
+                });
+                lastUpdatedEl.innerHTML = `✅ ${state.language === 'es' ? 'Actualizado' : 'Updated'} ${timeStr} • ${state.language === 'es' ? 'Datos simulados' : 'Simulated data'}`;
+              }
+            }
+          } catch (error) {
+            console.error('Error al actualizar precios:', error);
+            if (lastUpdatedEl) {
+              lastUpdatedEl.innerHTML = '⚠️ ' + (state.language === 'es' ? 'Error al obtener precios' : 'Error fetching prices');
+            }
+          } finally {
+            // Remover estado de loading
+            btn.disabled = false;
+            if (icon) icon.classList.remove('spinning');
+            qa('.pc-section').forEach(section => section.classList.remove('loading'));
+          }
+        });
+      }
+
+      // Función auxiliar para actualizar UI con datos del backend
+      function updatePriceCheckerUIFromBackend(priceData) {
+        // Actualizar precios de propiedades (0 = primera, 1 = segunda)
+        for (let propIndex = 0; propIndex <= 1; propIndex++) {
+          const bookingEl = q(`[data-price-target="booking"][data-property-index="${propIndex}"]`);
+          const expediaEl = q(`[data-price-target="expedia"][data-property-index="${propIndex}"]`);
+          const despegarEl = q(`[data-price-target="despegar"][data-property-index="${propIndex}"]`);
+          const uvcEl = q(`[data-price-target="uvc"][data-property-index="${propIndex}"]`);
+        
+          if (priceData.prices.booking > 0) {
+            const variance = propIndex === 0 ? 1 : 1.15; // Segunda propiedad más cara
+            if (bookingEl) bookingEl.textContent = `$${Math.round(priceData.prices.booking * variance)}`;
+          }
+        
+          if (priceData.prices.expedia > 0) {
+            const variance = propIndex === 0 ? 1 : 1.12;
+            if (expediaEl) expediaEl.textContent = `$${Math.round(priceData.prices.expedia * variance)}`;
+          }
+        
+          if (priceData.prices.despegar > 0 || priceData.prices.hotels > 0) {
+            const basePrice = priceData.prices.despegar || priceData.prices.hotels || priceData.averagePrice;
+            const variance = propIndex === 0 ? 1 : 1.08;
+            if (despegarEl) despegarEl.textContent = `$${Math.round(basePrice * variance)}`;
+          }
+        
+          // Calcular precio UVC con descuento
+          const avgPublicPrice = priceData.averagePrice || 
+            ((priceData.prices.booking + priceData.prices.expedia) / 2);
+          const variance = propIndex === 0 ? 1 : 1.1;
+          const uvcDiscount = 0.35; // 35% descuento
+          const uvcPrice = avgPublicPrice * variance * (1 - uvcDiscount);
+        
+          if (uvcEl) uvcEl.textContent = `$${Math.round(uvcPrice)}`;
+        
+          // Actualizar savings
+          const savingsEl = q(`[data-savings-target="${propIndex}"]`);
+          if (savingsEl && priceData.lowestPrice) {
+            const savings = (priceData.lowestPrice * variance) - uvcPrice;
+            const savingsText = state.language === 'es' ? 
+              `Ahorra $${Math.round(savings)} por noche` : 
+              `Save $${Math.round(savings)} per night`;
+            savingsEl.textContent = savingsText;
+          }
+        
+          // Actualizar resumen UVC
+          const uvcSummaryEl = q(`[data-uvc-summary="${propIndex}"]`);
+          if (uvcSummaryEl) {
+            uvcSummaryEl.textContent = `$${Math.round(uvcPrice)}`;
+          }
+        }
+      }
+
+      // Simulación de actualización de precios (fallback)
+      function simulateRandomPriceUpdate() {
+        const variation = 0.95 + Math.random() * 0.1; // ±5% variación
+      
+        qa('[data-price-target]').forEach(el => {
+          const currentText = el.textContent.replace(/[^0-9]/g, '');
+          const currentPrice = parseInt(currentText) || 0;
+          if (currentPrice > 0) {
+            const newPrice = Math.round(currentPrice * variation);
+            el.textContent = `$${newPrice}`;
+          }
+        });
+      }
 
     document.addEventListener('click', (ev)=>{
       const langBtn = ev.target.closest('.lang-pill[data-lang]');
