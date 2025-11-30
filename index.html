@@ -195,9 +195,11 @@
       flex: 1;
       overflow-y: auto;
       overflow-x: hidden;
-      padding: var(--space-lg);
-      background: linear-gradient(to bottom, rgba(242, 245, 250, 0.5) 0%, transparent 100%);
+      padding: 24px;
+      background: transparent;
       -webkit-overflow-scrolling: touch;
+      width: 100%;
+      max-width: 100%;
     }
 
     /* Mejorar scrollbar para la app */
@@ -234,7 +236,8 @@
       width: 100%;
       max-width: 100%;
       height: 100vh;
-      background: var(--uvc-panel);
+      height: -webkit-fill-available;
+      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
       border-radius: 0;
       box-shadow: none;
       padding: 0;
@@ -580,14 +583,14 @@
     .home-screen {
       position: fixed;
       inset: 0;
-      background: linear-gradient(135deg, #0f2547 0%, #1a3a5c 50%, #2c5282 100%);
+      background: linear-gradient(135deg, #0a1a35 0%, #102649 50%, #1a4d7a 100%);
       display: none;
       align-items: center;
       justify-content: center;
-      padding: var(--space-lg);
+      padding: 24px;
       z-index: 1200;
-      backdrop-filter: blur(10px);
-      animation: fadeIn var(--transition-slow) ease;
+      backdrop-filter: blur(20px) saturate(180%);
+      animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
     
     @keyframes fadeIn {
@@ -1680,58 +1683,146 @@
       column-gap: 24px;
       flex: 1;
       align-items: stretch;
-      max-width: 1400px;
-      margin: 0 auto;
       width: 100%;
+      max-width: 100%;
+      margin: 0;
     }
 
-    /* Responsive breakpoints for columns and layout */
-    @media (max-width: 1200px) {
+    /* Desktop grande (más de 1400px) */
+    @media (min-width: 1400px) {
+      .app-content {
+        padding: 32px 40px;
+      }
+      .columns {
+        column-gap: 32px;
+        max-width: 1600px;
+        margin: 0 auto;
+      }
+      .col-inner {
+        padding: 28px 24px;
+      }
+      .modal {
+        width: min(1300px, 90vw);
+      }
+      .home-card {
+        max-width: 1200px;
+        padding: 48px;
+      }
+    }
+
+    /* Desktop grande (más de 1400px) */
+    @media (min-width: 1400px) {
+      .app-content {
+        padding: 32px 40px;
+      }
+      .columns {
+        column-gap: 32px;
+        max-width: 1600px;
+        margin: 0 auto;
+      }
+      .col-inner {
+        padding: 28px 24px;
+      }
+      .modal {
+        width: min(1300px, 90vw);
+        padding: 36px;
+      }
+      .home-card {
+        max-width: 1200px;
+        padding: 48px;
+      }
+    }
+
+    /* Laptops (1025px - 1399px) */
+    @media (min-width: 1025px) and (max-width: 1399px) {
+      .app-content {
+        padding: 28px 32px;
+      }
+      .columns {
+        column-gap: 28px;
+      }
+      .col-inner {
+        padding: 26px 22px;
+      }
+      .modal {
+        width: min(1200px, 88vw);
+        padding: 32px;
+      }
+    }
+
+    /* iPad Pro y tablets grandes (768px - 1024px) */
+    @media (min-width: 768px) and (max-width: 1024px) {
       .app-content { 
-        padding: var(--space-lg) var(--space-xl); 
+        padding: 28px 24px; 
       }
       .columns { 
-        column-gap: var(--space-lg); 
+        grid-template-columns: repeat(3, 1fr);
+        column-gap: 24px;
       }
-      .col-inner { 
-        padding: var(--space-md); 
+      .col-inner {
+        padding: 24px 20px;
+      }
+      .uvc-title-ring { 
+        height: 76px;
+        padding: 12px 26px;
+      }
+      .home-card { 
+        grid-template-columns: repeat(2, 1fr); 
+        padding: 40px; 
+        gap: 40px;
+        max-width: 100%;
+        width: 95vw;
+      }
+      .price-checker-panel { 
+        top: 76px; 
+        right: 20px; 
+        width: 360px; 
+      }
+      .modal {
+        width: 92vw;
+        max-width: 1100px;
+        padding: 28px;
+      }
+      .promo-hero {
+        grid-template-columns: 1.3fr 0.7fr;
+        gap: 24px;
+      }
+      .admin-tab-btn {
+        padding: 14px 24px;
+        font-size: 13px;
+      }
+      .app-header {
+        height: 60px;
+        padding: 0 24px;
+      }
+      .benefit-list li {
+        padding: 12px 16px;
+        font-size: 14px;
+      }
+      .metric-card {
+        padding: 20px;
       }
     }
 
-    @media (max-width: 992px) {
+    /* Tablets medianos (600px - 767px) */
+    @media (max-width: 767px) {
       .app-content { 
-        padding: 20px 16px; 
+        padding: 16px; 
       }
       .columns { 
         grid-template-columns: 1fr; 
-        row-gap: 20px; 
+        row-gap: 16px; 
       }
       .col-inner {
-        padding: 20px;
-      }
-      .uvc-title-ring { 
-        height: 68px; 
+        padding: 18px;
       }
       .home-card { 
         grid-template-columns: 1fr; 
-        padding: 32px 24px; 
-        gap: 32px;
-      }
-      .price-checker-panel { 
-        top: 80px; 
-        right: 16px; 
-        width: min(360px, calc(100vw - 32px)); 
-      }
-      .admin-tab-btn {
-        padding: 12px 20px;
-        font-size: 14px;
-      }
-      .app-header {
-        height: 52px;
-        padding: 0 16px;
+        padding: 28px 20px; 
+        gap: 28px;
       }
       .modal {
-        width: min(900px, 92vw);
+        width: min(700px, 92vw);
         padding: 20px 24px 24px;
       }
       .promo-hero {
@@ -1742,101 +1833,133 @@
 
     @media (max-width: 720px) {
       :root {
-        --space-lg: 16px;
-        --space-xl: 24px;
+        --space-lg: 20px;
+        --space-xl: 28px;
       }
       body {
         font-size: 14px;
       }
       .app-content { 
-        padding: 16px 12px; 
+        padding: 20px 16px 80px;
       }
       .columns { 
         grid-template-columns: 1fr; 
-        row-gap: 16px; 
+        row-gap: 20px; 
       }
       .col-title { 
         font-size: 10px; 
-        letter-spacing: 0.12em; 
+        letter-spacing: 0.1em;
+        margin-bottom: 12px;
       }
       .col-inner { 
-        padding: 16px; 
-        border-radius: 16px; 
+        padding: 20px 16px;
+        border-radius: 16px;
+        margin-bottom: 8px;
       }
       .home-hero {
-        padding: 24px 16px;
-        gap: 20px;
+        padding: 28px 20px;
+        gap: 24px;
       }
       .home-hero img { 
-        max-width: 200px; 
+        max-width: 220px; 
       }
       .home-left h1 {
-        font-size: 24px;
+        font-size: 26px;
+        line-height: 1.3;
       }
       .home-hero h1 {
-        font-size: 20px;
+        font-size: 22px;
+        line-height: 1.3;
       }
       .home-hero span {
         font-size: 12px;
       }
       .home-card {
-        padding: 24px 16px;
-        gap: 24px;
+        padding: 28px 20px;
+        gap: 28px;
         border-radius: 20px;
       }
       .primary-btn { 
         width: 100%; 
-        padding: 14px 24px;
-        font-size: 14px;
+        padding: 16px 28px;
+        font-size: 15px;
       }
       .price-checker-panel { 
         position: fixed; 
         top: auto; 
-        bottom: 16px; 
-        right: 12px; 
-        left: 12px; 
-        width: auto; 
+        bottom: 20px; 
+        right: 16px; 
+        left: 16px; 
+        width: auto;
+        max-height: 70vh;
       }
       .admin-tab-btn {
-        padding: 10px 12px;
+        padding: 12px 16px;
         font-size: 12px;
+        white-space: nowrap;
       }
       .admin-section {
-        padding: 20px 16px;
+        padding: 24px 16px;
       }
       .app-header {
-        height: 52px;
-        padding: 0 12px;
+        height: 56px;
+        padding: 0 16px;
       }
       .fullscreen-btn {
-        width: 40px;
-        height: 40px;
-        font-size: 16px;
+        width: 42px;
+        height: 42px;
+        font-size: 17px;
       }
       .modal {
-        width: calc(100vw - 24px);
-        max-height: calc(100vh - 40px);
-        padding: 16px 20px 20px;
+        width: calc(100vw - 32px);
+        max-height: calc(100vh - 60px);
+        padding: 20px 20px 24px;
         border-radius: 20px;
       }
+      .modal-header {
+        margin-bottom: 16px;
+        padding-bottom: 16px;
+      }
       .modal-header h2 {
-        font-size: 18px;
+        font-size: 19px;
       }
       .uvc-title-ring {
-        height: 64px;
-        padding: 8px 20px;
+        height: 68px;
+        padding: 10px 22px;
       }
       .promo-thumb-grid {
         grid-template-columns: 1fr;
-        gap: 12px;
+        gap: 14px;
       }
       .promo-filters {
-        gap: 8px;
+        gap: 10px;
         flex-wrap: wrap;
+        margin-bottom: 4px;
       }
       .promo-filter-btn {
         font-size: 11px;
-        padding: 6px 10px;
+        padding: 8px 14px;
+      }
+      .first-layout {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+      .benefit-list li {
+        padding: 10px 12px;
+        font-size: 13px;
+        margin-bottom: 8px;
+      }
+      .note-box {
+        padding: 12px;
+        font-size: 11px;
+        line-height: 1.5;
+      }
+      .metric-card {
+        padding: 16px;
+      }
+      .config-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
       }
     }
 
@@ -2014,23 +2137,34 @@
 
     @media (max-width: 480px) {
       .app-header {
-        height: 48px;
+        height: 52px;
+      }
+      .app-content {
+        padding: 18px 14px 70px;
       }
       .home-hero img {
-        max-width: 160px;
+        max-width: 180px;
       }
       .home-left h1 {
-        font-size: 20px;
+        font-size: 22px;
       }
       .col-inner {
-        padding: 14px;
+        padding: 18px 14px;
       }
       .modal {
-        border-radius: 16px;
-        padding: 14px 16px 16px;
+        border-radius: 18px;
+        padding: 18px 18px 20px;
       }
       .promo-hero-media {
-        min-height: 240px;
+        min-height: 260px;
+        border-radius: 20px;
+      }
+      .start-ready {
+        padding: 16px 18px;
+        font-size: 13px;
+      }
+      .sale-card {
+        padding: 24px 20px;
       }
     }
 
@@ -3164,7 +3298,13 @@
     }
 
     .promotions-modal {
-      max-width: 1200px;
+      max-width: 1400px;
+    }
+
+    @media (min-width: 768px) {
+      .promotions-modal {
+        width: 95vw;
+      }
     }
 
     .promotions-body {
@@ -3704,8 +3844,8 @@
     }
 
     .modal {
-      width: min(1000px, 95vw);
-      max-height: calc(100vh - 32px);
+      width: min(1200px, 95vw);
+      max-height: calc(100vh - 40px);
       background: rgba(255, 255, 255, 0.98);
       backdrop-filter: blur(40px) saturate(180%);
       border-radius: 28px;
