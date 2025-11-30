@@ -7548,8 +7548,9 @@
               }
             }
 
-            // Fallbacks
-            if (!data) {
+            // Fallbacks (solo si no se obtuvo data del backend)
+            let data = null;
+            if (!secretsData && !zoetryData) {
               // Try static cache
               try {
                 const cacheRes = await fetch('/prices-cache.json');
@@ -7558,20 +7559,22 @@
                   data = cacheData.destinations?.[0] || null;
                 }
               } catch {}
-            }
-            if (!data) {
-              // Netlify Function fallback (if configured)
-              try {
-                const fnRes = await fetch('/.netlify/functions/check-prices');
-                if (fnRes.ok) data = await fnRes.json();
-              } catch {}
-            }
+              
+              if (!data) {
+                // Netlify Function fallback (if configured)
+                try {
+                  const fnRes = await fetch('/.netlify/functions/check-prices');
+                  if (fnRes.ok) data = await fnRes.json();
+                } catch {}
+              }
 
-            if (data && data.prices) {
-              distributePricesAcrossProperties(data);
-            } else {
-              simulateRandomPriceUpdate();
+              if (data && data.prices) {
+                distributePricesAcrossProperties(data);
+              } else {
+                simulateRandomPriceUpdate();
+              }
             }
+            
             const now = new Date();
             const timeStr = now.toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' });
             if (lastUpdatedEl) lastUpdatedEl.textContent = `✅ Actualizado ${timeStr}`;
