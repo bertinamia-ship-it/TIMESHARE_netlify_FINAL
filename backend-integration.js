@@ -339,6 +339,15 @@ async function exampleUsage() {
 if (typeof window !== 'undefined') {
   window.addEventListener('DOMContentLoaded', () => {
     initBackendConnection();
+    // Botón refrescar sólo cache
+    const cacheBtn = document.getElementById('pc-cache-refresh-btn');
+    if(cacheBtn){
+      cacheBtn.addEventListener('click', () => {
+        const destEl = document.querySelector('[data-destination-target]');
+        const destination = destEl ? destEl.textContent.trim() : 'Cancun';
+        refreshCacheOnly(destination);
+      });
+    }
   });
 }
 
@@ -353,4 +362,30 @@ if (typeof window !== 'undefined') {
     findCachedEntry,
     config: BACKEND_CONFIG
   };
+}
+
+// === Función manual para recargar cache sin backend ===
+async function refreshCacheOnly(destination){
+  const cacheInfo = document.getElementById('pc-cache-info');
+  if(cacheInfo) cacheInfo.textContent = 'Cache: cargando…';
+  const cache = await loadPricesCache();
+  if(!cache){
+    if(cacheInfo) cacheInfo.textContent = 'Cache: no disponible';
+    return;
+  }
+  const entry = findCachedEntry(cache, destination, '', '');
+  if(!entry){
+    if(cacheInfo) cacheInfo.textContent = 'Cache: sin entrada destino';
+    return;
+  }
+  const formatted = formatCacheEntry(entry);
+  updatePriceCheckerUI(formatted);
+  if(cacheInfo){
+    const gen = cache.generated_at || formatted.timestamp;
+    cacheInfo.textContent = 'Cache: ' + gen.replace('T',' ').replace('Z',' UTC');
+  }
+  const lastUpdatedEl = document.getElementById('pc-last-updated');
+  if(lastUpdatedEl){
+    lastUpdatedEl.textContent = '⚡ Mostrando datos de cache';
+  }
 }

@@ -4206,11 +4206,16 @@
           <div class="pc-title" data-i18n="priceChecker.title">Live Price Checker</div>
           <div class="pc-subtitle" data-i18n="priceChecker.subtitle">Secrets Puerto Los Cabos vs Zoëtry Los Cabos</div>
           <div id="pc-last-updated" style="font-size: 11px; color: var(--uvc-slate); margin-top: 4px;">Updated just now • Simulated live</div>
+          <div id="pc-cache-info" style="font-size: 11px; color: var(--uvc-slate); margin-top: 2px;">Cache: (sin cargar)</div>
         </div>
           <div class="pc-header-actions">
             <button class="pc-refresh" id="pc-refresh-btn" type="button" aria-label="Refresh prices" title="Actualizar precios">
               <span class="pc-refresh-icon">↻</span>
               <span data-i18n="priceChecker.refresh">Actualizar</span>
+            </button>
+            <button class="pc-refresh" id="pc-cache-refresh-btn" type="button" aria-label="Refresh cache" title="Recargar cache estático">
+              <span class="pc-refresh-icon">⚡</span>
+              <span>Cache</span>
             </button>
             <button class="pc-close" type="button" aria-label="Close price checker">&times;</button>
           </div>
