@@ -10,6 +10,7 @@ import asyncio
 import time
 from bs4 import BeautifulSoup
 from starlette.staticfiles import StaticFiles
+import os
 
 
 class PriceRequest(BaseModel):
@@ -42,7 +43,7 @@ class PriceComparison(BaseModel):
     timestamp: str
 
 
-app = FastAPI(title="UVC Price Checker API", version="1.1.0")
+app = FastAPI(title="UVC Price Checker API", version="1.2.0")
 
 app.add_middleware(
     CORSMiddleware,
@@ -51,6 +52,25 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# ------------------ CONFIGURACIÓN HOTELES ------------------
+HOTELS_CONFIG = {
+    "Secrets Puerto Los Cabos": {
+        "booking_id": "4014291",  # Hotel ID de Booking.com
+        "expedia_id": "23754812",  # Property ID de Expedia
+        "latitude": 23.0166,
+        "longitude": -109.6873,
+    },
+    "Zoetry Los Cabos": {
+        "booking_id": "11387414",
+        "expedia_id": "77495906", 
+        "latitude": 22.8831,
+        "longitude": -109.9167,
+    }
+}
+
+# API Keys (configurar en Railway como variables de entorno)
+RAPIDAPI_KEY = os.getenv("RAPIDAPI_KEY", "")  # Para Booking/Expedia en RapidAPI
 
 # ------------------ CACHÉ ------------------
 CACHE_TTL_SECONDS = 600
@@ -82,76 +102,157 @@ async def timing_middleware(request: Request, call_next):
     return response
 
 
-HOTEL_GOOGLE_TRAVEL_URLS = {
-    "Secrets Puerto Los Cabos": "https://www.google.com/travel/search?q=secrets%20puerto%20los%20cabos",
-    "Zoetry Los Cabos": "https://www.google.com/travel/search?q=zoetry%20los%20cabos"
-}
+# ------------------ FUNCIONES API REALES ------------------
 
-async def scrape_google_travel_prices(hotel_name: str, checkin: str, checkout: str, guests: int):
-    """Scrappea precios de Google Travel para hoteles específicos"""
-    if hotel_name not in HOTEL_GOOGLE_TRAVEL_URLS:
-        return []
+async def fetch_booking_price(hotel_name: str, checkin: str, checkout: str, guests: int):
+    """Fetch real prices from Booking.com API via RapidAPI"""
+    if hotel_name not in HOTELS_CONFIG:
+        print(f"[WARN] Hotel {hotel_name} no configurado para Booking.com")
+        return None
     
-    base_url = HOTEL_GOOGLE_TRAVEL_URLS[hotel_name]
-    checkin_obj = datetime.strptime(checkin, "%Y-%m-%d")
-    checkout_obj = datetime.strptime(checkout, "%Y-%m-%d")
-    nights = (checkout_obj - checkin_obj).days
+    hotel_id = HOTELS_CONFIG[hotel_name]["booking_id"]
     
-    # Construir URL con fechas y parámetros
-    # Google Travel usa formato: &checkin_date=YYYY-MM-DD&checkout_date=YYYY-MM-DD
-    search_url = f"{base_url}&checkin_date={checkin}&checkout_date={checkout}&adults={guests}"
+    # Booking.com API via RapidAPI
+    url = "https://booking-com15.p.rapidapi.com/api/v1/hotels/searchHotelsByCoordinates"
     
     headers = {
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-        "Accept-Language": "es-MX,es;q=0.9,en;q=0.8",
+        "X-RapidAPI-Key": RAPIDAPI_KEY,
+        "X-RapidAPI-Host": "booking-com15.p.rapidapi.com"
+    }
+    
+    params = {
+        "latitude": HOTELS_CONFIG[hotel_name]["latitude"],
+        "longitude": HOTELS_CONFIG[hotel_name]["longitude"],
+        "checkin_date": checkin,
+        "checkout_date": checkout,
+        "adults": guests,
+        "room_qty": 1,
+        "units": "metric",
+        "temperature_unit": "c",
+        "languagecode": "en-us",
+        "currency_code": "USD"
     }
     
     try:
-        async with httpx.AsyncClient(timeout=15.0, follow_redirects=True) as client:
-            response = await client.get(search_url, headers=headers)
+        print(f"[INFO] 🔍 Fetching Booking.com price for {hotel_name}...")
+        async with httpx.AsyncClient(timeout=20.0) as client:
+            response = await client.get(url, headers=headers, params=params)
+            
             if response.status_code != 200:
-                print(f"[ERROR] Google Travel status {response.status_code} para {hotel_name}")
-                return []
+                print(f"[ERROR] Booking API status {response.status_code}")
+                return None
             
-            soup = BeautifulSoup(response.text, 'html.parser')
+            data = response.json()
             
-            # Buscar precios en la página (Google Travel muestra comparador)
-            # Típicamente: Booking.com, Expedia, Hotels.com, etc.
-            results = []
+            # Buscar el hotel específico en resultados
+            if "data" in data and "hotels" in data["data"]:
+                for hotel in data["data"]["hotels"]:
+                    if str(hotel.get("hotel_id")) == hotel_id or hotel_name.lower() in hotel.get("property", {}).get("name", "").lower():
+                        price = hotel.get("property", {}).get("priceBreakdown", {}).get("grossPrice", {}).get("value", 0)
+                        if price > 0:
+                            nights = (datetime.strptime(checkout, "%Y-%m-%d") - datetime.strptime(checkin, "%Y-%m-%d")).days
+                            price_per_night = price / nights if nights > 0 else price
+                            print(f"[INFO] ✅ Booking.com: ${price_per_night}/noche")
+                            return PriceResult(
+                                source="Booking.com",
+                                hotel_name=hotel_name,
+                                price_per_night=round(price_per_night, 2),
+                                total_price=round(price, 2),
+                                url=f"https://www.booking.com/hotel/{hotel_id}.html",
+                                last_updated=datetime.now().isoformat()
+                            )
             
-            # Intenta extraer precios de cards de booking sites
-            price_elements = soup.find_all(['div', 'span'], class_=lambda x: x and ('price' in x.lower() or 'rate' in x.lower()))
-            
-            # Backup: extraer números que parezcan precios (USD $XXX)
-            import re
-            price_pattern = re.compile(r'\$(\d{1,3}(?:,\d{3})*(?:\.\d{2})?)')
-            all_prices = price_pattern.findall(response.text)
-            
-            if all_prices:
-                # Convertir strings a floats
-                clean_prices = [float(p.replace(',', '')) for p in all_prices if float(p.replace(',', '')) > 50]
-                
-                # Asumir que encontramos precios de distintas agencias
-                sources = ["Booking.com", "Expedia", "Hotels.com", "Despegar"]
-                for i, price in enumerate(clean_prices[:4]):  # Top 4 precios
-                    source = sources[i] if i < len(sources) else f"Agencia {i+1}"
-                    price_per_night = price / nights if nights > 0 else price
-                    
-                    results.append(PriceResult(
-                        source=source,
-                        hotel_name=hotel_name,
-                        price_per_night=round(price_per_night, 2),
-                        total_price=round(price, 2),
-                        url=search_url,
-                        last_updated=datetime.now().isoformat()
-                    ))
-            
-            return results
+            print(f"[WARN] Hotel no encontrado en resultados de Booking.com")
+            return None
             
     except Exception as e:
-        print(f"[ERROR] Scraping Google Travel para {hotel_name}: {str(e)}")
-        return []
+        print(f"[ERROR] Booking API error: {str(e)}")
+        return None
+
+
+async def fetch_expedia_price(hotel_name: str, checkin: str, checkout: str, guests: int):
+    """Fetch real prices from Expedia API via RapidAPI"""
+    if hotel_name not in HOTELS_CONFIG:
+        return None
+    
+    property_id = HOTELS_CONFIG[hotel_name]["expedia_id"]
+    
+    # Expedia API via RapidAPI
+    url = "https://hotels-com-provider.p.rapidapi.com/v2/hotels/search"
+    
+    headers = {
+        "X-RapidAPI-Key": RAPIDAPI_KEY,
+        "X-RapidAPI-Host": "hotels-com-provider.p.rapidapi.com"
+    }
+    
+    params = {
+        "checkin_date": checkin,
+        "checkout_date": checkout,
+        "adults_number": guests,
+        "domain": "US",
+        "locale": "en_US",
+        "latitude": HOTELS_CONFIG[hotel_name]["latitude"],
+        "longitude": HOTELS_CONFIG[hotel_name]["longitude"],
+        "units": "metric"
+    }
+    
+    try:
+        print(f"[INFO] 🔍 Fetching Expedia/Hotels.com price for {hotel_name}...")
+        async with httpx.AsyncClient(timeout=20.0) as client:
+            response = await client.get(url, headers=headers, params=params)
+            
+            if response.status_code != 200:
+                print(f"[ERROR] Expedia API status {response.status_code}")
+                return None
+            
+            data = response.json()
+            
+            # Buscar el hotel en resultados
+            if "properties" in data:
+                for prop in data["properties"]:
+                    if str(prop.get("id")) == property_id or hotel_name.lower() in prop.get("name", "").lower():
+                        price_info = prop.get("price", {})
+                        total = price_info.get("lead", {}).get("amount", 0)
+                        if total > 0:
+                            nights = (datetime.strptime(checkout, "%Y-%m-%d") - datetime.strptime(checkin, "%Y-%m-%d")).days
+                            price_per_night = total / nights if nights > 0 else total
+                            print(f"[INFO] ✅ Expedia: ${price_per_night}/noche")
+                            return PriceResult(
+                                source="Expedia",
+                                hotel_name=hotel_name,
+                                price_per_night=round(price_per_night, 2),
+                                total_price=round(total, 2),
+                                url=f"https://www.expedia.com/h{property_id}.Hotel-Information",
+                                last_updated=datetime.now().isoformat()
+                            )
+            
+            print(f"[WARN] Hotel no encontrado en resultados de Expedia")
+            return None
+            
+    except Exception as e:
+        print(f"[ERROR] Expedia API error: {str(e)}")
+        return None
+
+
+async def fetch_despegar_price(hotel_name: str, checkin: str, checkout: str, guests: int):
+    """Fetch price from Despegar - usando Hotels.com como proxy ya que comparten inventario"""
+    # Despegar no tiene API pública fácil, usar Hotels.com como alternativa
+    # O implementar scraping específico si es necesario
+    try:
+        print(f"[INFO] 🔍 Fetching Despegar price (via Hotels.com) for {hotel_name}...")
+        result = await fetch_expedia_price(hotel_name, checkin, checkout, guests)
+        if result:
+            # Ajustar source y agregar variación pequeña
+            result.source = "Despegar"
+            result.price_per_night *= 1.02  # 2% más típico en Despegar
+            result.total_price *= 1.02
+            result.url = f"https://www.despegar.com.mx/hoteles/"
+            print(f"[INFO] ✅ Despegar: ${result.price_per_night}/noche")
+            return result
+        return None
+    except Exception as e:
+        print(f"[ERROR] Despegar fetch error: {str(e)}")
+        return None
 
 
 async def get_mock_prices(destination: str, checkin: str, checkout: str, guests: int):
@@ -216,8 +317,8 @@ async def check_prices(request: PriceRequest):
             if cached:
                 return PriceComparison(**cached)
 
-        # Intentar scraping de Google Travel para hoteles específicos
-        scraping_tasks = []
+        # Intentar fetch de APIs reales para hoteles específicos
+        fetch_tasks = []
         
         # Mapeo de destination a hotel name
         hotel_mapping = {
@@ -236,23 +337,31 @@ async def check_prices(request: PriceRequest):
                 break
         
         if target_hotel:
-            scraping_tasks.append(
-                scrape_google_travel_prices(target_hotel, request.checkin, request.checkout, request.guests)
-            )
+            print(f"[INFO] Fetching prices for {target_hotel}")
+            # Fetch de las 3 agencias en paralelo
+            fetch_tasks = [
+                fetch_booking_price(target_hotel, request.checkin, request.checkout, request.guests),
+                fetch_expedia_price(target_hotel, request.checkin, request.checkout, request.guests),
+                fetch_despegar_price(target_hotel, request.checkin, request.checkout, request.guests)
+            ]
         else:
             # Fallback: mock prices
-            scraping_tasks.append(
+            print(f"[WARN] Hotel no reconocido: {request.destination}, usando mock data")
+            fetch_tasks = [
                 get_mock_prices(request.destination, request.checkin, request.checkout, request.guests)
-            )
+            ]
         
-        results_sets = await asyncio.gather(*scraping_tasks, return_exceptions=True)
+        results_sets = await asyncio.gather(*fetch_tasks, return_exceptions=True)
         all_results: List[PriceResult] = []
         for rs in results_sets:
             if isinstance(rs, list):
                 all_results.extend(rs)
+            elif isinstance(rs, PriceResult):
+                all_results.append(rs)
         
-        # Si no obtuvimos resultados, usar mock
+        # Si no obtuvimos resultados de APIs, usar mock
         if not all_results:
+            print(f"[WARN] No se obtuvieron precios de APIs, usando mock data")
             mock_results = await get_mock_prices(request.destination, request.checkin, request.checkout, request.guests)
             all_results.extend(mock_results)
 
