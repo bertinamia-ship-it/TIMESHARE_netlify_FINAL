@@ -6,21 +6,27 @@
 
 // Configuración del backend
 const BACKEND_CONFIG = {
-  // Base primaria (Render) y fallback (Netlify Functions)
-  apiUrlPrimary: (typeof window !== 'undefined' && window.UVC_BACKEND_URL)
-    ? window.UVC_BACKEND_URL
-    : 'http://localhost:8000',
-  apiUrlFallback: (typeof window !== 'undefined')
+  // Detectar si estamos en GitHub Pages para modo 'static'
+  isGithubPages: (typeof window !== 'undefined') ? /github\.io$/.test(window.location.hostname) : false,
+  // Base primaria (ej. backend FastAPI) si no es GitHub Pages y existe URL
+  apiUrlPrimary: (typeof window !== 'undefined' && window.UVC_BACKEND_URL && window.UVC_BACKEND_URL.trim() !== '' && !/github\.io$/.test(window.location.hostname))
+    ? window.UVC_BACKEND_URL.trim()
+    : null,
+  // Fallback Netlify Functions cuando NO es GitHub Pages
+  apiUrlFallback: (typeof window !== 'undefined' && !/github\.io$/.test(window.location.hostname))
     ? window.location.origin + '/.netlify/functions'
-    : 'http://localhost:8888/.netlify/functions',
+    : null,
   endpoints: {
-    checkPrices: '/check-prices', // en funciones Netlify no usamos /api
+    checkPrices: '/check-prices'
   },
   timeout: 20000,
-  retries: 2
+  retries: 2,
+  // En GitHub Pages = static, en Netlify = hybrid
+  mode: (typeof window !== 'undefined' && /github\.io$/.test(window.location.hostname)) ? 'static' : 'hybrid'
 };
 
 function resolveApiUrl(){
+  if (BACKEND_CONFIG.isGithubPages || BACKEND_CONFIG.mode === 'static') return null;
   return BACKEND_CONFIG.apiUrlPrimary || BACKEND_CONFIG.apiUrlFallback;
 }
 
@@ -88,6 +94,10 @@ async function checkBackendHealth() {
  * Obtener precios en tiempo real del backend
  */
 async function getRealTimePrices(destination, checkin, checkout, guests = 2, rooms = 1) {
+  // En GitHub Pages o modo estático, no realizar llamadas dinámicas
+  if (BACKEND_CONFIG.isGithubPages || BACKEND_CONFIG.mode === 'static' || !resolveApiUrl()) {
+    throw new Error('Modo estático: sin backend disponible');
+  }
   try {
     let url = `${resolveApiUrl()}${BACKEND_CONFIG.endpoints.checkPrices}`;
     
@@ -223,34 +233,34 @@ async function updatePriceCheckerWithRealData(destination, checkin, checkout) {
       }
     }
     
-    // Obtener precios reales
-    const backendData = await getRealTimePrices(destination, checkin, checkout);
-    const formattedPrices = formatBackendPrices(backendData);
-    
-    // Actualizar UI con precios reales
-    updatePriceCheckerUI(formattedPrices);
-    
-    // Actualizar timestamp
-    if (loadingIndicator) {
-      const lastUpdate = new Date(backendData.timestamp);
-      const timeStr = lastUpdate.toLocaleTimeString('es-MX', { 
-        hour: '2-digit', 
-        minute: '2-digit' 
-      });
-      loadingIndicator.innerHTML = `✅ Actualizado ${timeStr} • Precios en vivo`;
+    // En modo estático, no intentar backend; ya mostramos cache
+    if (BACKEND_CONFIG.isGithubPages || BACKEND_CONFIG.mode === 'static') {
+      if (loadingIndicator) {
+        loadingIndicator.innerHTML = '⚡ Modo estático (cache)';
+      }
+      return cachedEntry ? formattedCached : null;
     }
-    
-    return formattedPrices;
+
+    // Si hay backend disponible, intentar precios reales
+    if (resolveApiUrl()) {
+      const backendData = await getRealTimePrices(destination, checkin, checkout);
+      const formattedPrices = formatBackendPrices(backendData);
+      updatePriceCheckerUI(formattedPrices);
+      if (loadingIndicator) {
+        const lastUpdate = new Date(backendData.timestamp);
+        const timeStr = lastUpdate.toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' });
+        loadingIndicator.innerHTML = `✅ Actualizado ${timeStr} • Precios en vivo`;
+      }
+      return formattedPrices;
+    }
+    return cachedEntry ? formattedCached : null;
     
   } catch (error) {
     console.error('Error actualizando precios:', error);
-    
     if (loadingIndicator) {
-      loadingIndicator.innerHTML = '⚠️ Error al obtener precios • Usando datos simulados';
+      loadingIndicator.innerHTML = BACKEND_CONFIG.isGithubPages ? '⚡ Sólo cache disponible' : '⚠️ Error backend • usando cache';
     }
-    
-    // Fallback a datos simulados
-    return null;
+    return cachedEntry ? formattedCached : null;
   }
 }
 
