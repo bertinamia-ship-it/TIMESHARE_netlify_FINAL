@@ -7461,36 +7461,90 @@
           if (lastUpdatedEl) lastUpdatedEl.textContent = '🔄 Actualizando...';
           qa('.pc-section').forEach(s=>s.classList.add('loading'));
           try {
-            // Try backend first
-            let data = null;
+            // Try backend first - fetch both hotels
+            let secretsData = null;
+            let zoetryData = null;
             const backendUrl = window.UVC_BACKEND_URL || '';
+            
             if (backendUrl) {
-              const reqBody = {
-                destination: 'Cabo San Lucas',
-                checkin: new Date(Date.now() + 86400000).toISOString().slice(0,10),
-                checkout: new Date(Date.now() + 86400000*3).toISOString().slice(0,10),
+              const checkin = new Date(Date.now() + 86400000).toISOString().slice(0,10);
+              const checkout = new Date(Date.now() + 86400000*3).toISOString().slice(0,10);
+              
+              // Fetch Secrets Puerto Los Cabos (property 0)
+              const secretsReq = {
+                destination: 'Secrets Puerto Los Cabos',
+                checkin,
+                checkout,
                 guests: 2,
                 rooms: 1,
                 force_refresh: true
               };
-              const res = await fetch(`${backendUrl}/api/check-prices`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(reqBody)
-              });
-              if (res.ok) {
-                const comp = await res.json();
-                // Convert comparison to our simpler shape
-                const prices = {
-                  booking: Math.round((comp.results.find(r=>/booking/i.test(r.source))?.price_per_night)||0),
-                  expedia: Math.round((comp.results.find(r=>/expedia/i.test(r.source))?.price_per_night)||0),
-                  hotels: Math.round((comp.results.find(r=>/hotels/i.test(r.source))?.price_per_night)||0)
-                };
-                data = {
-                  prices,
+              
+              // Fetch Zoetry Los Cabos (property 1)
+              const zoetryReq = {
+                destination: 'Zoetry Los Cabos',
+                checkin,
+                checkout,
+                guests: 2,
+                rooms: 1,
+                force_refresh: true
+              };
+              
+              console.log('🔍 Fetching prices from backend for both hotels...');
+              
+              const [secretsRes, zoetryRes] = await Promise.all([
+                fetch(`${backendUrl}/api/check-prices`, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify(secretsReq)
+                }),
+                fetch(`${backendUrl}/api/check-prices`, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify(zoetryReq)
+                })
+              ]);
+              
+              if (secretsRes.ok) {
+                const comp = await secretsRes.json();
+                console.log('✅ Secrets data:', comp);
+                secretsData = {
+                  prices: {
+                    booking: Math.round((comp.results.find(r=>/booking/i.test(r.source))?.price_per_night)||0),
+                    expedia: Math.round((comp.results.find(r=>/expedia/i.test(r.source))?.price_per_night)||0),
+                    hotels: Math.round((comp.results.find(r=>/hotels|despegar/i.test(r.source))?.price_per_night)||0)
+                  },
                   lowestPrice: comp.lowest_price,
                   averagePrice: comp.average_price
                 };
+              }
+              
+              if (zoetryRes.ok) {
+                const comp = await zoetryRes.json();
+                console.log('✅ Zoetry data:', comp);
+                zoetryData = {
+                  prices: {
+                    booking: Math.round((comp.results.find(r=>/booking/i.test(r.source))?.price_per_night)||0),
+                    expedia: Math.round((comp.results.find(r=>/expedia/i.test(r.source))?.price_per_night)||0),
+                    hotels: Math.round((comp.results.find(r=>/hotels|despegar/i.test(r.source))?.price_per_night)||0)
+                  },
+                  lowestPrice: comp.lowest_price,
+                  averagePrice: comp.average_price
+                };
+              }
+              
+              // Distribute to both properties
+              if (secretsData) distributePricesForProperty(0, secretsData);
+              if (zoetryData) distributePricesForProperty(1, zoetryData);
+              
+              if (secretsData || zoetryData) {
+                const now = new Date();
+                const timeStr = now.toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' });
+                if (lastUpdatedEl) lastUpdatedEl.textContent = `✅ Actualizado ${timeStr}`;
+                btn.disabled = false;
+                if (icon) icon.classList.remove('spinning');
+                qa('.pc-section').forEach(s=>s.classList.remove('loading'));
+                return; // Exit early, we got real data
               }
             }
 
@@ -7533,33 +7587,44 @@
         });
       }
 
-      // Función auxiliar para actualizar UI con datos del backend
+      // Función auxiliar para actualizar UI con datos del backend (DEPRECADA - usar distributePricesForProperty)
       function distributePricesAcrossProperties(priceData){
         const props = [0,1];
         const uvcDiscount = getUVCDiscount();
         props.forEach(idx => {
-          const mult = idx===0?1:1.12; // second property slight increase
-          const bookingEl  = q(`[data-price-target="booking"][data-property-index="${idx}"]`);
-          const expediaEl  = q(`[data-price-target="expedia"][data-property-index="${idx}"]`);
-          const despegarEl = q(`[data-price-target="despegar"][data-property-index="${idx}"]`);
-          const uvcEl      = q(`[data-price-target="uvc"][data-property-index="${idx}"]`);
-          const booking = priceData.prices.booking || 0;
-          const expedia = priceData.prices.expedia || 0;
-          const despegar = priceData.prices.despegar || priceData.prices.hotels || 0;
-          const avgPublicPrice = priceData.averagePrice || ((booking+expedia)/2);
-          const uvcPrice = avgPublicPrice * mult * (1-uvcDiscount);
-          if (bookingEl && booking>0) bookingEl.textContent = `$${Math.round(booking*mult)}`;
-          if (expediaEl && expedia>0) expediaEl.textContent = `$${Math.round(expedia*mult)}`;
-          if (despegarEl && despegar>0) despegarEl.textContent = `$${Math.round(despegar*mult)}`;
-          if (uvcEl) uvcEl.textContent = `$${Math.round(uvcPrice)}`;
-          const savingsEl = q(`[data-savings-target="${idx}"]`);
-          if (savingsEl && priceData.lowestPrice){
-            const savings = (priceData.lowestPrice*mult) - uvcPrice;
-            savingsEl.textContent = (state.language==='es'?`Ahorra $`:`Save $`)+ Math.round(savings) + (state.language==='es'?` por noche`:` per night`);
-          }
-          const uvcSummaryEl = q(`[data-uvc-summary="${idx}"]`);
-          if (uvcSummaryEl) uvcSummaryEl.textContent = `$${Math.round(uvcPrice)}`;
+          distributePricesForProperty(idx, priceData);
         });
+      }
+      
+      // Nueva función: actualiza solo una propiedad específica
+      function distributePricesForProperty(propertyIndex, priceData){
+        const uvcDiscount = getUVCDiscount();
+        const idx = propertyIndex;
+        
+        const bookingEl  = q(`[data-price-target="booking"][data-property-index="${idx}"]`);
+        const expediaEl  = q(`[data-price-target="expedia"][data-property-index="${idx}"]`);
+        const despegarEl = q(`[data-price-target="despegar"][data-property-index="${idx}"]`);
+        const uvcEl      = q(`[data-price-target="uvc"][data-property-index="${idx}"]`);
+        
+        const booking = priceData.prices.booking || 0;
+        const expedia = priceData.prices.expedia || 0;
+        const despegar = priceData.prices.despegar || priceData.prices.hotels || 0;
+        const avgPublicPrice = priceData.averagePrice || ((booking+expedia+despegar)/3);
+        const uvcPrice = avgPublicPrice * (1-uvcDiscount);
+        
+        if (bookingEl && booking>0) bookingEl.textContent = `$${Math.round(booking)}`;
+        if (expediaEl && expedia>0) expediaEl.textContent = `$${Math.round(expedia)}`;
+        if (despegarEl && despegar>0) despegarEl.textContent = `$${Math.round(despegar)}`;
+        if (uvcEl) uvcEl.textContent = `$${Math.round(uvcPrice)}`;
+        
+        const savingsEl = q(`[data-savings-target="${idx}"]`);
+        if (savingsEl && priceData.lowestPrice){
+          const savings = priceData.lowestPrice - uvcPrice;
+          savingsEl.textContent = (state.language==='es'?`Ahorra $`:`Save $`)+ Math.round(savings) + (state.language==='es'?` por noche`:` per night`);
+        }
+        
+        const uvcSummaryEl = q(`[data-uvc-summary="${idx}"]`);
+        if (uvcSummaryEl) uvcSummaryEl.textContent = `$${Math.round(uvcPrice)}`;
       }
 
       // Simulación de actualización de precios (fallback)
