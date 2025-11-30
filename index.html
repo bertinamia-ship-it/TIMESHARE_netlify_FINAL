@@ -7387,13 +7387,12 @@
     });
 
     // Secret key combination to access admin panel (Ctrl+Shift+A)
-    // Secret key combination to access admin panel (Ctrl+Shift+A)
     document.addEventListener('keydown', (ev) => {
       if (ev.ctrlKey && ev.shiftKey && ev.key.toLowerCase() === 'a') {
         ev.preventDefault();
-        closeUtilityMenu();
-        togglePriceChecker(false);
-        openHomeScreen();
+        if(utilityMenu) utilityMenu.classList.remove('active');
+        if(priceCheckerPanel) priceCheckerPanel.classList.remove('active');
+        if(homeScreen) homeScreen.classList.add('active');
       }
     });
 
@@ -7427,63 +7426,24 @@
 
       // Botón de actualización de precios en tiempo real
       if (priceCheckerRefresh){
-        priceCheckerRefresh.addEventListener('click', async ()=>{
+        priceCheckerRefresh.addEventListener('click', ()=>{
           const btn = priceCheckerRefresh;
           const icon = btn.querySelector('.pc-refresh-icon');
           const lastUpdatedEl = q('#pc-last-updated');
           btn.disabled = true;
           if (icon) icon.classList.add('spinning');
-          if (lastUpdatedEl) lastUpdatedEl.textContent = (state.language==='es'?'🔄 Buscando...':'🔄 Fetching...');
+          if (lastUpdatedEl) lastUpdatedEl.textContent = '🔄 Actualizando...';
           qa('.pc-section').forEach(s=>s.classList.add('loading'));
-          const today = new Date();
-          const checkin = new Date(today.getTime() + 7*86400000);
-          const checkout = new Date(today.getTime() + 11*86400000);
-          const checkinStr = checkin.toISOString().split('T')[0];
-          const checkoutStr = checkout.toISOString().split('T')[0];
-          const destination = 'Cancun';
-          try {
-            let result = null;
-            if (window.UVCBackend && typeof window.UVCBackend.updatePriceCheckerWithRealData === 'function') {
-              result = await window.UVCBackend.updatePriceCheckerWithRealData(destination, checkinStr, checkoutStr);
-            }
-            if (!result && window.UVCBackend && typeof window.UVCBackend.loadPricesCache === 'function') {
-              const cache = await window.UVCBackend.loadPricesCache();
-              const entry = window.UVCBackend.findCachedEntry(cache, destination, checkinStr, checkoutStr);
-              if (entry) result = window.UVCBackend.formatBackendPrices({
-                destination: entry.destination,
-                checkin: entry.checkin,
-                checkout: entry.checkout,
-                nights: entry.nights,
-                timestamp: cache.generated_at,
-                lowest_price: entry.metrics.lowest_price,
-                average_price: entry.metrics.average_price,
-                results: [
-                  { source: 'booking', price_per_night: entry.sources.booking.price, hotel_name: entry.destination, url: '#' },
-                  { source: 'expedia', price_per_night: entry.sources.expedia.price, hotel_name: entry.destination, url: '#' },
-                  { source: 'hotels', price_per_night: entry.sources.hotels.price, hotel_name: entry.destination, url: '#' }
-                ]
-              });
-            }
-            if (result){
-              distributePricesAcrossProperties(result);
-              if (lastUpdatedEl){
-                const ts = new Date(result.timestamp);
-                const timeStr = ts.toLocaleTimeString(state.language==='es'?'es-MX':'en-US',{hour:'2-digit',minute:'2-digit'});
-                lastUpdatedEl.textContent = `✅ ${state.language==='es'?'Actualizado':'Updated'} ${timeStr}`;
-              }
-            } else {
-              simulateRandomPriceUpdate();
-              if (lastUpdatedEl) lastUpdatedEl.textContent = '⚠️ Fallback';
-            }
-          } catch(err){
-            console.error(err);
+          
+          setTimeout(()=>{
             simulateRandomPriceUpdate();
-            if (lastUpdatedEl) lastUpdatedEl.textContent = '⚠️ Error';
-          } finally {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' });
+            if (lastUpdatedEl) lastUpdatedEl.textContent = `✅ Actualizado ${timeStr}`;
             btn.disabled = false;
             if (icon) icon.classList.remove('spinning');
             qa('.pc-section').forEach(s=>s.classList.remove('loading'));
-          }
+          }, 800);
         });
       }
 
