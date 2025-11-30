@@ -399,3 +399,42 @@ async function refreshCacheOnly(destination){
     lastUpdatedEl.textContent = '⚡ Mostrando datos de cache';
   }
 }
+
+// === ADMIN: solicitar precios frescos vía función protegida ===
+async function refreshPricesAdmin(token, opts){
+  const url = '/.netlify/functions/refresh-prices';
+  const body = {
+    all: opts?.all || false,
+    destination: opts?.destination || undefined,
+    checkin: opts?.checkin || undefined,
+    checkout: opts?.checkout || undefined
+  };
+  const resp = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token
+    },
+    body: JSON.stringify(body)
+  });
+  if(!resp.ok){
+    const txt = await resp.text();
+    throw new Error('Refresh error: ' + txt);
+  }
+  const data = await resp.json();
+  // Tomar primera entrada para UI si aplica
+  if(data.entries && data.entries.length){
+    const entry = data.entries[0];
+    const formatted = formatCacheEntry(entry);
+    updatePriceCheckerUI(formatted);
+    const lastUpdatedEl = document.getElementById('pc-last-updated');
+    if(lastUpdatedEl){
+      lastUpdatedEl.textContent = '✅ Refrescado (admin)';
+    }
+  }
+  return data;
+}
+
+if (typeof window !== 'undefined' && window.UVCBackend){
+  window.UVCBackend.refreshPricesAdmin = refreshPricesAdmin;
+}
