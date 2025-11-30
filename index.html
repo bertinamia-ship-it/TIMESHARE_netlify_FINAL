@@ -4684,6 +4684,61 @@
             <button class="admin-tab-btn" data-tab="rankings" type="button">🏆 Rankings</button>
             <button class="admin-tab-btn" data-tab="settings" type="button">⚙️ Settings</button>
           </div>
+          <div class="admin-panel" data-panel="prices">
+            <h4>Precios manuales por agencia</h4>
+            <p>Ingresa precios tal como aparecen en internet. Al refrescar, se usarán estos valores primero.</p>
+            <div class="admin-prices-grid">
+              <div class="admin-property">
+                <strong>Secrets Puerto Los Cabos</strong>
+                <label>
+                  Expedia (USD)
+                  <input type="number" id="admin-expedia-0" min="0" step="1" placeholder="647" inputmode="decimal" />
+                </label>
+                <label>
+                  Booking (USD)
+                  <input type="number" id="admin-booking-0" min="0" step="1" placeholder="648" inputmode="decimal" />
+                </label>
+                <label>
+                  Despegar (USD)
+                  <input type="number" id="admin-despegar-0" min="0" step="1" placeholder="651" inputmode="decimal" />
+                </label>
+                <label>
+                  UVC (USD)
+                  <input type="number" id="admin-uvc-0" min="0" step="1" placeholder="613" inputmode="decimal" />
+                </label>
+              </div>
+              <div class="admin-property">
+                <strong>Zoëtry Los Cabos</strong>
+                <label>
+                  Expedia (USD)
+                  <input type="number" id="admin-expedia-1" min="0" step="1" inputmode="decimal" />
+                </label>
+                <label>
+                  Booking (USD)
+                  <input type="number" id="admin-booking-1" min="0" step="1" inputmode="decimal" />
+                </label>
+                <label>
+                  Despegar (USD)
+                  <input type="number" id="admin-despegar-1" min="0" step="1" inputmode="decimal" />
+                </label>
+                <label>
+                  UVC (USD)
+                  <input type="number" id="admin-uvc-1" min="0" step="1" inputmode="decimal" />
+                </label>
+              </div>
+            </div>
+            <div class="admin-actions">
+              <button type="button" id="admin-prices-apply">Aplicar a Price Checker</button>
+              <button type="button" id="admin-prices-clear">Limpiar</button>
+            </div>
+            <style>
+              .admin-prices-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:8px}
+              .admin-property{border:1px solid #ddd;border-radius:8px;padding:12px;background:#fafafa}
+              .admin-property label{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+              .admin-actions{margin-top:12px;display:flex;gap:8px}
+              .admin-actions button{padding:8px 12px;border-radius:6px;border:1px solid #ccc;background:#fff;cursor:pointer}
+            </style>
+          </div>
             
             <!-- SECTION 1: Price Checker & Incentives Configuration -->
             <div class="admin-section active" data-section="prices">
@@ -7419,6 +7474,61 @@
         togglePriceChecker(false);
       });
     }
+
+    // ---- Admin manual prices: apply to UI and prioritize on refresh ----
+    const adminApplyBtn = document.getElementById('admin-prices-apply');
+    const adminClearBtn = document.getElementById('admin-prices-clear');
+
+    function formatUSD(val){
+      const n = Number(val);
+      if (!isFinite(n) || n <= 0) return '$0';
+      return '$' + n.toLocaleString('en-US', {maximumFractionDigits:0});
+    }
+
+    function applyAdminPricesToUI(){
+      const properties = [0,1];
+      const brands = ['expedia','booking','despegar','uvc'];
+      properties.forEach(idx => {
+        brands.forEach(brand => {
+          const inputId = `admin-${brand}-${idx}`;
+          const el = document.getElementById(inputId);
+          const ui = document.querySelector(`.pc-price[data-price-target="${brand}"][data-property-index="${idx}"]`);
+          if (el && ui && el.value) {
+            ui.textContent = formatUSD(el.value);
+          }
+        });
+        const uvcInput = document.getElementById(`admin-uvc-${idx}`);
+        const uvcSummary = document.querySelector(`.pc-section-uvc[data-uvc-summary="${idx}"]`);
+        if (uvcInput && uvcSummary && uvcInput.value){
+          uvcSummary.textContent = formatUSD(uvcInput.value) + ' UVC';
+        }
+        const retailVals = ['expedia','booking','despegar']
+          .map(b => Number(document.getElementById(`admin-${b}-${idx}`)?.value || 0))
+          .filter(n => isFinite(n) && n>0);
+        const uvcVal = Number(uvcInput?.value || 0);
+        const savingsEl = document.querySelector(`.pc-section-meta[data-savings-target="${idx}"]`);
+        if (savingsEl){
+          if (retailVals.length && uvcVal>0){
+            const avgRetail = Math.round(retailVals.reduce((a,b)=>a+b,0)/retailVals.length);
+            const save = Math.max(avgRetail - uvcVal, 0);
+            savingsEl.textContent = save>0 ? `Ahorro estimado $${save}` : '\u00A0';
+          } else {
+            savingsEl.innerHTML = '&nbsp;';
+          }
+        }
+      });
+    }
+
+    adminApplyBtn?.addEventListener('click', applyAdminPricesToUI);
+    adminClearBtn?.addEventListener('click', () => {
+      [0,1].forEach(idx => {
+        ['expedia','booking','despegar','uvc'].forEach(brand => {
+          const el = document.getElementById(`admin-${brand}-${idx}`);
+          if (el) el.value = '';
+        });
+      });
+      applyAdminPricesToUI();
+    });
 
       // Botón de actualización de precios en tiempo real
       if (priceCheckerRefresh){
