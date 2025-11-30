@@ -7431,125 +7431,89 @@
           const btn = priceCheckerRefresh;
           const icon = btn.querySelector('.pc-refresh-icon');
           const lastUpdatedEl = q('#pc-last-updated');
-        
-          // Estado de loading
           btn.disabled = true;
           if (icon) icon.classList.add('spinning');
-          if (lastUpdatedEl) lastUpdatedEl.innerHTML = '🔄 Buscando precios en tiempo real...';
-        
-          // Agregar clase loading a las secciones
-          qa('.pc-section').forEach(section => section.classList.add('loading'));
-        
+          if (lastUpdatedEl) lastUpdatedEl.textContent = (state.language==='es'?'🔄 Buscando...':'🔄 Fetching...');
+          qa('.pc-section').forEach(s=>s.classList.add('loading'));
+          const today = new Date();
+          const checkin = new Date(today.getTime() + 7*86400000);
+          const checkout = new Date(today.getTime() + 11*86400000);
+          const checkinStr = checkin.toISOString().split('T')[0];
+          const checkoutStr = checkout.toISOString().split('T')[0];
+          const destination = 'Cancun';
           try {
-            // Intentar obtener precios reales del backend
-            if (window.UVCBackend && typeof window.UVCBackend.getRealTimePrices === 'function') {
-              const today = new Date();
-              const checkin = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000); // +7 días
-              const checkout = new Date(today.getTime() + 11 * 24 * 60 * 60 * 1000); // +11 días
-            
-              const checkinStr = checkin.toISOString().split('T')[0];
-              const checkoutStr = checkout.toISOString().split('T')[0];
-            
-              const destination = 'Cancun'; // Puedes hacerlo dinámico
-            
-              const backendData = await window.UVCBackend.getRealTimePrices(
-                destination, 
-                checkinStr, 
-                checkoutStr, 
-                2
-              );
-            
-              // Formatear y actualizar UI
-              const formattedPrices = window.UVCBackend.formatBackendPrices(backendData);
-              updatePriceCheckerUIFromBackend(formattedPrices);
-            
-              // Actualizar timestamp
-              if (lastUpdatedEl) {
-                const lastUpdate = new Date(backendData.timestamp);
-                const timeStr = lastUpdate.toLocaleTimeString(state.language === 'es' ? 'es-MX' : 'en-US', { 
-                  hour: '2-digit', 
-                  minute: '2-digit' 
-                });
-                lastUpdatedEl.innerHTML = `✅ ${state.language === 'es' ? 'Actualizado' : 'Updated'} ${timeStr} • ${state.language === 'es' ? 'Precios en vivo' : 'Live prices'}`;
+            let result = null;
+            if (window.UVCBackend && typeof window.UVCBackend.updatePriceCheckerWithRealData === 'function') {
+              result = await window.UVCBackend.updatePriceCheckerWithRealData(destination, checkinStr, checkoutStr);
+            }
+            if (!result && window.UVCBackend && typeof window.UVCBackend.loadPricesCache === 'function') {
+              const cache = await window.UVCBackend.loadPricesCache();
+              const entry = window.UVCBackend.findCachedEntry(cache, destination, checkinStr, checkoutStr);
+              if (entry) result = window.UVCBackend.formatBackendPrices({
+                destination: entry.destination,
+                checkin: entry.checkin,
+                checkout: entry.checkout,
+                nights: entry.nights,
+                timestamp: cache.generated_at,
+                lowest_price: entry.metrics.lowest_price,
+                average_price: entry.metrics.average_price,
+                results: [
+                  { source: 'booking', price_per_night: entry.sources.booking.price, hotel_name: entry.destination, url: '#' },
+                  { source: 'expedia', price_per_night: entry.sources.expedia.price, hotel_name: entry.destination, url: '#' },
+                  { source: 'hotels', price_per_night: entry.sources.hotels.price, hotel_name: entry.destination, url: '#' }
+                ]
+              });
+            }
+            if (result){
+              distributePricesAcrossProperties(result);
+              if (lastUpdatedEl){
+                const ts = new Date(result.timestamp);
+                const timeStr = ts.toLocaleTimeString(state.language==='es'?'es-MX':'en-US',{hour:'2-digit',minute:'2-digit'});
+                lastUpdatedEl.textContent = `✅ ${state.language==='es'?'Actualizado':'Updated'} ${timeStr}`;
               }
             } else {
-              // Fallback: simular actualización
-              await new Promise(resolve => setTimeout(resolve, 1500));
               simulateRandomPriceUpdate();
-            
-              if (lastUpdatedEl) {
-                const now = new Date();
-                const timeStr = now.toLocaleTimeString(state.language === 'es' ? 'es-MX' : 'en-US', { 
-                  hour: '2-digit', 
-                  minute: '2-digit' 
-                });
-                lastUpdatedEl.innerHTML = `✅ ${state.language === 'es' ? 'Actualizado' : 'Updated'} ${timeStr} • ${state.language === 'es' ? 'Datos simulados' : 'Simulated data'}`;
-              }
+              if (lastUpdatedEl) lastUpdatedEl.textContent = '⚠️ Fallback';
             }
-          } catch (error) {
-            console.error('Error al actualizar precios:', error);
-            if (lastUpdatedEl) {
-              lastUpdatedEl.innerHTML = '⚠️ ' + (state.language === 'es' ? 'Error al obtener precios' : 'Error fetching prices');
-            }
+          } catch(err){
+            console.error(err);
+            simulateRandomPriceUpdate();
+            if (lastUpdatedEl) lastUpdatedEl.textContent = '⚠️ Error';
           } finally {
-            // Remover estado de loading
             btn.disabled = false;
             if (icon) icon.classList.remove('spinning');
-            qa('.pc-section').forEach(section => section.classList.remove('loading'));
+            qa('.pc-section').forEach(s=>s.classList.remove('loading'));
           }
         });
       }
 
       // Función auxiliar para actualizar UI con datos del backend
-      function updatePriceCheckerUIFromBackend(priceData) {
-        // Actualizar precios de propiedades (0 = primera, 1 = segunda)
-        for (let propIndex = 0; propIndex <= 1; propIndex++) {
-          const bookingEl = q(`[data-price-target="booking"][data-property-index="${propIndex}"]`);
-          const expediaEl = q(`[data-price-target="expedia"][data-property-index="${propIndex}"]`);
-          const despegarEl = q(`[data-price-target="despegar"][data-property-index="${propIndex}"]`);
-          const uvcEl = q(`[data-price-target="uvc"][data-property-index="${propIndex}"]`);
-        
-          if (priceData.prices.booking > 0) {
-            const variance = propIndex === 0 ? 1 : 1.15; // Segunda propiedad más cara
-            if (bookingEl) bookingEl.textContent = `$${Math.round(priceData.prices.booking * variance)}`;
-          }
-        
-          if (priceData.prices.expedia > 0) {
-            const variance = propIndex === 0 ? 1 : 1.12;
-            if (expediaEl) expediaEl.textContent = `$${Math.round(priceData.prices.expedia * variance)}`;
-          }
-        
-          if (priceData.prices.despegar > 0 || priceData.prices.hotels > 0) {
-            const basePrice = priceData.prices.despegar || priceData.prices.hotels || priceData.averagePrice;
-            const variance = propIndex === 0 ? 1 : 1.08;
-            if (despegarEl) despegarEl.textContent = `$${Math.round(basePrice * variance)}`;
-          }
-        
-          // Calcular precio UVC con descuento
-          const avgPublicPrice = priceData.averagePrice || 
-            ((priceData.prices.booking + priceData.prices.expedia) / 2);
-          const variance = propIndex === 0 ? 1 : 1.1;
-          const uvcDiscount = 0.35; // 35% descuento
-          const uvcPrice = avgPublicPrice * variance * (1 - uvcDiscount);
-        
+      function distributePricesAcrossProperties(priceData){
+        const props = [0,1];
+        props.forEach(idx => {
+          const mult = idx===0?1:1.12; // second property slight increase
+          const bookingEl  = q(`[data-price-target="booking"][data-property-index="${idx}"]`);
+          const expediaEl  = q(`[data-price-target="expedia"][data-property-index="${idx}"]`);
+          const despegarEl = q(`[data-price-target="despegar"][data-property-index="${idx}"]`);
+          const uvcEl      = q(`[data-price-target="uvc"][data-property-index="${idx}"]`);
+          const booking = priceData.prices.booking || 0;
+          const expedia = priceData.prices.expedia || 0;
+          const despegar = priceData.prices.despegar || priceData.prices.hotels || 0;
+          const avgPublicPrice = priceData.averagePrice || ((booking+expedia)/2);
+          const uvcDiscount = 0.35;
+          const uvcPrice = avgPublicPrice * mult * (1-uvcDiscount);
+          if (bookingEl && booking>0) bookingEl.textContent = `$${Math.round(booking*mult)}`;
+          if (expediaEl && expedia>0) expediaEl.textContent = `$${Math.round(expedia*mult)}`;
+          if (despegarEl && despegar>0) despegarEl.textContent = `$${Math.round(despegar*mult)}`;
           if (uvcEl) uvcEl.textContent = `$${Math.round(uvcPrice)}`;
-        
-          // Actualizar savings
-          const savingsEl = q(`[data-savings-target="${propIndex}"]`);
-          if (savingsEl && priceData.lowestPrice) {
-            const savings = (priceData.lowestPrice * variance) - uvcPrice;
-            const savingsText = state.language === 'es' ? 
-              `Ahorra $${Math.round(savings)} por noche` : 
-              `Save $${Math.round(savings)} per night`;
-            savingsEl.textContent = savingsText;
+          const savingsEl = q(`[data-savings-target="${idx}"]`);
+          if (savingsEl && priceData.lowestPrice){
+            const savings = (priceData.lowestPrice*mult) - uvcPrice;
+            savingsEl.textContent = (state.language==='es'?`Ahorra $`:`Save $`)+ Math.round(savings) + (state.language==='es'?` por noche`:` per night`);
           }
-        
-          // Actualizar resumen UVC
-          const uvcSummaryEl = q(`[data-uvc-summary="${propIndex}"]`);
-          if (uvcSummaryEl) {
-            uvcSummaryEl.textContent = `$${Math.round(uvcPrice)}`;
-          }
-        }
+          const uvcSummaryEl = q(`[data-uvc-summary="${idx}"]`);
+          if (uvcSummaryEl) uvcSummaryEl.textContent = `$${Math.round(uvcPrice)}`;
+        });
       }
 
       // Simulación de actualización de precios (fallback)
