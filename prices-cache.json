@@ -1,0 +1,53 @@
+{
+  "generated_at": "2025-11-29T12:00:00Z",
+  "entries": [
+    {
+      "destination": "Cancun",
+      "checkin": "2025-06-01",
+      "checkout": "2025-06-05",
+      "nights": 4,
+      "sources": {
+        "booking": { "price": 185, "currency": "USD" },
+        "expedia": { "price": 179, "currency": "USD" },
+        "hotels": { "price": 192, "currency": "USD" },
+        "despegar": { "price": 188, "currency": "USD" }
+      },
+      "metrics": {
+        "lowest_price": 179,
+        "average_price": 186
+      }
+    },
+    {
+      "destination": "Cabo San Lucas",
+      "checkin": "2025-06-10",
+      "checkout": "2025-06-14",
+      "nights": 4,
+      "sources": {
+        "booking": { "price": 210, "currency": "USD" },
+        "expedia": { "price": 205, "currency": "USD" },
+        "hotels": { "price": 215, "currency": "USD" },
+        "despegar": { "price": 208, "currency": "USD" }
+      },
+      "metrics": {
+        "lowest_price": 205,
+        "average_price": 209.5
+      }
+    },
+    {
+      "destination": "Punta Cana",
+      "checkin": "2025-07-01",
+      "checkout": "2025-07-06",
+      "nights": 5,
+      "sources": {
+        "booking": { "price": 160, "currency": "USD" },
+        "expedia": { "price": 158, "currency": "USD" },
+        "hotels": { "price": 166, "currency": "USD" },
+        "despegar": { "price": 162, "currency": "USD" }
+      },
+      "metrics": {
+        "lowest_price": 158,
+        "average_price": 161.5
+      }
+    }
+  ]
+}

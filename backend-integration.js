@@ -1,6 +1,7 @@
 /**
  * UVC Backend Integration - Real-time Price Checker
  * Conecta el frontend con el API de Python para precios en tiempo real
+ * NOW: Añadido soporte para cache estático `prices-cache.json` para carga instantánea sin backend.
  */
 
 // Configuración del backend
@@ -21,6 +22,44 @@ const BACKEND_CONFIG = {
 
 function resolveApiUrl(){
   return BACKEND_CONFIG.apiUrlPrimary || BACKEND_CONFIG.apiUrlFallback;
+}
+
+// ==== LECTURA DE CACHE ESTÁTICO ====
+async function loadPricesCache(){
+  try {
+    const resp = await fetch('prices-cache.json', {cache:'no-store'});
+    if(!resp.ok) return null;
+    return await resp.json();
+  } catch(e){
+    return null;
+  }
+}
+
+function findCachedEntry(cache, destination, checkin, checkout){
+  if(!cache || !Array.isArray(cache.entries)) return null;
+  const destLower = destination.toLowerCase();
+  // Match por destino (fechas opcional si no existen en entrada)
+  return cache.entries.find(e => e.destination.toLowerCase() === destLower);
+}
+
+function formatCacheEntry(entry){
+  // Adaptar estructura para UI
+  return {
+    destination: entry.destination,
+    checkin: entry.checkin || '',
+    checkout: entry.checkout || '',
+    nights: entry.nights || 0,
+    timestamp: entry.generated_at || new Date().toISOString(),
+    prices: {
+      booking: entry.sources?.booking?.price || 0,
+      expedia: entry.sources?.expedia?.price || 0,
+      hotels: entry.sources?.hotels?.price || 0,
+      despegar: entry.sources?.despegar?.price || 0
+    },
+    hotels: [],
+    lowestPrice: entry.metrics?.lowest_price || 0,
+    averagePrice: entry.metrics?.average_price || 0
+  };
 }
 
 /**
@@ -172,6 +211,17 @@ async function updatePriceCheckerWithRealData(destination, checkin, checkout) {
     if (loadingIndicator) {
       loadingIndicator.innerHTML = '🔄 Buscando precios en tiempo real...';
     }
+
+    // 1. Intentar cache estático primero para respuesta instantánea
+    const cache = await loadPricesCache();
+    const cachedEntry = findCachedEntry(cache, destination, checkin, checkout);
+    if(cachedEntry){
+      const formattedCached = formatCacheEntry(cachedEntry);
+      updatePriceCheckerUI(formattedCached);
+      if (loadingIndicator) {
+        loadingIndicator.innerHTML = '⚡ Precios rápidos (cache) • Actualizando...';
+      }
+    }
     
     // Obtener precios reales
     const backendData = await getRealTimePrices(destination, checkin, checkout);
@@ -299,6 +349,8 @@ if (typeof window !== 'undefined') {
     updatePriceCheckerWithRealData,
     checkBackendHealth,
     formatBackendPrices,
+    loadPricesCache,
+    findCachedEntry,
     config: BACKEND_CONFIG
   };
 }
