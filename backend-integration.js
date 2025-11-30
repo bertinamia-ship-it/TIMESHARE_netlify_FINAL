@@ -5,9 +5,11 @@
 
 // Configuración del backend
 const BACKEND_CONFIG = {
-  // Cambiar a tu URL de backend cuando lo deploys
-  apiUrl: 'http://localhost:8000',  // Desarrollo local
-  // apiUrl: 'https://your-backend.render.com',  // Producción
+  // Usa URL inyectada si existe (por ejemplo, desde Netlify env var)
+  apiUrl: (typeof window !== 'undefined' && window.UVC_BACKEND_URL)
+    ? window.UVC_BACKEND_URL
+    : 'http://localhost:8000',  // Desarrollo local por defecto
+  // Ejemplo producción: 'https://your-backend.render.com'
   endpoints: {
     checkPrices: '/api/check-prices',
     destinations: '/api/destinations'
