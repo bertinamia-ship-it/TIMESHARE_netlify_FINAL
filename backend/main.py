@@ -9,6 +9,7 @@ from typing import List, Optional
 import asyncio
 import time
 from bs4 import BeautifulSoup
+from starlette.staticfiles import StaticFiles
 
 
 class PriceRequest(BaseModel):
@@ -114,8 +115,8 @@ async def get_mock_prices(destination: str, checkin: str, checkout: str, guests:
     ]
 
 
-@app.get("/")
-async def root():
+@app.get("/status")
+async def status():
     return {
         "status": "online",
         "service": "UVC Price Checker API",
@@ -189,3 +190,10 @@ async def get_destinations():
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
+
+# Mount static frontend (serve index.html) from TIMESHARE folder
+# This lets us host frontend and backend on the same Railway app
+try:
+    app.mount("/", StaticFiles(directory="TIMESHARE_netlify_FINAL", html=True), name="static")
+except Exception as e:
+    print(f"[WARN] Static mount failed: {e}")
