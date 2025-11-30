@@ -4161,7 +4161,7 @@
   <script>
     // Production backend URL
     // Render suspendido: usar Netlify Functions como fallback
-    window.UVC_BACKEND_URL = '';
+    window.UVC_BACKEND_URL = 'https://web-production-9b5a.up.railway.app';
   </script></head>
 
 <body>
@@ -4202,9 +4202,6 @@
       <div class="pc-header">
         <div>
           <div class="pc-title" data-i18n="priceChecker.title">Live Price Checker</div>
-          <div class="pc-subtitle" data-i18n="priceChecker.subtitle">Secrets Puerto Los Cabos vs Zoëtry Los Cabos</div>
-          <div id="pc-last-updated" style="font-size: 11px; color: var(--uvc-slate); margin-top: 4px;">Updated just now • Simulated live</div>
-          <div id="pc-cache-info" style="font-size: 11px; color: var(--uvc-slate); margin-top: 2px;">Cache: (sin cargar)</div>
         </div>
           <div class="pc-header-actions">
             <button class="pc-refresh" id="pc-refresh-btn" type="button" aria-label="Refresh prices" title="Actualizar precios">
@@ -4669,12 +4666,12 @@
             <h3 data-i18n="home.configTitle">Panel de administración</h3>
             <p data-i18n="home.configSubtitle">Ingresa el PIN para editar precios en vivo.</p>
           </div>
-          <div class="pin-form">
-            <input type="password" id="pin-input" placeholder="PIN" maxlength="6" disabled />
-            <button id="unlock-btn" type="button" data-i18n="home.unlock" disabled>Desbloquear</button>
-          </div>
+          <form class="pin-form" id="pin-form">
+            <input type="password" id="pin-input" placeholder="PIN" autocomplete="off" inputmode="numeric" maxlength="7" />
+            <button type="submit" data-i18n="home.unlock">Desbloquear</button>
+          </form>
         </div>
-        <div class="pin-status" id="pin-status"></div>
+        <div class="pin-status" id="pin-status" role="status"></div>
         <div class="config-locked-message">
           <div class="lock-icon">🔒</div>
           <p data-i18n="home.lockedMessage">Ingresa el PIN para revelar esta sección privada.</p>
@@ -7424,7 +7421,7 @@
 
       // Botón de actualización de precios en tiempo real
       if (priceCheckerRefresh){
-        priceCheckerRefresh.addEventListener('click', ()=>{
+        priceCheckerRefresh.addEventListener('click', async ()=>{
           const btn = priceCheckerRefresh;
           const icon = btn.querySelector('.pc-refresh-icon');
           const lastUpdatedEl = q('#pc-last-updated');
@@ -7432,16 +7429,76 @@
           if (icon) icon.classList.add('spinning');
           if (lastUpdatedEl) lastUpdatedEl.textContent = '🔄 Actualizando...';
           qa('.pc-section').forEach(s=>s.classList.add('loading'));
-          
-          setTimeout(()=>{
-            simulateRandomPriceUpdate();
+          try {
+            // Try backend first
+            let data = null;
+            const backendUrl = window.UVC_BACKEND_URL || '';
+            if (backendUrl) {
+              const reqBody = {
+                destination: 'Cabo San Lucas',
+                checkin: new Date(Date.now() + 86400000).toISOString().slice(0,10),
+                checkout: new Date(Date.now() + 86400000*3).toISOString().slice(0,10),
+                guests: 2,
+                rooms: 1,
+                force_refresh: true
+              };
+              const res = await fetch(`${backendUrl}/api/check-prices`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(reqBody)
+              });
+              if (res.ok) {
+                const comp = await res.json();
+                // Convert comparison to our simpler shape
+                const prices = {
+                  booking: Math.round((comp.results.find(r=>/booking/i.test(r.source))?.price_per_night)||0),
+                  expedia: Math.round((comp.results.find(r=>/expedia/i.test(r.source))?.price_per_night)||0),
+                  hotels: Math.round((comp.results.find(r=>/hotels/i.test(r.source))?.price_per_night)||0)
+                };
+                data = {
+                  prices,
+                  lowestPrice: comp.lowest_price,
+                  averagePrice: comp.average_price
+                };
+              }
+            }
+
+            // Fallbacks
+            if (!data) {
+              // Try static cache
+              try {
+                const cacheRes = await fetch('/prices-cache.json');
+                if (cacheRes.ok) {
+                  const cacheData = await cacheRes.json();
+                  data = cacheData.destinations?.[0] || null;
+                }
+              } catch {}
+            }
+            if (!data) {
+              // Netlify Function fallback (if configured)
+              try {
+                const fnRes = await fetch('/.netlify/functions/check-prices');
+                if (fnRes.ok) data = await fnRes.json();
+              } catch {}
+            }
+
+            if (data && data.prices) {
+              distributePricesAcrossProperties(data);
+            } else {
+              simulateRandomPriceUpdate();
+            }
             const now = new Date();
             const timeStr = now.toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' });
             if (lastUpdatedEl) lastUpdatedEl.textContent = `✅ Actualizado ${timeStr}`;
+          } catch (e) {
+            console.error('Refresh error', e);
+            simulateRandomPriceUpdate();
+            if (lastUpdatedEl) lastUpdatedEl.textContent = '⚠️ Error al actualizar';
+          } finally {
             btn.disabled = false;
             if (icon) icon.classList.remove('spinning');
             qa('.pc-section').forEach(s=>s.classList.remove('loading'));
-          }, 800);
+          }
         });
       }
 
