@@ -8458,57 +8458,11 @@
         if (targetSection) {
           targetSection.classList.add('active');
         }
-
-        // If switching to gallery tab, load galleries
-        if (targetTab === 'gallery') {
-          loadGalleries();
-        }
       });
     });
 
     // ========== GALLERY MANAGER FUNCTIONS ==========
     
-    // Load galleries from modal images
-    function loadGalleries() {
-      const hotelTypes = ['zoetry', 'secrets', 'breathless', 'dreams', 'hyatt', 'uexperience', 'vivid', 'alua'];
-      
-      hotelTypes.forEach(type => {
-        // Find the modal for this hotel type
-        const modal = document.getElementById(`modal-${type}`);
-        if (!modal) {
-          state.galleries[type] = [];
-          renderGallery(type);
-          return;
-        }
-        
-        // Find all images in the gallery section of the modal
-        const gallerySection = modal.querySelector('.modal-gallery');
-        if (!gallerySection) {
-          state.galleries[type] = [];
-          renderGallery(type);
-          return;
-        }
-        
-        const images = Array.from(gallerySection.querySelectorAll('img'));
-        state.galleries[type] = images.map(img => img.src);
-        
-        // Render the gallery in admin
-        renderGallery(type);
-      });
-
-      // Handle promotions separately - just get promo images from the modal
-      const promosModal = document.getElementById('modal-promotions');
-      if (promosModal) {
-        const promoImages = Array.from(promosModal.querySelectorAll('img[src*="breathless"], img[src*="dreams"], img[src*="secrets"], img[src*="promo"]'));
-        state.galleries.promotions = promoImages.map(img => img.src).filter((src, idx, arr) => arr.indexOf(src) === idx);
-      } else {
-        state.galleries.promotions = [];
-      }
-      renderGallery('promotions');
-      
-      saveGalleries();
-    }
-
     // Render a gallery's thumbnails
     function renderGallery(type) {
       const container = document.getElementById(`gallery-${type}`);
