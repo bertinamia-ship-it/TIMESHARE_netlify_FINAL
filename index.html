@@ -8195,11 +8195,11 @@
     
     // Load galleries from modal images
     function loadGalleries() {
-      const hotelTypes = ['zoetry', 'secrets', 'breathless', 'dreams', 'hyatt', 'uexperience', 'vivid', 'alua', 'promotions'];
+      const hotelTypes = ['zoetry', 'secrets', 'breathless', 'dreams', 'hyatt', 'uexperience', 'vivid', 'alua'];
       
       hotelTypes.forEach(type => {
         // Find the modal for this hotel type
-        const modal = document.getElementById(`${type}-modal`) || document.getElementById(`modal-${type}`);
+        const modal = document.getElementById(`modal-${type}`);
         if (!modal) {
           state.galleries[type] = [];
           renderGallery(type);
@@ -8207,7 +8207,7 @@
         }
         
         // Find all images in the gallery section of the modal
-        const gallerySection = modal.querySelector('.modal-photos, .hotel-gallery, .gallery-grid');
+        const gallerySection = modal.querySelector('.modal-gallery');
         if (!gallerySection) {
           state.galleries[type] = [];
           renderGallery(type);
@@ -8220,6 +8220,16 @@
         // Render the gallery in admin
         renderGallery(type);
       });
+
+      // Handle promotions separately - just get promo images from the modal
+      const promosModal = document.getElementById('modal-promotions');
+      if (promosModal) {
+        const promoImages = Array.from(promosModal.querySelectorAll('img[src*="breathless"], img[src*="dreams"], img[src*="secrets"], img[src*="promo"]'));
+        state.galleries.promotions = promoImages.map(img => img.src).filter((src, idx, arr) => arr.indexOf(src) === idx);
+      } else {
+        state.galleries.promotions = [];
+      }
+      renderGallery('promotions');
       
       saveGalleries();
     }
@@ -8262,10 +8272,10 @@
 
     // Update modal gallery with current images
     function updateModalGallery(type) {
-      const modal = document.getElementById(`${type}-modal`) || document.getElementById(`modal-${type}`);
+      const modal = document.getElementById(`modal-${type}`);
       if (!modal) return;
       
-      const gallerySection = modal.querySelector('.modal-photos, .hotel-gallery, .gallery-grid');
+      const gallerySection = modal.querySelector('.modal-gallery');
       if (!gallerySection) return;
       
       // Clear existing images
@@ -8277,7 +8287,7 @@
         const img = document.createElement('img');
         img.src = src;
         img.alt = `${type} ${index + 1}`;
-        img.style.cssText = 'width: 100%; height: auto; border-radius: 8px;';
+        img.loading = 'lazy';
         gallerySection.appendChild(img);
       });
     }
