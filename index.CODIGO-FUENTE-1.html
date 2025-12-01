@@ -8770,8 +8770,10 @@
     console.log('🎨 Rendering all galleries...');
     Object.keys(state.galleries).forEach(type => {
       renderGallery(type);
+      // ALSO update the modal galleries on page load
+      updateModalGallery(type);
     });
-    console.log('✓ All galleries rendered');
+    console.log('✓ All galleries rendered and modals updated');
 
     // Attach save button handler
     const saveGalleriesBtn = document.getElementById('save-galleries-btn');
@@ -9909,6 +9911,9 @@
         const key = btn.getAttribute('data-modal');
         const overlay = document.getElementById('modal-' + key);
         if (overlay){
+          // Update gallery with current images from state BEFORE showing modal
+          updateModalGallery(key);
+          
           overlay.classList.add('active');
           const v = q('video', overlay);
           if (v){
