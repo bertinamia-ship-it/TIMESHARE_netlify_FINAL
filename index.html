@@ -8685,8 +8685,10 @@
     function saveGalleries() {
       try {
         localStorage.setItem('uvc_galleries', JSON.stringify(state.galleries));
+        console.log('Galleries saved to storage:', state.galleries);
       } catch (e) {
         console.error('Failed to save galleries:', e);
+        showToast('Error saving galleries', 'error', 3000);
       }
     }
 
@@ -8696,7 +8698,9 @@
         const saved = localStorage.getItem('uvc_galleries');
         if (saved) {
           const parsed = JSON.parse(saved);
-          Object.assign(state.galleries, parsed);
+          // Replace entire galleries object, not merge
+          state.galleries = parsed;
+          console.log('Galleries loaded from storage:', parsed);
         }
       } catch (e) {
         console.error('Failed to load galleries:', e);
@@ -8705,6 +8709,11 @@
 
     // Initialize galleries from storage
     loadGalleriesFromStorage();
+    
+    // Re-render all galleries after loading
+    Object.keys(state.galleries).forEach(type => {
+      renderGallery(type);
+    });
 
     // ========== END GALLERY MANAGER ==========
 
