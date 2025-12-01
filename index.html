@@ -8294,18 +8294,115 @@
 
     // Add image to gallery
     window.addGalleryImage = function(type) {
-      const url = prompt('Enter image URL:');
-      if (!url || url.trim() === '') return;
+      // Create a custom modal for choosing between URL or file upload
+      const existingModal = document.getElementById('add-image-modal');
+      if (existingModal) existingModal.remove();
+
+      const modal = document.createElement('div');
+      modal.id = 'add-image-modal';
+      modal.style.cssText = 'position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; z-index: 9999; backdrop-filter: blur(8px);';
       
-      if (!state.galleries[type]) {
-        state.galleries[type] = [];
-      }
+      modal.innerHTML = `
+        <div style="background: white; border-radius: 16px; padding: 32px; max-width: 420px; width: 90%; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
+          <h3 style="margin: 0 0 20px 0; color: #0f2654; font-size: 20px; font-weight: 700;">Add Image to ${type.charAt(0).toUpperCase() + type.slice(1)}</h3>
+          <p style="margin: 0 0 24px 0; color: #5a678a; font-size: 14px;">Choose how to add your image:</p>
+          
+          <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px;">
+            <button id="upload-file-btn" type="button" style="background: #d4af37; color: #0f2654; border: none; padding: 14px 24px; border-radius: 10px; font-weight: 600; cursor: pointer; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s;">
+              📤 Upload from Device
+            </button>
+            <button id="enter-url-btn" type="button" style="background: #e8edf5; color: #0f2654; border: none; padding: 14px 24px; border-radius: 10px; font-weight: 600; cursor: pointer; font-size: 15px; transition: all 0.2s;">
+              🔗 Enter Image URL
+            </button>
+          </div>
+          
+          <input type="file" id="file-input" accept="image/*" style="display: none;" />
+          
+          <button id="cancel-add-btn" type="button" style="background: transparent; color: #8896b3; border: 1px solid #d5dff0; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 14px; width: 100%;">
+            Cancel
+          </button>
+        </div>
+      `;
       
-      state.galleries[type].push(url.trim());
-      renderGallery(type);
-      updateModalGallery(type);
-      saveGalleries();
-      showToast(`Image added to ${type}`, 'success', 2000);
+      document.body.appendChild(modal);
+
+      // Upload from device
+      const uploadBtn = modal.querySelector('#upload-file-btn');
+      const fileInput = modal.querySelector('#file-input');
+      
+      uploadBtn.addEventListener('click', () => {
+        fileInput.click();
+      });
+
+      fileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        // Validate file type
+        if (!file.type.startsWith('image/')) {
+          showToast('Please select an image file', 'error', 3000);
+          return;
+        }
+
+        // Validate file size (max 5MB)
+        if (file.size > 5 * 1024 * 1024) {
+          showToast('Image too large. Max 5MB', 'error', 3000);
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const base64Image = event.target.result;
+          
+          if (!state.galleries[type]) {
+            state.galleries[type] = [];
+          }
+          
+          state.galleries[type].push(base64Image);
+          renderGallery(type);
+          updateModalGallery(type);
+          saveGalleries();
+          showToast(`Image uploaded to ${type}`, 'success', 2000);
+          modal.remove();
+        };
+        
+        reader.onerror = () => {
+          showToast('Error reading file', 'error', 3000);
+        };
+        
+        reader.readAsDataURL(file);
+      });
+
+      // Enter URL
+      const urlBtn = modal.querySelector('#enter-url-btn');
+      urlBtn.addEventListener('click', () => {
+        modal.remove();
+        const url = prompt('Enter image URL:');
+        if (!url || url.trim() === '') return;
+        
+        if (!state.galleries[type]) {
+          state.galleries[type] = [];
+        }
+        
+        state.galleries[type].push(url.trim());
+        renderGallery(type);
+        updateModalGallery(type);
+        saveGalleries();
+        showToast(`Image added to ${type}`, 'success', 2000);
+      });
+
+      // Cancel
+      const cancelBtn = modal.querySelector('#cancel-add-btn');
+      cancelBtn.addEventListener('click', () => {
+        modal.remove();
+      });
+
+      // Close on background click
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.remove();
+        }
+      });
     };
 
     // Delete image from gallery
