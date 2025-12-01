@@ -273,7 +273,7 @@
 
     body {
       font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: linear-gradient(135deg, #fafbfc 0%, #f1f5f9 40%, #e8eef7 100%);
+      background: linear-gradient(135deg, #1a2332 0%, #0f1a2a 50%, #0a1420 100%);
       background-attachment: fixed;
       display: flex;
       justify-content: center;
@@ -688,18 +688,18 @@
       max-width: 100%;
       height: 100vh;
       height: -webkit-fill-available;
-      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+      background: linear-gradient(135deg, #ffffff 0%, #f8fafb 100%);
       border-radius: 0;
-      box-shadow: none;
+      box-shadow: 0 0 60px rgba(212, 175, 55, 0.3), 0 0 120px rgba(15, 38, 84, 0.2);
       padding: 0;
       position: relative;
       display: flex;
       flex-direction: column;
       margin: 0;
-      border: none;
+      border: 3px solid rgba(212, 175, 55, 0.4);
       overflow-y: auto;
       overflow-x: hidden;
-      transition: box-shadow var(--transition-slow);
+      transition: all var(--transition-slow);
     }
 
     .utility-bar {
@@ -9172,17 +9172,26 @@
       }
 
       const contractHTML = `
-          <div style="max-width: 850px; margin: 0 auto; font-family: Arial, sans-serif; background: white; padding: 24px; font-size: 11px; line-height: 1.5;">
+          <div style="max-width: 850px; margin: 0 auto; font-family: 'Georgia', 'Times New Roman', serif; background: white; padding: 30px; font-size: 11px; line-height: 1.6; position: relative; box-shadow: 0 0 40px rgba(0,0,0,0.1);">
           
-          <!-- Header with Logo -->
-           <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #0f2654; padding-bottom: 12px; margin-bottom: 18px;">
-            <div>
-              <h1 style="margin: 0; font-size: 26px; color: #0f2654; font-weight: 700; letter-spacing: -0.5px;">${t.workSheet}</h1>
-              <p style="margin: 4px 0 0 0; font-size: 13px; color: #5a678a; font-weight: 500;">${isEnglish ? 'Hoja de Trabajo' : 'Work Sheet'}</p>
-            </div>
-            <div style="text-align: right;">
-              <img src="UVC-Logo-Standalone-Gray.webp" alt="Unlimited Vacation Club" style="height: 55px; width: auto;" />
-              <p style="margin: 6px 0 0 0; font-size: 9px; color: #0f2654; font-weight: 700; line-height: 1.2; letter-spacing: 0.5px;">UNLIMITED VACATION CLUB®</p>
+          <!-- MARCA DE AGUA VISIBLE DEL LOGO UVC -->
+          <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-25deg); z-index: 0; opacity: 0.08; pointer-events: none;">
+            <img src="UVC-Logo-Standalone-Gray.webp" alt="UVC Watermark" style="width: 600px; height: auto;" />
+          </div>
+          
+          <!-- Contenido sobre la marca de agua -->
+          <div style="position: relative; z-index: 1;">
+          
+          <!-- Header Premium con Logo Grande -->
+          <div style="background: linear-gradient(135deg, #0f2654 0%, #1a4080 100%); padding: 20px; margin: -30px -30px 25px -30px; border-bottom: 4px solid #d4af37;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div style="flex: 1;">
+                <img src="UVC-Logo-Standalone-Gray.webp" alt="Unlimited Vacation Club" style="height: 70px; width: auto; filter: brightness(0) invert(1);" />
+              </div>
+              <div style="text-align: right; color: white;">
+                <h1 style="margin: 0; font-size: 32px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">${t.workSheet}</h1>
+                <p style="margin: 6px 0 0 0; font-size: 14px; font-weight: 500; letter-spacing: 2px; color: #d4af37; text-transform: uppercase;">${isEnglish ? 'Hoja de Trabajo' : 'Work Sheet'}</p>
+              </div>
             </div>
           </div>
 
@@ -9336,13 +9345,16 @@
             </table>
           </div>
 
-          <!-- Footer -->
-          <div style="border-top: 2px solid #0f2654; padding-top: 10px; margin-top: 12px; text-align: center; color: #5a678a; font-size: 9px; line-height: 1.5;">
-            <p style="margin: 0;">${t.footer}</p>
-            <p style="margin: 8px 0 0 0; font-weight: 700; color: #0f2654; font-size: 10px; letter-spacing: 0.5px;">${t.footerBrand}</p>
+          <!-- Footer Premium -->
+          <div style="background: linear-gradient(135deg, #0f2654 0%, #1a4080 100%); margin: 20px -30px -30px -30px; padding: 18px 30px; border-top: 4px solid #d4af37;">
+            <p style="margin: 0; text-align: center; color: rgba(255,255,255,0.9); font-size: 10px; line-height: 1.7;">${t.footer}</p>
+            <div style="text-align: center; margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.2);">
+              <p style="margin: 0; font-weight: 700; color: #d4af37; font-size: 11px; letter-spacing: 1px; text-transform: uppercase;">${t.footerBrand}</p>
+            </div>
           </div>
-
-        </div>
+          
+          </div><!-- Cierre del contenido con z-index -->
+        </div><!-- Cierre del contenedor principal -->
       `;
 
       contractPreview.innerHTML = contractHTML;
@@ -9384,21 +9396,21 @@
                 color: #1a1a1a !important;
               }
               
-              /* Watermark sutil y profesional */
+              /* Watermark VISIBLE y profesional */
               body::before {
                 content: '';
                 position: fixed;
                 top: 50%;
                 left: 50%;
-                transform: translate(-50%, -50%) rotate(-45deg);
+                transform: translate(-50%, -50%) rotate(-25deg);
                 background-image: url('UVC-Logo-Standalone-Gray.webp');
                 background-repeat: no-repeat;
                 background-position: center;
-                background-size: 450px;
-                opacity: 0.04;
+                background-size: 500px;
+                opacity: 0.12;
                 width: 100%;
                 height: 100%;
-                z-index: -1;
+                z-index: 0;
                 pointer-events: none;
               }
               
