@@ -5748,26 +5748,7 @@
                   <div style="grid-column: 1 / -1;">
                     <div style="display: grid; grid-template-columns: 1fr; gap: 12px; background: #f8f9fb; padding: 20px; border-radius: 10px;">
                       
-                      <div style="display: grid; grid-template-columns: 1fr 100px; gap: 10px; align-items: center; padding: 12px; background: white; border-radius: 8px; border: 2px solid #e5e9f2;">
-                        <label for="incentive-premier-nights" style="color: #0f2654; font-size: 13px; font-weight: 500;">✦ PREMIER BONUS WEEK (ALL INC + 2 ADULTS FREE)</label>
-                        <input type="number" id="incentive-premier-nights" placeholder="7" min="0" style="padding: 8px; border: 2px solid #d4af37; border-radius: 6px; font-size: 13px; text-align: center; font-weight: 600;" />
-                      </div>
-
-                      <div style="display: grid; grid-template-columns: 1fr 100px; gap: 10px; align-items: center; padding: 12px; background: white; border-radius: 8px; border: 2px solid #e5e9f2;">
-                        <label for="incentive-bonus-weeks" style="color: #0f2654; font-size: 13px; font-weight: 500;">✦ WORLD WIDE BONUS WEEKS @ 299 USD EACH</label>
-                        <input type="number" id="incentive-bonus-weeks" placeholder="2" min="0" style="padding: 8px; border: 2px solid #d4af37; border-radius: 6px; font-size: 13px; text-align: center; font-weight: 600;" />
-                      </div>
-
-                      <div style="display: grid; grid-template-columns: 1fr 100px; gap: 10px; align-items: center; padding: 12px; background: white; border-radius: 8px; border: 2px solid #e5e9f2;">
-                        <label for="incentive-rewards-deposit" style="color: #0f2654; font-size: 13px; font-weight: 500;">✦ REWARDS CREDIT (DEPÓSITO)</label>
-                        <input type="number" id="incentive-rewards-deposit" placeholder="1000" min="0" style="padding: 8px; border: 2px solid #d4af37; border-radius: 6px; font-size: 13px; text-align: center; font-weight: 600;" />
-                      </div>
-
-                      <div style="display: grid; grid-template-columns: 1fr 100px; gap: 10px; align-items: center; padding: 12px; background: white; border-radius: 8px; border: 2px solid #e5e9f2;">
-                        <label for="incentive-rewards-annual" style="color: #0f2654; font-size: 13px; font-weight: 500;">✦ REWARDS CREDIT (ANUAL)</label>
-                        <input type="number" id="incentive-rewards-annual" placeholder="1500" min="0" style="padding: 8px; border: 2px solid #d4af37; border-radius: 6px; font-size: 13px; text-align: center; font-weight: 600;" />
-                      </div>
-
+                      <!-- Certificados / Checkboxes primero -->
                       <div style="padding: 12px; background: white; border-radius: 8px; border: 2px solid #e5e9f2;">
                         <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
                           <input type="checkbox" id="incentive-hyatt" checked style="width: 18px; height: 18px; cursor: pointer;" />
@@ -5801,6 +5782,30 @@
                           <input type="checkbox" id="incentive-spa" checked style="width: 18px; height: 18px; cursor: pointer;" />
                           <span style="color: #0f2654; font-size: 13px; font-weight: 500;">✦ SPA AND YACHT CLUB BENEFITS</span>
                         </label>
+                      </div>
+
+                      <!-- Separador -->
+                      <div style="height: 1px; background: #d5dff0; margin: 8px 0;"></div>
+
+                      <!-- Variables numéricas abajo -->
+                      <div style="display: grid; grid-template-columns: 1fr 100px; gap: 10px; align-items: center; padding: 12px; background: white; border-radius: 8px; border: 2px solid #e5e9f2;">
+                        <label for="incentive-premier-nights" style="color: #0f2654; font-size: 13px; font-weight: 500;">✦ PREMIER BONUS WEEK (ALL INC + 2 ADULTS FREE)</label>
+                        <input type="number" id="incentive-premier-nights" placeholder="7" min="0" style="padding: 8px; border: 2px solid #d4af37; border-radius: 6px; font-size: 13px; text-align: center; font-weight: 600;" />
+                      </div>
+
+                      <div style="display: grid; grid-template-columns: 1fr 100px; gap: 10px; align-items: center; padding: 12px; background: white; border-radius: 8px; border: 2px solid #e5e9f2;">
+                        <label for="incentive-bonus-weeks" style="color: #0f2654; font-size: 13px; font-weight: 500;">✦ WORLD WIDE BONUS WEEKS @ 299 USD EACH</label>
+                        <input type="number" id="incentive-bonus-weeks" placeholder="2" min="0" style="padding: 8px; border: 2px solid #d4af37; border-radius: 6px; font-size: 13px; text-align: center; font-weight: 600;" />
+                      </div>
+
+                      <div style="display: grid; grid-template-columns: 1fr 100px; gap: 10px; align-items: center; padding: 12px; background: white; border-radius: 8px; border: 2px solid #e5e9f2;">
+                        <label for="incentive-rewards-deposit" style="color: #0f2654; font-size: 13px; font-weight: 500;">✦ REWARDS CREDIT (DEPÓSITO)</label>
+                        <input type="number" id="incentive-rewards-deposit" placeholder="1000" min="0" style="padding: 8px; border: 2px solid #d4af37; border-radius: 6px; font-size: 13px; text-align: center; font-weight: 600;" />
+                      </div>
+
+                      <div style="display: grid; grid-template-columns: 1fr 100px; gap: 10px; align-items: center; padding: 12px; background: white; border-radius: 8px; border: 2px solid #e5e9f2;">
+                        <label for="incentive-rewards-annual" style="color: #0f2654; font-size: 13px; font-weight: 500;">✦ REWARDS CREDIT (ANUAL)</label>
+                        <input type="number" id="incentive-rewards-annual" placeholder="1500" min="0" style="padding: 8px; border: 2px solid #d4af37; border-radius: 6px; font-size: 13px; text-align: center; font-weight: 600;" />
                       </div>
 
                     </div>
@@ -8831,123 +8836,147 @@
       }
 
       const contractHTML = `
-        <div style="max-width: 850px; margin: 0 auto; font-family: Arial, sans-serif; background: white;">
+          <div style="max-width: 900px; margin: 0 auto; font-family: 'Arial', 'Helvetica', sans-serif; background: white; padding: 40px; box-shadow: 0 0 20px rgba(0,0,0,0.1);">
           
           <!-- Header with Logo -->
-          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #0f2654; padding-bottom: 20px; margin-bottom: 30px;">
+           <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid #0f2654; padding-bottom: 20px; margin-bottom: 30px;">
             <div>
-              <h1 style="margin: 0; font-size: 28px; color: #0f2654; font-weight: 700;">Hoja de Trabajo</h1>
-              <p style="margin: 4px 0 0 0; font-size: 16px; color: #5a678a;">Work Sheet</p>
+              <h1 style="margin: 0; font-size: 32px; color: #0f2654; font-weight: 700; letter-spacing: -0.5px;">Hoja de Trabajo</h1>
+              <p style="margin: 6px 0 0 0; font-size: 18px; color: #5a678a; font-weight: 500;">Work Sheet</p>
             </div>
             <div style="text-align: right;">
-              <img src="UVC-Logo-Standalone-Gray.webp" alt="Unlimited Vacation Club" style="height: 60px; width: auto;" />
-              <p style="margin: 8px 0 0 0; font-size: 13px; color: #0f2654; font-weight: 600;">UNLIMITED<br/>VACATION CLUB®</p>
+              <img src="UVC-Logo-Standalone-Gray.webp" alt="Unlimited Vacation Club" style="height: 70px; width: auto;" />
+              <p style="margin: 10px 0 0 0; font-size: 14px; color: #0f2654; font-weight: 700; line-height: 1.3;">UNLIMITED<br/>VACATION CLUB®</p>
             </div>
           </div>
 
           <!-- Member Info Section -->
-          <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 13px;">
+          <table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 14px;">
             <tr>
-              <td style="padding: 8px; border: 1px solid #d5dff0; background: #f8f9fb; font-weight: 600; width: 120px;">DAY / MES / MONTH / AÑO / YEAR</td>
-              <td style="padding: 8px; border: 1px solid #d5dff0;">${data.day} / ${data.month} / ${data.year}</td>
-              <td style="padding: 8px; border: 1px solid #d5dff0; background: #f8f9fb; font-weight: 600; width: 120px;">MEMBRESÍA / MEMBERSHIP</td>
-              <td style="padding: 8px; border: 1px solid #d5dff0;">${data.membership}</td>
-              <td style="padding: 8px; border: 1px solid #d5dff0; background: #f8f9fb; font-weight: 600; width: 80px;">STATUS</td>
-              <td style="padding: 8px; border: 1px solid #d5dff0;">${data.status}</td>
+              <td style="padding: 12px 10px; border: 2px solid #d5dff0; background: #f0f4f8; font-weight: 700; color: #0f2654; width: 16%;">DÍA / DAY</td>
+              <td style="padding: 12px 10px; border: 2px solid #d5dff0; font-size: 15px; font-weight: 600;">${data.day}</td>
+              <td style="padding: 12px 10px; border: 2px solid #d5dff0; background: #f0f4f8; font-weight: 700; color: #0f2654; width: 16%;">MES / MONTH</td>
+              <td style="padding: 12px 10px; border: 2px solid #d5dff0; font-size: 15px; font-weight: 600;">${data.month}</td>
+              <td style="padding: 12px 10px; border: 2px solid #d5dff0; background: #f0f4f8; font-weight: 700; color: #0f2654; width: 16%;">AÑO / YEAR</td>
+              <td style="padding: 12px 10px; border: 2px solid #d5dff0; font-size: 15px; font-weight: 600;">${data.year}</td>
             </tr>
           </table>
 
           <!-- Members -->
-          <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 13px;">
+          <table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 14px;">
             <tr>
-              <td style="padding: 8px; border: 1px solid #d5dff0; background: #f8f9fb; font-weight: 600; width: 150px;">SOCIO 1 / MEMBER 1</td>
-              <td style="padding: 8px; border: 1px solid #d5dff0;">${data.member1}</td>
+              <td style="padding: 12px 15px; border: 2px solid #d5dff0; background: #f0f4f8; font-weight: 700; color: #0f2654; width: 35%;">MEMBRESÍA / MEMBERSHIP</td>
+              <td style="padding: 12px 15px; border: 2px solid #d5dff0; font-size: 15px; font-weight: 600;">${data.membership}</td>
+              <td style="padding: 12px 15px; border: 2px solid #d5dff0; background: #f0f4f8; font-weight: 700; color: #0f2654; width: 25%;">STATUS</td>
+              <td style="padding: 12px 15px; border: 2px solid #d5dff0; font-size: 15px; font-weight: 600; color: #d4af37;">${data.status}</td>
             </tr>
+          </table>
+
+          <!-- Members -->
+          <table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 14px;">
             <tr>
-              <td style="padding: 8px; border: 1px solid #d5dff0; background: #f8f9fb; font-weight: 600;">SOCIO 2 / MEMBER 2</td>
-              <td style="padding: 8px; border: 1px solid #d5dff0;">${data.member2}</td>
+              <td style="padding: 12px 15px; border: 2px solid #d5dff0; background: #f0f4f8; font-weight: 700; color: #0f2654; width: 35%;">SOCIO 1 / MEMBER 1</td>
+              <td style="padding: 12px 15px; border: 2px solid #d5dff0; font-size: 15px; font-weight: 600; text-transform: uppercase;">${data.member1}</td>
+            </tr>
+            ${data.member2 ? `<tr>
+              <td style="padding: 12px 15px; border: 2px solid #d5dff0; background: #f0f4f8; font-weight: 700; color: #0f2654;">SOCIO 2 / MEMBER 2</td>
+              <td style="padding: 12px 15px; border: 2px solid #d5dff0; font-size: 15px; font-weight: 600; text-transform: uppercase;">${data.member2}</td>
+            </tr>` : ''}
+          </table>
             </tr>
           </table>
 
           <!-- Beneficiaries -->
-          <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 13px;">
+           ${data.beneficiary1 ? `
+           <table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 14px;">
             <tr>
-              <td style="padding: 8px; border: 1px solid #d5dff0; background: #f8f9fb; font-weight: 600; width: 150px;">BENEFICIARIOS / BENEFICIARIES</td>
-              <td style="padding: 8px; border: 1px solid #d5dff0;">${data.beneficiary1}</td>
+              <td style="padding: 12px 15px; border: 2px solid #d5dff0; background: #f0f4f8; font-weight: 700; color: #0f2654; width: 35%;">BENEFICIARIOS / BENEFICIARIES</td>
+              <td style="padding: 12px 15px; border: 2px solid #d5dff0; font-size: 14px;">${data.beneficiary1}</td>
             </tr>
-            ${data.beneficiary2 ? `<tr><td style="padding: 8px; border: 1px solid #d5dff0; background: #f8f9fb; font-weight: 600;"></td><td style="padding: 8px; border: 1px solid #d5dff0;">${data.beneficiary2}</td></tr>` : ''}
-            ${data.beneficiary3 ? `<tr><td style="padding: 8px; border: 1px solid #d5dff0; background: #f8f9fb; font-weight: 600;"></td><td style="padding: 8px; border: 1px solid #d5dff0;">${data.beneficiary3}</td></tr>` : ''}
+            ${data.beneficiary2 ? `<tr><td style="padding: 12px 15px; border: 2px solid #d5dff0; background: #f0f4f8;"></td><td style="padding: 12px 15px; border: 2px solid #d5dff0; font-size: 14px;">${data.beneficiary2}</td></tr>` : ''}
+            ${data.beneficiary3 ? `<tr><td style="padding: 12px 15px; border: 2px solid #d5dff0; background: #f0f4f8;"></td><td style="padding: 12px 15px; border: 2px solid #d5dff0; font-size: 14px;">${data.beneficiary3}</td></tr>` : ''}
           </table>
+           ` : ''}
 
           <!-- Membership Details -->
-          <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 13px;">
-            <tr>
-              <td style="padding: 8px; border: 1px solid #d5dff0; background: #f8f9fb; font-weight: 600; width: 200px;">TIPO DE MEMBRESÍA<br/>MEMBERSHIP TYPE</td>
-              <td style="padding: 8px; border: 1px solid #d5dff0; font-weight: 700; color: #0f2654;">${data.membershipType}</td>
-              <td style="padding: 8px; border: 1px solid #d5dff0; background: #f8f9fb; font-weight: 600; width: 150px;">VIGENCIA</td>
-              <td style="padding: 8px; border: 1px solid #d5dff0; font-weight: 700;">${data.term}</td>
-            </tr>
-            <tr>
-              <td style="padding: 8px; border: 1px solid #d5dff0; background: #f8f9fb; font-weight: 600;">WOH MEMBERSHIP NAME</td>
-              <td style="padding: 8px; border: 1px solid #d5dff0;" colspan="3">${data.level}</td>
-            </tr>
-            <tr>
-              <td style="padding: 8px; border: 1px solid #d5dff0; background: #f8f9fb; font-weight: 600;">SEMANAS DE INTERCAMBIO<br/>EXCHANGE WEEKS</td>
-              <td style="padding: 8px; border: 1px solid #d5dff0; font-weight: 700; color: #0f2654;">${data.weeks}</td>
-              <td style="padding: 8px; border: 1px solid #d5dff0; background: #f8f9fb; font-weight: 600;">LOCACIÓN</td>
-              <td style="padding: 8px; border: 1px solid #d5dff0;">${data.location}</td>
-            </tr>
-          </table>
+          <div style="background: linear-gradient(135deg, #0f2654 0%, #1a4d7a 100%); padding: 3px; border-radius: 12px; margin-bottom: 25px;">
+            <div style="background: white; padding: 20px; border-radius: 10px;">
+              <h3 style="margin: 0 0 16px 0; color: #0f2654; font-size: 18px; font-weight: 700; border-bottom: 2px solid #d4af37; padding-bottom: 10px;">DETALLES DE MEMBRESÍA / MEMBERSHIP DETAILS</h3>
+              
+              <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+                <tr>
+                  <td style="padding: 10px; border-bottom: 1px solid #e5e9f2; font-weight: 600; color: #5a678a; width: 45%;">Tipo / Type:</td>
+                  <td style="padding: 10px; border-bottom: 1px solid #e5e9f2; font-weight: 700; color: #0f2654; font-size: 16px;">${data.membershipType}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 10px; border-bottom: 1px solid #e5e9f2; font-weight: 600; color: #5a678a;">Vigencia / Term:</td>
+                  <td style="padding: 10px; border-bottom: 1px solid #e5e9f2; font-weight: 700; color: #0f2654; font-size: 16px;">${data.term}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 10px; border-bottom: 1px solid #e5e9f2; font-weight: 600; color: #5a678a;">Semanas de Intercambio / Exchange Weeks:</td>
+                  <td style="padding: 10px; border-bottom: 1px solid #e5e9f2; font-weight: 700; color: #d4af37; font-size: 16px;">${data.weeks}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 10px; border-bottom: 1px solid #e5e9f2; font-weight: 600; color: #5a678a;">WOH Membership Name / Level:</td>
+                  <td style="padding: 10px; border-bottom: 1px solid #e5e9f2; font-weight: 700; color: #0f2654;">${data.level || 'N/A'}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 10px; font-weight: 600; color: #5a678a;">Locación / Location:</td>
+                  <td style="padding: 10px; font-weight: 700; color: #0f2654;">${data.location || 'N/A'}</td>
+                </tr>
+              </table>
+            </div>
+          </div>
 
           <!-- Financial Details -->
-          <div style="background: #f8f9fb; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
-            <h3 style="margin: 0 0 16px 0; color: #0f2654; font-size: 16px; font-weight: 700;">CONCEPTOS / CONCEPTS - MONTOS / AMOUNTS</h3>
+          <div style="background: #f8f9fb; padding: 25px; border-radius: 12px; margin-bottom: 25px; border: 2px solid #d5dff0;">
+            <h3 style="margin: 0 0 20px 0; color: #0f2654; font-size: 18px; font-weight: 700; text-align: center; border-bottom: 2px solid #d4af37; padding-bottom: 10px;">💰 CONCEPTOS / CONCEPTS - MONTOS / AMOUNTS</h3>
             
-            <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
-              <tr>
-                <td style="padding: 10px; border-bottom: 1px solid #d5dff0; font-weight: 600;">PRECIO DE VENTA / PURCHASE PRICE</td>
-                <td style="padding: 10px; border-bottom: 1px solid #d5dff0; text-align: right; font-weight: 700; font-size: 16px;">$ ${totals.price} <span style="font-size: 11px; color: #5a678a;">USD</span></td>
+            <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+              <tr style="background: white;">
+                <td style="padding: 12px 15px; border-bottom: 2px solid #e5e9f2; font-weight: 600; color: #0f2654;">PRECIO DE VENTA / PURCHASE PRICE</td>
+                <td style="padding: 12px 15px; border-bottom: 2px solid #e5e9f2; text-align: right; font-weight: 700; font-size: 18px; color: #0f2654;">$ ${totals.price} <span style="font-size: 12px; color: #5a678a;">USD</span></td>
               </tr>
-              <tr>
-                <td style="padding: 10px; border-bottom: 1px solid #d5dff0; font-weight: 600;">ENGANCHE / DOWN PAYMENT (${totals.downPercent}%)</td>
-                <td style="padding: 10px; border-bottom: 1px solid #d5dff0; text-align: right; font-weight: 700;">$ ${totals.downPayment} <span style="font-size: 11px; color: #5a678a;">USD</span></td>
+              <tr style="background: white;">
+                <td style="padding: 12px 15px; border-bottom: 2px solid #e5e9f2; font-weight: 600; color: #0f2654;">ENGANCHE / DOWN PAYMENT (${totals.downPercent}%)</td>
+                <td style="padding: 12px 15px; border-bottom: 2px solid #e5e9f2; text-align: right; font-weight: 700; font-size: 16px;">$ ${totals.downPayment} <span style="font-size: 11px; color: #5a678a;">USD</span></td>
               </tr>
-              <tr>
-                <td style="padding: 10px; border-bottom: 1px solid #d5dff0; font-weight: 600;">COSTO DE CONTRATO / CLOSING COST</td>
-                <td style="padding: 10px; border-bottom: 1px solid #d5dff0; text-align: right; font-weight: 700;">$ ${totals.closing} <span style="font-size: 11px; color: #5a678a;">USD</span></td>
+              <tr style="background: white;">
+                <td style="padding: 12px 15px; border-bottom: 2px solid #e5e9f2; font-weight: 600; color: #0f2654;">COSTO DE CONTRATO / CLOSING COST</td>
+                <td style="padding: 12px 15px; border-bottom: 2px solid #e5e9f2; text-align: right; font-weight: 700; font-size: 16px;">$ ${totals.closing} <span style="font-size: 11px; color: #5a678a;">USD</span></td>
               </tr>
-              <tr>
-                <td style="padding: 10px; border-bottom: 1px solid #d5dff0; font-weight: 600;">DEPOSITO / HOT DEPOSIT</td>
-                <td style="padding: 10px; border-bottom: 1px solid #d5dff0; text-align: right; font-weight: 700; color: #d4af37; font-size: 16px;">$ ${totals.deposit} <span style="font-size: 11px; color: #5a678a;">USD</span></td>
+              <tr style="background: white;">
+                <td style="padding: 12px 15px; border-bottom: 2px solid #e5e9f2; font-weight: 600; color: #0f2654;">DEPOSITO / HOT DEPOSIT</td>
+                <td style="padding: 12px 15px; border-bottom: 2px solid #e5e9f2; text-align: right; font-weight: 700; color: #d4af37; font-size: 18px;">$ ${totals.deposit} <span style="font-size: 11px; color: #5a678a;">USD</span></td>
               </tr>
-              <tr style="background: #0f2654; color: white;">
-                <td style="padding: 12px; font-weight: 700; font-size: 14px;">ENGANCHE TOTAL / TOTAL DOWN PAYMENT</td>
-                <td style="padding: 12px; text-align: right; font-weight: 700; font-size: 18px;">$ ${totals.totalDown} <span style="font-size: 12px;">USD</span></td>
+              <tr style="background: linear-gradient(135deg, #0f2654 0%, #1a4d7a 100%); color: white;">
+                <td style="padding: 15px; font-weight: 700; font-size: 15px; border-radius: 8px 0 0 8px;">ENGANCHE TOTAL / TOTAL DOWN PAYMENT</td>
+                <td style="padding: 15px; text-align: right; font-weight: 700; font-size: 20px; border-radius: 0 8px 8px 0;">$ ${totals.totalDown} <span style="font-size: 13px;">USD</span></td>
               </tr>
-              <tr>
-                <td style="padding: 10px; font-weight: 600;">SALDO A FINANCIAR / AMOUNT TO BE FINANCED</td>
-                <td style="padding: 10px; text-align: right; font-weight: 700; font-size: 16px;">$ ${totals.amountToFinance} <span style="font-size: 11px; color: #5a678a;">USD</span></td>
+              <tr style="background: white;">
+                <td style="padding: 12px 15px; font-weight: 600; color: #0f2654; padding-top: 15px;">SALDO A FINANCIAR / AMOUNT TO BE FINANCED</td>
+                <td style="padding: 12px 15px; text-align: right; font-weight: 700; font-size: 18px; color: #0f2654; padding-top: 15px;">$ ${totals.amountToFinance} <span style="font-size: 12px; color: #5a678a;">USD</span></td>
               </tr>
             </table>
           </div>
 
           <!-- Payment Plan -->
-          <div style="background: #fff; border: 2px solid #d5dff0; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
-            <h3 style="margin: 0 0 16px 0; color: #0f2654; font-size: 16px; font-weight: 700;">PLAN DE PAGO / PAYMENT PLAN</h3>
+          <div style="background: white; border: 3px solid #0f2654; padding: 25px; border-radius: 12px; margin-bottom: 25px;">
+            <h3 style="margin: 0 0 20px 0; color: #0f2654; font-size: 18px; font-weight: 700; text-align: center; background: #f0f4f8; padding: 12px; border-radius: 8px;">📅 PLAN DE PAGO / PAYMENT PLAN</h3>
             
-            <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+            <table style="width: 100%; border-collapse: collapse; font-size: 15px;">
               <tr>
-                <td style="padding: 8px; font-weight: 600; width: 40%;">NÚMERO DE PAGOS / # OF PAYMENTS:</td>
-                <td style="padding: 8px; font-weight: 700; color: #0f2654;">${data.paymentsNum}</td>
+                <td style="padding: 12px; font-weight: 600; color: #5a678a; width: 50%;">Número de Pagos / # of Payments:</td>
+                <td style="padding: 12px; font-weight: 700; color: #0f2654; font-size: 17px;">${data.paymentsNum} pagos</td>
               </tr>
-              <tr>
-                <td style="padding: 8px; font-weight: 600;">PAGO MENSUAL / MONTHLY PAYMENT:</td>
-                <td style="padding: 8px; font-weight: 700; color: #0f2654; font-size: 16px;">$ ${data.monthlyPayment} USD</td>
+              <tr style="background: #f8f9fb;">
+                <td style="padding: 12px; font-weight: 600; color: #5a678a;">Pago Mensual / Monthly Payment:</td>
+                <td style="padding: 12px; font-weight: 700; color: #0f2654; font-size: 20px;">$ ${data.monthlyPayment} <span style="font-size: 13px; color: #5a678a;">USD</span></td>
               </tr>
               ${data.firstPaymentNum !== '0' ? `
               <tr>
-                <td style="padding: 8px; font-weight: 600;">EL DG. PRIMERO DE ${data.firstPaymentNum} PAGOS:</td>
-                <td style="padding: 8px; font-weight: 700; color: #d4af37; font-size: 16px;">$ ${data.firstPayment} USD</td>
+                <td style="padding: 12px; font-weight: 600; color: #5a678a;">El DG. Primero de ${data.firstPaymentNum} Pagos:</td>
+                <td style="padding: 12px; font-weight: 700; color: #d4af37; font-size: 20px;">$ ${data.firstPayment} <span style="font-size: 13px; color: #5a678a;">USD</span></td>
               </tr>
               ` : ''}
             </table>
@@ -8955,18 +8984,35 @@
 
           <!-- Benefits -->
           ${selectedIncentives.length > 0 ? `
-          <div style="background: linear-gradient(135deg, #0f2654 0%, #1a4d7a 100%); color: white; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
-            <h3 style="margin: 0 0 12px 0; font-size: 16px; font-weight: 700;">BENEFICIOS ESPECIALES / ADDITIONAL BENEFITS</h3>
-            <ul style="margin: 0; padding-left: 20px; line-height: 1.8; font-size: 13px;">
-              ${selectedIncentives.map(inc => `<li>${inc}</li>`).join('\n              ')}
+            <div style="background: linear-gradient(135deg, #0f2654 0%, #1a4d7a 100%); color: white; padding: 25px; border-radius: 12px; margin-bottom: 30px; box-shadow: 0 4px 12px rgba(15, 38, 84, 0.3);">
+              <h3 style="margin: 0 0 18px 0; font-size: 18px; font-weight: 700; text-align: center; border-bottom: 2px solid #d4af37; padding-bottom: 12px;">✨ BENEFICIOS ESPECIALES / ADDITIONAL BENEFITS</h3>
+              <ul style="margin: 0; padding-left: 25px; line-height: 2; font-size: 14px; font-weight: 500;">
+                ${selectedIncentives.map(inc => `<li style="margin-bottom: 8px;">${inc}</li>`).join('\n              ')}
             </ul>
           </div>
           ` : ''}
 
+          <!-- Signatures Section -->
+          <div style="margin-top: 50px; margin-bottom: 30px;">
+            <table style="width: 100%; border-collapse: collapse;">
+              <tr>
+                <td style="width: 48%; vertical-align: bottom; padding-bottom: 10px;">
+                  <div style="border-bottom: 2px solid #0f2654; margin-bottom: 8px; height: 60px;"></div>
+                  <p style="margin: 0; text-align: center; font-size: 12px; font-weight: 600; color: #5a678a;">FIRMA SOCIO 1 / MEMBER 1 SIGNATURE</p>
+                </td>
+                <td style="width: 4%;"></td>
+                <td style="width: 48%; vertical-align: bottom; padding-bottom: 10px;">
+                  <div style="border-bottom: 2px solid #0f2654; margin-bottom: 8px; height: 60px;"></div>
+                  <p style="margin: 0; text-align: center; font-size: 12px; font-weight: 600; color: #5a678a;">FIRMA SOCIO 2 / MEMBER 2 SIGNATURE</p>
+                </td>
+              </tr>
+            </table>
+          </div>
+
           <!-- Footer -->
-          <div style="border-top: 3px solid #0f2654; padding-top: 20px; margin-top: 30px; text-align: center; color: #5a678a; font-size: 11px;">
-            <p style="margin: 0;">For more information please consult our <strong>privacy notice</strong> at <strong>www.unlimitedvacationclub.com</strong></p>
-            <p style="margin: 8px 0 0 0; font-weight: 600; color: #0f2654;">UNLIMITED VACATION CLUB® - Premium Vacation Experiences</p>
+          <div style="border-top: 4px solid #0f2654; padding-top: 20px; margin-top: 30px; text-align: center; color: #5a678a; font-size: 11px; line-height: 1.6;">
+            <p style="margin: 0;">Para más información consulte nuestro <strong>aviso de privacidad</strong> en <strong style="color: #0f2654;">www.unlimitedvacationclub.com</strong></p>
+            <p style="margin: 12px 0 0 0; font-weight: 700; color: #0f2654; font-size: 13px; letter-spacing: 0.5px;">UNLIMITED VACATION CLUB® - Premium Vacation Experiences</p>
           </div>
 
         </div>
