@@ -5485,19 +5485,14 @@
 
             <!-- SECTION 4: Gallery Manager -->
             <div class="admin-section" data-section="gallery">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; gap: 12px;">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px;">
                 <div>
                   <h3 style="font-size: 24px; margin: 0 0 12px 0; color: #0f2654;">🖼️ Gallery Manager</h3>
                   <p style="margin: 0; color: #5a678a; font-size: 15px; line-height: 1.6;">Manage photos for all hotel galleries. Click <strong>+ Add</strong> to insert image URL, or click the <strong>×</strong> button on any image to remove it.</p>
                 </div>
-                <div style="display: flex; gap: 8px;">
-                  <button id="clear-storage-btn" type="button" style="background: #ff9800; color: white; border: none; padding: 12px 20px; border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 14px; white-space: nowrap;">
-                    🗑️ Limpiar Cache
-                  </button>
-                  <button id="save-galleries-btn" type="button" style="background: linear-gradient(135deg, #2e7d32 0%, #388e3c 100%); color: white; border: none; padding: 14px 28px; border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 15px; box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3); transition: all 0.2s; white-space: nowrap;">
-                    💾 Guardar Cambios
-                  </button>
-                </div>
+                <button id="save-galleries-btn" type="button" style="background: linear-gradient(135deg, #2e7d32 0%, #388e3c 100%); color: white; border: none; padding: 14px 28px; border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 15px; box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3); transition: all 0.2s; white-space: nowrap;">
+                  💾 Guardar Cambios
+                </button>
               </div>
               
               <div class="gallery-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px;">
@@ -6972,11 +6967,34 @@
         closers: []
       },
       galleries: {
-        zoetry: [],
-        secrets: [],
-        breathless: [],
-        dreams: [],
-        hyatt: [],
+        zoetry: [
+          'true tranquility zoetry.webp',
+          'zoetry endless dining.webp',
+          'personalized service,zoetry.webp',
+          'junior suit ocean view terrace zoetry.webp',
+          'couple in valcony.webp',
+          'romantic dinner.webp'
+        ],
+        secrets: [
+          'secrets-resort-1.jpg',
+          'secrets-resort-2.jpg',
+          'secrets-resort-3.jpg'
+        ],
+        breathless: [
+          'breathless-resort-1.jpg',
+          'breathless-resort-2.jpg',
+          'breathless-resort-3.jpg'
+        ],
+        dreams: [
+          'dreams-resort-1.jpg',
+          'dreams-resort-2.jpg',
+          'dreams-resort-3.jpg'
+        ],
+        hyatt: [
+          'hyatt-resort-1.jpg',
+          'hyatt-resort-2.jpg',
+          'hyatt-resort-3.jpg'
+        ],
         uexperience: [],
         vivid: [],
         alua: [],
@@ -8779,12 +8797,6 @@
     const saveGalleriesBtn = document.getElementById('save-galleries-btn');
     if (saveGalleriesBtn) {
       saveGalleriesBtn.addEventListener('click', manualSaveGalleries);
-    }
-
-    // Attach clear storage button handler
-    const clearStorageBtn = document.getElementById('clear-storage-btn');
-    if (clearStorageBtn) {
-      clearStorageBtn.addEventListener('click', clearGalleryStorage);
     }
 
     // ========== END GALLERY MANAGER ==========
