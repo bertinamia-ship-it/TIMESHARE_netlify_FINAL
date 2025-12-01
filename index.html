@@ -8900,22 +8900,22 @@
       }
 
       const contractHTML = `
-          <div style="max-width: 850px; margin: 0 auto; font-family: Arial, sans-serif; background: white; padding: 20px; font-size: 11px;">
+          <div style="max-width: 850px; margin: 0 auto; font-family: Arial, sans-serif; background: white; padding: 24px; font-size: 11px; line-height: 1.5;">
           
-          <!-- Header with Logo - Compressed -->
-           <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #0f2654; padding-bottom: 10px; margin-bottom: 15px;">
+          <!-- Header with Logo -->
+           <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #0f2654; padding-bottom: 12px; margin-bottom: 18px;">
             <div>
-              <h1 style="margin: 0; font-size: 22px; color: #0f2654; font-weight: 700;">${t.workSheet}</h1>
-              <p style="margin: 2px 0 0 0; font-size: 14px; color: #5a678a; font-weight: 500;">${isEnglish ? 'Hoja de Trabajo' : 'Work Sheet'}</p>
+              <h1 style="margin: 0; font-size: 26px; color: #0f2654; font-weight: 700; letter-spacing: -0.5px;">${t.workSheet}</h1>
+              <p style="margin: 4px 0 0 0; font-size: 13px; color: #5a678a; font-weight: 500;">${isEnglish ? 'Hoja de Trabajo' : 'Work Sheet'}</p>
             </div>
             <div style="text-align: right;">
-              <img src="UVC-Logo-Standalone-Gray.webp" alt="Unlimited Vacation Club" style="height: 50px; width: auto;" />
-              <p style="margin: 5px 0 0 0; font-size: 10px; color: #0f2654; font-weight: 700; line-height: 1.2;">UNLIMITED VACATION CLUB®</p>
+              <img src="UVC-Logo-Standalone-Gray.webp" alt="Unlimited Vacation Club" style="height: 55px; width: auto;" />
+              <p style="margin: 6px 0 0 0; font-size: 9px; color: #0f2654; font-weight: 700; line-height: 1.2; letter-spacing: 0.5px;">UNLIMITED VACATION CLUB®</p>
             </div>
           </div>
 
-          <!-- Date & Membership Info - Compressed -->
-          <table style="width: 100%; border-collapse: collapse; margin-bottom: 10px; font-size: 10px;">
+          <!-- Date & Membership Info -->
+          <table style="width: 100%; border-collapse: collapse; margin-bottom: 14px; font-size: 10px;">
             <tr>
               <td style="padding: 6px 8px; border: 2px solid #d5dff0; background: #f0f4f8; font-weight: 700; color: #0f2654; width: 12%;">${t.day}</td>
               <td style="padding: 6px 8px; border: 2px solid #d5dff0; font-size: 11px; font-weight: 600;">${data.day}</td>
@@ -8929,26 +8929,26 @@
           </table>
 
           <!-- Members & Details - 2 columns -->
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px;">
             
             <!-- Left Column: Members -->
             <div>
-              <table style="width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 10px;">
+              <table style="width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 12px;">
                 <tr>
-                  <td style="padding: 6px 8px; border: 2px solid #d5dff0; background: #f0f4f8; font-weight: 700; color: #0f2654; width: 35%;">${t.member1}</td>
-                  <td style="padding: 6px 8px; border: 2px solid #d5dff0; font-size: 11px; font-weight: 600; text-transform: uppercase;">${data.member1}</td>
+                  <td style="padding: 7px 10px; border: 2px solid #d5dff0; background: #f0f4f8; font-weight: 700; color: #0f2654; width: 35%;">${t.member1}</td>
+                  <td style="padding: 7px 10px; border: 2px solid #d5dff0; font-size: 11px; font-weight: 600; text-transform: uppercase;">${data.member1}</td>
                 </tr>
                 ${data.member2 ? `<tr>
-                  <td style="padding: 6px 8px; border: 2px solid #d5dff0; background: #f0f4f8; font-weight: 700; color: #0f2654;">${t.member2}</td>
-                  <td style="padding: 6px 8px; border: 2px solid #d5dff0; font-size: 11px; font-weight: 600; text-transform: uppercase;">${data.member2}</td>
+                  <td style="padding: 7px 10px; border: 2px solid #d5dff0; background: #f0f4f8; font-weight: 700; color: #0f2654;">${t.member2}</td>
+                  <td style="padding: 7px 10px; border: 2px solid #d5dff0; font-size: 11px; font-weight: 600; text-transform: uppercase;">${data.member2}</td>
                 </tr>` : ''}
               </table>
               
               ${data.beneficiary1 ? `
               <table style="width: 100%; border-collapse: collapse; font-size: 10px;">
                 <tr>
-                  <td style="padding: 6px 8px; border: 2px solid #d5dff0; background: #f0f4f8; font-weight: 700; color: #0f2654; width: 35%;">${t.beneficiaries}</td>
-                  <td style="padding: 6px 8px; border: 2px solid #d5dff0; font-size: 10px;">${[data.beneficiary1, data.beneficiary2, data.beneficiary3].filter(b => b).join(', ')}</td>
+                  <td style="padding: 7px 10px; border: 2px solid #d5dff0; background: #f0f4f8; font-weight: 700; color: #0f2654; width: 35%;">${t.beneficiaries}</td>
+                  <td style="padding: 7px 10px; border: 2px solid #d5dff0; font-size: 10px;">${[data.beneficiary1, data.beneficiary2, data.beneficiary3].filter(b => b).join(', ')}</td>
                 </tr>
               </table>
               ` : ''}
@@ -8981,7 +8981,7 @@
           </div>
 
           <!-- Financial & Payment - 2 columns -->
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px;">
             
             <!-- Financial Details -->
             <div>
@@ -9030,38 +9030,44 @@
             </div>
           </div>
 
-          <!-- Benefits - Compact -->
-          <!-- Benefits - Compact -->
+          <!-- Benefits Section - Professional -->
           ${selectedIncentives.length > 0 ? `
-            <div style="background: #0f2654; color: white; padding: 10px; border-radius: 6px; margin-bottom: 10px;">
-              <h3 style="margin: 0 0 8px 0; font-size: 11px; font-weight: 700; text-align: center; border-bottom: 1px solid #d4af37; padding-bottom: 6px;">✨ ${t.incentives}</h3>
-              <ul style="margin: 0; padding-left: 20px; line-height: 1.6; font-size: 9px; font-weight: 500; columns: 2; column-gap: 15px;">
-                ${selectedIncentives.map(inc => `<li style="margin-bottom: 4px; break-inside: avoid;">${inc}</li>`).join('\n              ')}
-            </ul>
-          </div>
+            <div style="border: 2px solid #0f2654; border-radius: 8px; margin-bottom: 18px; overflow: hidden;">
+              <div style="background: linear-gradient(135deg, #0f2654 0%, #1a3a7a 100%); color: white; padding: 10px 16px; text-align: center;">
+                <h3 style="margin: 0; font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;">✨ ${t.incentives} ✨</h3>
+              </div>
+              <div style="background: #f8f9fb; padding: 14px 16px;">
+                <ul style="margin: 0; padding-left: 0; list-style: none; columns: ${selectedIncentives.length > 4 ? '2' : '1'}; column-gap: 20px; line-height: 1.8;">
+                  ${selectedIncentives.map(inc => `<li style="margin-bottom: 6px; break-inside: avoid; font-size: 10px; font-weight: 500; color: #0f2654; padding-left: 20px; position: relative;">
+                    <span style="position: absolute; left: 0; color: #d4af37; font-weight: 700;">✦</span>
+                    ${inc.replace('✦ ', '')}
+                  </li>`).join('\n                  ')}
+                </ul>
+              </div>
+            </div>
           ` : ''}
 
-          <!-- Signatures Section - Compact -->
-          <div style="margin-top: 15px; margin-bottom: 10px;">
+          <!-- Signatures Section -->
+          <div style="margin-top: 20px; margin-bottom: 16px;">
             <table style="width: 100%; border-collapse: collapse;">
               <tr>
-                <td style="width: 48%; vertical-align: bottom; padding-bottom: 6px;">
-                  <div style="border-bottom: 2px solid #0f2654; margin-bottom: 4px; height: 40px;"></div>
-                  <p style="margin: 0; text-align: center; font-size: 9px; font-weight: 600; color: #5a678a;">${t.memberSignature}</p>
+                <td style="width: 48%; vertical-align: bottom; padding-bottom: 8px;">
+                  <div style="border-bottom: 2px solid #0f2654; margin-bottom: 6px; height: 50px;"></div>
+                  <p style="margin: 0; text-align: center; font-size: 10px; font-weight: 700; color: #0f2654; text-transform: uppercase; letter-spacing: 0.5px;">${t.memberSignature}</p>
                 </td>
                 <td style="width: 4%;"></td>
-                <td style="width: 48%; vertical-align: bottom; padding-bottom: 6px;">
-                  <div style="border-bottom: 2px solid #0f2654; margin-bottom: 4px; height: 40px;"></div>
-                  <p style="margin: 0; text-align: center; font-size: 9px; font-weight: 600; color: #5a678a;">${t.managerSignature}</p>
+                <td style="width: 48%; vertical-align: bottom; padding-bottom: 8px;">
+                  <div style="border-bottom: 2px solid #0f2654; margin-bottom: 6px; height: 50px;"></div>
+                  <p style="margin: 0; text-align: center; font-size: 10px; font-weight: 700; color: #0f2654; text-transform: uppercase; letter-spacing: 0.5px;">${t.managerSignature}</p>
                 </td>
               </tr>
             </table>
           </div>
 
-          <!-- Footer - Compact -->
-          <div style="border-top: 2px solid #0f2654; padding-top: 8px; margin-top: 10px; text-align: center; color: #5a678a; font-size: 8px; line-height: 1.4;">
+          <!-- Footer -->
+          <div style="border-top: 2px solid #0f2654; padding-top: 10px; margin-top: 12px; text-align: center; color: #5a678a; font-size: 9px; line-height: 1.5;">
             <p style="margin: 0;">${t.footer}</p>
-            <p style="margin: 6px 0 0 0; font-weight: 700; color: #0f2654; font-size: 9px;">${t.footerBrand}</p>
+            <p style="margin: 8px 0 0 0; font-weight: 700; color: #0f2654; font-size: 10px; letter-spacing: 0.5px;">${t.footerBrand}</p>
           </div>
 
         </div>
@@ -9095,11 +9101,11 @@
             @media print {
               @page { 
                 size: letter; /* 8.5 x 11 inches */
-                margin: 0.35in 0.45in; /* Márgenes mínimos para aprovechar espacio */
+                margin: 0.4in 0.5in; /* Márgenes balanceados */
               }
               body { 
                 padding: 0;
-                font-size: 9px !important; /* Fuente base pequeña */
+                font-size: 10px !important;
               }
               /* Watermark */
               body::before {
@@ -9111,21 +9117,22 @@
                 background-image: url('UVC-Logo-Standalone-Gray.webp');
                 background-repeat: no-repeat;
                 background-position: center;
-                background-size: 350px;
-                opacity: 0.04;
+                background-size: 400px;
+                opacity: 0.05;
                 width: 100%;
                 height: 100%;
                 z-index: -1;
                 pointer-events: none;
               }
-              /* Compresión de elementos */
-              h1 { font-size: 20px !important; margin: 0 !important; }
+              /* Optimización de elementos */
+              h1 { font-size: 22px !important; margin: 0 !important; }
               h3 { font-size: 11px !important; margin: 0 !important; }
-              table { font-size: 9px !important; margin-bottom: 8px !important; }
-              td, th { padding: 4px 6px !important; }
-              div { margin-bottom: 8px !important; padding: 8px !important; }
-              ul { font-size: 8px !important; line-height: 1.4 !important; }
-              img { height: 40px !important; }
+              table { font-size: 10px !important; margin-bottom: 10px !important; }
+              td, th { padding: 5px 8px !important; }
+              div { margin-bottom: 10px !important; }
+              ul { font-size: 9px !important; line-height: 1.6 !important; }
+              ul li { margin-bottom: 5px !important; }
+              img { height: 45px !important; }
               /* Evitar saltos de página */
               table, div { page-break-inside: avoid; }
             }
