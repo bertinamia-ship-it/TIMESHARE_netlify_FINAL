@@ -5698,6 +5698,17 @@
                     <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">Número de Pagos / # Payments</label>
                     <input type="number" id="contract-payments-num" value="24" step="1" min="1" style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px;" />
                   </div>
+
+                  <div>
+                    <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">APR (%)</label>
+                    <select id="contract-apr" style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px;">
+                      <option value="auto" selected>Auto</option>
+                      <option value="0">0% (Sin Interés)</option>
+                      <option value="8">8%</option>
+                      <option value="12">12%</option>
+                    </select>
+                    <p style="margin:6px 0 0 0; font-size:11px; color:#5a678a; line-height:1.4;">Auto: ≥25% enganche = 0% APR, ≥15% = 8%, <15% = 12%.</p>
+                  </div>
                   
                   <div>
                     <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">Pago Mensual / Monthly Payment (USD)</label>
@@ -8790,7 +8801,19 @@
         paymentsNum: document.getElementById('contract-payments-num').value || '24',
         monthlyPayment: parseFloat(document.getElementById('contract-monthly-payment').value || 0).toFixed(2),
         firstPaymentNum: document.getElementById('contract-first-payment-num').value || '0',
-        firstPayment: parseFloat(document.getElementById('contract-first-payment').value || 0).toFixed(2)
+        firstPayment: parseFloat(document.getElementById('contract-first-payment').value || 0).toFixed(2),
+        apr: (function(){
+          const aprEl = document.getElementById('contract-apr');
+          if (!aprEl) return '0';
+          let val = aprEl.value;
+          if (val === 'auto') {
+            const downP = parseFloat(document.getElementById('contract-down-percent').value) || 0;
+            if (downP >= 25) val = '0';
+            else if (downP >= 15) val = '8';
+            else val = '12';
+          }
+          return val;
+        })()
       };
 
       // Collect selected incentives based on checkboxes and input values
@@ -8970,6 +8993,10 @@
                 <td style="padding: 12px; font-weight: 600; color: #5a678a; width: 50%;">Número de Pagos / # of Payments:</td>
                 <td style="padding: 12px; font-weight: 700; color: #0f2654; font-size: 17px;">${data.paymentsNum} pagos</td>
               </tr>
+              <tr>
+                <td style="padding: 12px; font-weight: 600; color: #5a678a;">APR (Tasa Anual):</td>
+                <td style="padding: 12px; font-weight: 700; color: ${data.apr === '0' ? '#2e7d32' : '#0f2654'}; font-size: 16px;">${data.apr}% ${data.apr === '0' ? '(Sin Interés)' : ''}</td>
+              </tr>
               <tr style="background: #f8f9fb;">
                 <td style="padding: 12px; font-weight: 600; color: #5a678a;">Pago Mensual / Monthly Payment:</td>
                 <td style="padding: 12px; font-weight: 700; color: #0f2654; font-size: 20px;">$ ${data.monthlyPayment} <span style="font-size: 13px; color: #5a678a;">USD</span></td>
@@ -9094,17 +9121,36 @@
         const closingEl = document.getElementById('contract-closing');
         const monthlyPaymentEl = document.getElementById('contract-monthly-payment');
         const paymentsNumEl = document.getElementById('contract-payments-num');
+        const aprEl = document.getElementById('contract-apr');
 
         function recalcDerived() {
           // Force closing cost field to reflect 8% visually
-            const p = parseFloat(priceEl.value) || 0;
-            if (closingEl) closingEl.value = (p * 0.08).toFixed(2);
-          // Recalculate monthly payment if payments number present and amount to finance changed
+          const p = parseFloat(priceEl.value) || 0;
+          if (closingEl) closingEl.value = (p * 0.08).toFixed(2);
+          // Recalculate monthly payment using APR logic
           const totals = calculateContractTotals();
           const payments = parseInt(paymentsNumEl.value) || 0;
           if (monthlyPaymentEl && payments > 0) {
             const amountToFinance = parseFloat(totals.amountToFinance) || 0;
-            monthlyPaymentEl.value = (amountToFinance / payments).toFixed(2);
+            // Determine APR value
+            let aprVal = 0;
+            if (aprEl) {
+              let raw = aprEl.value;
+              if (raw === 'auto') {
+                const downP = parseFloat(document.getElementById('contract-down-percent').value) || 0;
+                if (downP >= 25) raw = '0';
+                else if (downP >= 15) raw = '8';
+                else raw = '12';
+              }
+              aprVal = parseFloat(raw) || 0;
+            }
+            if (aprVal > 0) {
+              const r = aprVal / 100 / 12; // monthly interest rate
+              const payment = amountToFinance * (r / (1 - Math.pow(1 + r, -payments)));
+              monthlyPaymentEl.value = payment.toFixed(2);
+            } else {
+              monthlyPaymentEl.value = (amountToFinance / payments).toFixed(2);
+            }
           }
         }
 
@@ -9122,7 +9168,7 @@
         }
 
         // Recalculate effects when price / down percent / payments change
-        ['contract-price','contract-down-percent','contract-payments-num','contract-deposit'].forEach(id=>{
+        ['contract-price','contract-down-percent','contract-payments-num','contract-deposit','contract-apr'].forEach(id=>{
           const el = document.getElementById(id);
           if (el) el.addEventListener('input', recalcDerived);
         });
