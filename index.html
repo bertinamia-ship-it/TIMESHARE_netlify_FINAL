@@ -5308,6 +5308,7 @@
             <button class="admin-tab-btn" data-tab="financial" type="button">📊 Área Financiera</button>
             <button class="admin-tab-btn" data-tab="rankings" type="button">🏆 Rankings</button>
             <button class="admin-tab-btn" data-tab="gallery" type="button">🖼️ Gallery</button>
+            <button class="admin-tab-btn" data-tab="contracts" type="button">📄 Contratos</button>
             <button class="admin-tab-btn" data-tab="settings" type="button">⚙️ Settings</button>
           </div>
           
@@ -5573,7 +5574,191 @@
               </div>
             </div>
 
-            <!-- SECTION 5: Settings -->
+            <!-- SECTION 5: Contratos -->
+            <div class="admin-section" data-section="contracts">
+              <h3 style="font-size: 24px; margin: 0 0 12px 0; color: #0f2654;">📄 Generador de Contratos</h3>
+              <p style="margin-bottom: 28px; color: #5a678a; font-size: 15px; line-height: 1.6;">Complete la información del contrato y genere un documento profesional con el logo de UVC.</p>
+              
+              <!-- Contract Form -->
+              <div style="background: #fff; border: 2px solid #d5dff0; border-radius: 16px; padding: 32px; max-width: 900px;">
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 24px;">
+                  
+                  <!-- Member Info -->
+                  <div style="grid-column: 1 / -1;">
+                    <h4 style="margin: 0 0 16px 0; color: #0f2654; font-size: 16px; font-weight: 700; border-bottom: 2px solid #d5dff0; padding-bottom: 8px;">👤 Información del Socio</h4>
+                  </div>
+                  
+                  <div>
+                    <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">Socio 1 / Member 1</label>
+                    <input type="text" id="contract-member1" style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px;" placeholder="Nombre completo" />
+                  </div>
+                  
+                  <div>
+                    <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">Socio 2 / Member 2</label>
+                    <input type="text" id="contract-member2" style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px;" placeholder="Nombre completo (opcional)" />
+                  </div>
+                  
+                  <div>
+                    <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">Membresía / Membership #</label>
+                    <input type="text" id="contract-membership" style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px;" placeholder="Número de membresía" />
+                  </div>
+                  
+                  <div>
+                    <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">Estatus / Status</label>
+                    <select id="contract-status" style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px;">
+                      <option value="V.O">V.O</option>
+                      <option value="Nuevo">Nuevo</option>
+                    </select>
+                  </div>
+
+                  <!-- Beneficiaries -->
+                  <div style="grid-column: 1 / -1; margin-top: 16px;">
+                    <h4 style="margin: 0 0 16px 0; color: #0f2654; font-size: 16px; font-weight: 700; border-bottom: 2px solid #d5dff0; padding-bottom: 8px;">👥 Beneficiarios</h4>
+                  </div>
+                  
+                  <div>
+                    <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">Beneficiario 1</label>
+                    <input type="text" id="contract-beneficiary1" style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px;" />
+                  </div>
+                  
+                  <div>
+                    <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">Beneficiario 2</label>
+                    <input type="text" id="contract-beneficiary2" style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px;" />
+                  </div>
+                  
+                  <div>
+                    <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">Beneficiario 3</label>
+                    <input type="text" id="contract-beneficiary3" style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px;" />
+                  </div>
+
+                  <!-- Membership Details -->
+                  <div style="grid-column: 1 / -1; margin-top: 16px;">
+                    <h4 style="margin: 0 0 16px 0; color: #0f2654; font-size: 16px; font-weight: 700; border-bottom: 2px solid #d5dff0; padding-bottom: 8px;">📋 Detalles de Membresía</h4>
+                  </div>
+                  
+                  <div>
+                    <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">Tipo de Membresía</label>
+                    <select id="contract-membership-type" style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px;">
+                      <option value="Choice">Choice</option>
+                      <option value="Nuevo">Nuevo</option>
+                    </select>
+                  </div>
+                  
+                  <div>
+                    <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">Vigencia / Term</label>
+                    <select id="contract-term" style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px;">
+                      <option value="5 YRS">5 YRS</option>
+                      <option value="10 YRS">10 YRS</option>
+                      <option value="15 YRS">15 YRS</option>
+                    </select>
+                  </div>
+                  
+                  <div>
+                    <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">Semanas de Intercambio</label>
+                    <input type="text" id="contract-weeks" value="10 WEEKS" style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px;" />
+                  </div>
+                  
+                  <div>
+                    <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">Nivel de Membresía</label>
+                    <input type="text" id="contract-level" style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px;" placeholder="Ej: WOH MEMBER LEVEL" />
+                  </div>
+
+                  <!-- Financial Details -->
+                  <div style="grid-column: 1 / -1; margin-top: 16px;">
+                    <h4 style="margin: 0 0 16px 0; color: #0f2654; font-size: 16px; font-weight: 700; border-bottom: 2px solid #d5dff0; padding-bottom: 8px;">💰 Detalles Financieros</h4>
+                  </div>
+                  
+                  <div>
+                    <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">Precio de Venta / Purchase Price (USD)</label>
+                    <input type="number" id="contract-price" value="6850" step="0.01" style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px;" />
+                  </div>
+                  
+                  <div>
+                    <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">% Enganche / Down Payment %</label>
+                    <input type="number" id="contract-down-percent" value="25" step="1" min="0" max="100" style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px;" />
+                  </div>
+                  
+                  <div>
+                    <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">Costo de Contrato / Closing Cost (USD)</label>
+                    <input type="number" id="contract-closing" value="549" step="0.01" style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px;" />
+                  </div>
+                  
+                  <div>
+                    <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">Depósito / Hot Deposit (USD)</label>
+                    <input type="number" id="contract-deposit" value="1234" step="0.01" style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px;" />
+                  </div>
+
+                  <!-- Payment Plan -->
+                  <div style="grid-column: 1 / -1; margin-top: 16px;">
+                    <h4 style="margin: 0 0 16px 0; color: #0f2654; font-size: 16px; font-weight: 700; border-bottom: 2px solid #d5dff0; padding-bottom: 8px;">📅 Plan de Pagos</h4>
+                  </div>
+                  
+                  <div>
+                    <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">Número de Pagos / # Payments</label>
+                    <input type="number" id="contract-payments-num" value="24" step="1" min="1" style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px;" />
+                  </div>
+                  
+                  <div>
+                    <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">Pago Mensual / Monthly Payment (USD)</label>
+                    <input type="number" id="contract-monthly-payment" value="214.06" step="0.01" style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px;" />
+                  </div>
+                  
+                  <div>
+                    <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">Pago Inicial de # (USD)</label>
+                    <input type="number" id="contract-first-payment-num" value="0" step="1" style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px;" />
+                  </div>
+                  
+                  <div>
+                    <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">Monto Pago Inicial (USD)</label>
+                    <input type="number" id="contract-first-payment" value="227.06" step="0.01" style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px;" />
+                  </div>
+
+                  <!-- Additional Info -->
+                  <div style="grid-column: 1 / -1; margin-top: 16px;">
+                    <h4 style="margin: 0 0 16px 0; color: #0f2654; font-size: 16px; font-weight: 700; border-bottom: 2px solid #d5dff0; padding-bottom: 8px;">📍 Información Adicional</h4>
+                  </div>
+                  
+                  <div>
+                    <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">Locación / Location</label>
+                    <input type="text" id="contract-location" style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px;" />
+                  </div>
+                  
+                  <div>
+                    <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">Día / Day</label>
+                    <input type="text" id="contract-day" style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px;" />
+                  </div>
+                  
+                  <div>
+                    <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">Mes / Month</label>
+                    <input type="text" id="contract-month" style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px;" />
+                  </div>
+                  
+                  <div>
+                    <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">Año / Year</label>
+                    <input type="text" id="contract-year" style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px;" />
+                  </div>
+
+                </div>
+
+                <!-- Action Buttons -->
+                <div style="display: flex; gap: 12px; margin-top: 32px; padding-top: 24px; border-top: 2px solid #d5dff0;">
+                  <button id="generate-contract-btn" type="button" style="flex: 1; background: #d4af37; color: #0f2654; border: none; padding: 14px 28px; border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 15px; box-shadow: 0 4px 12px rgba(212,175,55,0.3); transition: all 0.3s;">
+                    📄 Generar Contrato
+                  </button>
+                  <button id="print-contract-btn" type="button" style="flex: 1; background: #0f2654; color: white; border: none; padding: 14px 28px; border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 15px; box-shadow: 0 4px 12px rgba(15,38,84,0.3); transition: all 0.3s;">
+                    🖨️ Imprimir Contrato
+                  </button>
+                </div>
+
+              </div>
+
+              <!-- Contract Preview (hidden by default) -->
+              <div id="contract-preview" style="display: none; margin-top: 32px; background: white; border: 2px solid #d5dff0; border-radius: 16px; padding: 40px; max-width: 900px;"></div>
+
+            </div>
+
+            <!-- SECTION 6: Settings -->
             <div class="admin-section" data-section="settings">
               <h3>⚙️ Configuración General</h3>
               
@@ -8482,6 +8667,253 @@
     }
 
     // ========== END FULLSCREEN ==========
+
+    // ========== CONTRACT GENERATOR ==========
+    
+    const generateContractBtn = document.getElementById('generate-contract-btn');
+    const printContractBtn = document.getElementById('print-contract-btn');
+    const contractPreview = document.getElementById('contract-preview');
+
+    function calculateContractTotals() {
+      const price = parseFloat(document.getElementById('contract-price').value) || 0;
+      const downPercent = parseFloat(document.getElementById('contract-down-percent').value) || 0;
+      const closing = parseFloat(document.getElementById('contract-closing').value) || 0;
+      const deposit = parseFloat(document.getElementById('contract-deposit').value) || 0;
+
+      const downPayment = (price * downPercent / 100);
+      const totalDown = downPayment + deposit;
+      const amountToFinance = price - downPayment;
+
+      return {
+        price: price.toFixed(2),
+        downPercent: downPercent.toFixed(0),
+        downPayment: downPayment.toFixed(2),
+        closing: closing.toFixed(2),
+        deposit: deposit.toFixed(2),
+        totalDown: totalDown.toFixed(2),
+        amountToFinance: amountToFinance.toFixed(2)
+      };
+    }
+
+    function generateContract() {
+      const totals = calculateContractTotals();
+      
+      const data = {
+        member1: document.getElementById('contract-member1').value || '',
+        member2: document.getElementById('contract-member2').value || '',
+        membership: document.getElementById('contract-membership').value || '',
+        status: document.getElementById('contract-status').value || 'V.O',
+        beneficiary1: document.getElementById('contract-beneficiary1').value || '',
+        beneficiary2: document.getElementById('contract-beneficiary2').value || '',
+        beneficiary3: document.getElementById('contract-beneficiary3').value || '',
+        membershipType: document.getElementById('contract-membership-type').value || 'Choice',
+        term: document.getElementById('contract-term').value || '5 YRS',
+        weeks: document.getElementById('contract-weeks').value || '10 WEEKS',
+        level: document.getElementById('contract-level').value || '',
+        location: document.getElementById('contract-location').value || '',
+        day: document.getElementById('contract-day').value || '',
+        month: document.getElementById('contract-month').value || '',
+        year: document.getElementById('contract-year').value || '',
+        paymentsNum: document.getElementById('contract-payments-num').value || '24',
+        monthlyPayment: parseFloat(document.getElementById('contract-monthly-payment').value || 0).toFixed(2),
+        firstPaymentNum: document.getElementById('contract-first-payment-num').value || '0',
+        firstPayment: parseFloat(document.getElementById('contract-first-payment').value || 0).toFixed(2)
+      };
+
+      const contractHTML = `
+        <div style="max-width: 850px; margin: 0 auto; font-family: Arial, sans-serif; background: white;">
+          
+          <!-- Header with Logo -->
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #0f2654; padding-bottom: 20px; margin-bottom: 30px;">
+            <div>
+              <h1 style="margin: 0; font-size: 28px; color: #0f2654; font-weight: 700;">Hoja de Trabajo</h1>
+              <p style="margin: 4px 0 0 0; font-size: 16px; color: #5a678a;">Work Sheet</p>
+            </div>
+            <div style="text-align: right;">
+              <img src="UVC-Logo-Standalone-Gray.webp" alt="Unlimited Vacation Club" style="height: 60px; width: auto;" />
+              <p style="margin: 8px 0 0 0; font-size: 13px; color: #0f2654; font-weight: 600;">UNLIMITED<br/>VACATION CLUB®</p>
+            </div>
+          </div>
+
+          <!-- Member Info Section -->
+          <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 13px;">
+            <tr>
+              <td style="padding: 8px; border: 1px solid #d5dff0; background: #f8f9fb; font-weight: 600; width: 120px;">DAY / MES / MONTH / AÑO / YEAR</td>
+              <td style="padding: 8px; border: 1px solid #d5dff0;">${data.day} / ${data.month} / ${data.year}</td>
+              <td style="padding: 8px; border: 1px solid #d5dff0; background: #f8f9fb; font-weight: 600; width: 120px;">MEMBRESÍA / MEMBERSHIP</td>
+              <td style="padding: 8px; border: 1px solid #d5dff0;">${data.membership}</td>
+              <td style="padding: 8px; border: 1px solid #d5dff0; background: #f8f9fb; font-weight: 600; width: 80px;">STATUS</td>
+              <td style="padding: 8px; border: 1px solid #d5dff0;">${data.status}</td>
+            </tr>
+          </table>
+
+          <!-- Members -->
+          <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 13px;">
+            <tr>
+              <td style="padding: 8px; border: 1px solid #d5dff0; background: #f8f9fb; font-weight: 600; width: 150px;">SOCIO 1 / MEMBER 1</td>
+              <td style="padding: 8px; border: 1px solid #d5dff0;">${data.member1}</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px; border: 1px solid #d5dff0; background: #f8f9fb; font-weight: 600;">SOCIO 2 / MEMBER 2</td>
+              <td style="padding: 8px; border: 1px solid #d5dff0;">${data.member2}</td>
+            </tr>
+          </table>
+
+          <!-- Beneficiaries -->
+          <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 13px;">
+            <tr>
+              <td style="padding: 8px; border: 1px solid #d5dff0; background: #f8f9fb; font-weight: 600; width: 150px;">BENEFICIARIOS / BENEFICIARIES</td>
+              <td style="padding: 8px; border: 1px solid #d5dff0;">${data.beneficiary1}</td>
+            </tr>
+            ${data.beneficiary2 ? `<tr><td style="padding: 8px; border: 1px solid #d5dff0; background: #f8f9fb; font-weight: 600;"></td><td style="padding: 8px; border: 1px solid #d5dff0;">${data.beneficiary2}</td></tr>` : ''}
+            ${data.beneficiary3 ? `<tr><td style="padding: 8px; border: 1px solid #d5dff0; background: #f8f9fb; font-weight: 600;"></td><td style="padding: 8px; border: 1px solid #d5dff0;">${data.beneficiary3}</td></tr>` : ''}
+          </table>
+
+          <!-- Membership Details -->
+          <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 13px;">
+            <tr>
+              <td style="padding: 8px; border: 1px solid #d5dff0; background: #f8f9fb; font-weight: 600; width: 200px;">TIPO DE MEMBRESÍA<br/>MEMBERSHIP TYPE</td>
+              <td style="padding: 8px; border: 1px solid #d5dff0; font-weight: 700; color: #0f2654;">${data.membershipType}</td>
+              <td style="padding: 8px; border: 1px solid #d5dff0; background: #f8f9fb; font-weight: 600; width: 150px;">VIGENCIA</td>
+              <td style="padding: 8px; border: 1px solid #d5dff0; font-weight: 700;">${data.term}</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px; border: 1px solid #d5dff0; background: #f8f9fb; font-weight: 600;">WOH MEMBERSHIP NAME</td>
+              <td style="padding: 8px; border: 1px solid #d5dff0;" colspan="3">${data.level}</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px; border: 1px solid #d5dff0; background: #f8f9fb; font-weight: 600;">SEMANAS DE INTERCAMBIO<br/>EXCHANGE WEEKS</td>
+              <td style="padding: 8px; border: 1px solid #d5dff0; font-weight: 700; color: #0f2654;">${data.weeks}</td>
+              <td style="padding: 8px; border: 1px solid #d5dff0; background: #f8f9fb; font-weight: 600;">LOCACIÓN</td>
+              <td style="padding: 8px; border: 1px solid #d5dff0;">${data.location}</td>
+            </tr>
+          </table>
+
+          <!-- Financial Details -->
+          <div style="background: #f8f9fb; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+            <h3 style="margin: 0 0 16px 0; color: #0f2654; font-size: 16px; font-weight: 700;">CONCEPTOS / CONCEPTS - MONTOS / AMOUNTS</h3>
+            
+            <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+              <tr>
+                <td style="padding: 10px; border-bottom: 1px solid #d5dff0; font-weight: 600;">PRECIO DE VENTA / PURCHASE PRICE</td>
+                <td style="padding: 10px; border-bottom: 1px solid #d5dff0; text-align: right; font-weight: 700; font-size: 16px;">$ ${totals.price} <span style="font-size: 11px; color: #5a678a;">USD</span></td>
+              </tr>
+              <tr>
+                <td style="padding: 10px; border-bottom: 1px solid #d5dff0; font-weight: 600;">ENGANCHE / DOWN PAYMENT (${totals.downPercent}%)</td>
+                <td style="padding: 10px; border-bottom: 1px solid #d5dff0; text-align: right; font-weight: 700;">$ ${totals.downPayment} <span style="font-size: 11px; color: #5a678a;">USD</span></td>
+              </tr>
+              <tr>
+                <td style="padding: 10px; border-bottom: 1px solid #d5dff0; font-weight: 600;">COSTO DE CONTRATO / CLOSING COST</td>
+                <td style="padding: 10px; border-bottom: 1px solid #d5dff0; text-align: right; font-weight: 700;">$ ${totals.closing} <span style="font-size: 11px; color: #5a678a;">USD</span></td>
+              </tr>
+              <tr>
+                <td style="padding: 10px; border-bottom: 1px solid #d5dff0; font-weight: 600;">DEPOSITO / HOT DEPOSIT</td>
+                <td style="padding: 10px; border-bottom: 1px solid #d5dff0; text-align: right; font-weight: 700; color: #d4af37; font-size: 16px;">$ ${totals.deposit} <span style="font-size: 11px; color: #5a678a;">USD</span></td>
+              </tr>
+              <tr style="background: #0f2654; color: white;">
+                <td style="padding: 12px; font-weight: 700; font-size: 14px;">ENGANCHE TOTAL / TOTAL DOWN PAYMENT</td>
+                <td style="padding: 12px; text-align: right; font-weight: 700; font-size: 18px;">$ ${totals.totalDown} <span style="font-size: 12px;">USD</span></td>
+              </tr>
+              <tr>
+                <td style="padding: 10px; font-weight: 600;">SALDO A FINANCIAR / AMOUNT TO BE FINANCED</td>
+                <td style="padding: 10px; text-align: right; font-weight: 700; font-size: 16px;">$ ${totals.amountToFinance} <span style="font-size: 11px; color: #5a678a;">USD</span></td>
+              </tr>
+            </table>
+          </div>
+
+          <!-- Payment Plan -->
+          <div style="background: #fff; border: 2px solid #d5dff0; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+            <h3 style="margin: 0 0 16px 0; color: #0f2654; font-size: 16px; font-weight: 700;">PLAN DE PAGO / PAYMENT PLAN</h3>
+            
+            <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+              <tr>
+                <td style="padding: 8px; font-weight: 600; width: 40%;">NÚMERO DE PAGOS / # OF PAYMENTS:</td>
+                <td style="padding: 8px; font-weight: 700; color: #0f2654;">${data.paymentsNum}</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px; font-weight: 600;">PAGO MENSUAL / MONTHLY PAYMENT:</td>
+                <td style="padding: 8px; font-weight: 700; color: #0f2654; font-size: 16px;">$ ${data.monthlyPayment} USD</td>
+              </tr>
+              ${data.firstPaymentNum !== '0' ? `
+              <tr>
+                <td style="padding: 8px; font-weight: 600;">EL DG. PRIMERO DE ${data.firstPaymentNum} PAGOS:</td>
+                <td style="padding: 8px; font-weight: 700; color: #d4af37; font-size: 16px;">$ ${data.firstPayment} USD</td>
+              </tr>
+              ` : ''}
+            </table>
+          </div>
+
+          <!-- Benefits -->
+          <div style="background: linear-gradient(135deg, #0f2654 0%, #1a4d7a 100%); color: white; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+            <h3 style="margin: 0 0 12px 0; font-size: 16px; font-weight: 700;">BENEFICIOS ESPECIALES / ADDITIONAL BENEFITS</h3>
+            <ul style="margin: 0; padding-left: 20px; line-height: 1.8; font-size: 13px;">
+              <li>✦ UNLIMITED USE @ HYATT ALL INCLUSIVE COLLECTION (INC. EUROPE)</li>
+              <li>✦ UNLIMITED ACCESS CERTIFICATE</li>
+              <li>✦ PREMIER BONUS WEEK (ALL INC + 2 ADULTS FREE)</li>
+              <li>✦ UP TO DISCOVER A WORLD OF HYATT ELITE</li>
+              <li>✦ 2 WORLD WIDE BONUS WEEKS 299 USD EACH</li>
+              <li>✦ PRICE FREEZE</li>
+              <li>✦ 1000 + 1500 REWARDS CREDIT</li>
+              <li>✦ SPA AND YACHT CLUB BENEFITS</li>
+            </ul>
+          </div>
+
+          <!-- Footer -->
+          <div style="border-top: 3px solid #0f2654; padding-top: 20px; margin-top: 30px; text-align: center; color: #5a678a; font-size: 11px;">
+            <p style="margin: 0;">For more information please consult our <strong>privacy notice</strong> at <strong>www.unlimitedvacationclub.com</strong></p>
+            <p style="margin: 8px 0 0 0; font-weight: 600; color: #0f2654;">UNLIMITED VACATION CLUB® - Premium Vacation Experiences</p>
+          </div>
+
+        </div>
+      `;
+
+      contractPreview.innerHTML = contractHTML;
+      contractPreview.style.display = 'block';
+      contractPreview.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      showToast('Contrato generado exitosamente', 'success', 2000);
+    }
+
+    function printContract() {
+      if (contractPreview.style.display === 'none') {
+        showToast('Primero genera el contrato', 'error', 2000);
+        return;
+      }
+
+      const printWindow = window.open('', '_blank');
+      printWindow.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>Contrato UVC - ${document.getElementById('contract-member1').value}</title>
+          <style>
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            body { font-family: Arial, sans-serif; padding: 40px; background: white; }
+            @media print {
+              body { padding: 20px; }
+              @page { margin: 1cm; }
+            }
+          </style>
+        </head>
+        <body>
+          ${contractPreview.innerHTML}
+        </body>
+        </html>
+      `);
+      printWindow.document.close();
+      setTimeout(() => {
+        printWindow.print();
+      }, 250);
+    }
+
+    if (generateContractBtn) {
+      generateContractBtn.addEventListener('click', generateContract);
+    }
+
+    if (printContractBtn) {
+      printContractBtn.addEventListener('click', printContract);
+    }
+
+    // ========== END CONTRACT GENERATOR ==========
 
     // ========== ADMIN OVERLAY NAVIGATION ==========
     
