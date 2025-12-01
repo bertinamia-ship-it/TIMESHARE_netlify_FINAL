@@ -5485,8 +5485,15 @@
 
             <!-- SECTION 4: Gallery Manager -->
             <div class="admin-section" data-section="gallery">
-              <h3 style="font-size: 24px; margin: 0 0 12px 0; color: #0f2654;">🖼️ Gallery Manager</h3>
-              <p style="margin-bottom: 28px; color: #5a678a; font-size: 15px; line-height: 1.6;">Manage photos for all hotel galleries. Click <strong>+ Add</strong> to insert image URL, or click the <strong>×</strong> button on any image to remove it.</p>
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px;">
+                <div>
+                  <h3 style="font-size: 24px; margin: 0 0 12px 0; color: #0f2654;">🖼️ Gallery Manager</h3>
+                  <p style="margin: 0; color: #5a678a; font-size: 15px; line-height: 1.6;">Manage photos for all hotel galleries. Click <strong>+ Add</strong> to insert image URL, or click the <strong>×</strong> button on any image to remove it.</p>
+                </div>
+                <button id="save-galleries-btn" type="button" style="background: linear-gradient(135deg, #2e7d32 0%, #388e3c 100%); color: white; border: none; padding: 14px 28px; border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 15px; box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3); transition: all 0.2s; white-space: nowrap;">
+                  💾 Guardar Cambios
+                </button>
+              </div>
               
               <div class="gallery-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px;">
                 
@@ -8624,8 +8631,8 @@
           state.galleries[type].push(base64Image);
           renderGallery(type);
           updateModalGallery(type);
-          saveGalleries();
-          showToast(`Image uploaded to ${type}`, 'success', 2000);
+          // NO auto-save, user must click "Guardar Cambios"
+          showToast(`Imagen agregada a ${type}. Presiona "Guardar Cambios" para guardar.`, 'info', 3000);
           modal.remove();
         };
         
@@ -8650,8 +8657,8 @@
         state.galleries[type].push(url.trim());
         renderGallery(type);
         updateModalGallery(type);
-        saveGalleries();
-        showToast(`Image added to ${type}`, 'success', 2000);
+        // NO auto-save, user must click "Guardar Cambios"
+        showToast(`Imagen agregada a ${type}. Presiona "Guardar Cambios" para guardar.`, 'info', 3000);
       });
 
       // Cancel
@@ -8670,25 +8677,36 @@
 
     // Delete image from gallery
     window.deleteGalleryImage = function(type, index) {
-      if (!confirm('Delete this image?')) return;
+      if (!confirm('¿Eliminar esta imagen?')) return;
       
       if (!state.galleries[type]) return;
       
       state.galleries[type].splice(index, 1);
       renderGallery(type);
       updateModalGallery(type);
-      saveGalleries();
-      showToast(`Image removed from ${type}`, 'info', 2000);
+      // NO auto-save, user must click "Guardar Cambios"
+      showToast(`Imagen eliminada de ${type}. Presiona "Guardar Cambios" para guardar.`, 'info', 3000);
     };
 
     // Save galleries to localStorage
     function saveGalleries() {
       try {
-        localStorage.setItem('uvc_galleries', JSON.stringify(state.galleries));
-        console.log('Galleries saved to storage:', state.galleries);
+        const serialized = JSON.stringify(state.galleries);
+        localStorage.setItem('uvc_galleries', serialized);
+        
+        // Verify save was successful
+        const verified = localStorage.getItem('uvc_galleries');
+        if (verified === serialized) {
+          console.log('✓ Galleries saved successfully:', state.galleries);
+          return true;
+        } else {
+          console.error('✗ Save verification failed');
+          return false;
+        }
       } catch (e) {
-        console.error('Failed to save galleries:', e);
-        showToast('Error saving galleries', 'error', 3000);
+        console.error('✗ Failed to save galleries:', e);
+        showToast('Error al guardar: ' + e.message, 'error', 4000);
+        return false;
       }
     }
 
@@ -8700,11 +8718,50 @@
           const parsed = JSON.parse(saved);
           // Replace entire galleries object, not merge
           state.galleries = parsed;
-          console.log('Galleries loaded from storage:', parsed);
+          console.log('✓ Galleries loaded from storage:', parsed);
+          return true;
+        } else {
+          console.log('ℹ No saved galleries found, using defaults');
+          return false;
         }
       } catch (e) {
-        console.error('Failed to load galleries:', e);
+        console.error('✗ Failed to load galleries:', e);
+        showToast('Error al cargar galerías', 'error', 3000);
+        return false;
       }
+    }
+
+    // Manual save button handler
+    function manualSaveGalleries() {
+      const btn = document.getElementById('save-galleries-btn');
+      const originalText = btn.innerHTML;
+      
+      btn.innerHTML = '⏳ Guardando...';
+      btn.disabled = true;
+      
+      setTimeout(() => {
+        const success = saveGalleries();
+        if (success) {
+          btn.innerHTML = '✓ Guardado!';
+          btn.style.background = 'linear-gradient(135deg, #2e7d32 0%, #388e3c 100%)';
+          showToast('✓ Galerías guardadas exitosamente', 'success', 3000);
+          
+          setTimeout(() => {
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+          }, 2000);
+        } else {
+          btn.innerHTML = '✗ Error';
+          btn.style.background = 'linear-gradient(135deg, #c62828 0%, #d32f2f 100%)';
+          showToast('✗ Error al guardar las galerías. Revisa la consola.', 'error', 4000);
+          
+          setTimeout(() => {
+            btn.innerHTML = originalText;
+            btn.style.background = 'linear-gradient(135deg, #2e7d32 0%, #388e3c 100%)';
+            btn.disabled = false;
+          }, 3000);
+        }
+      }, 300);
     }
 
     // Initialize galleries from storage
@@ -8714,6 +8771,12 @@
     Object.keys(state.galleries).forEach(type => {
       renderGallery(type);
     });
+
+    // Attach save button handler
+    const saveGalleriesBtn = document.getElementById('save-galleries-btn');
+    if (saveGalleriesBtn) {
+      saveGalleriesBtn.addEventListener('click', manualSaveGalleries);
+    }
 
     // ========== END GALLERY MANAGER ==========
 
