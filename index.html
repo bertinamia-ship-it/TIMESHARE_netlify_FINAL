@@ -273,7 +273,7 @@
 
     body {
       font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: linear-gradient(135deg, #fafbfc 0%, #f1f5f9 40%, #e8eef7 100%);
+      background: linear-gradient(135deg, #1a2332 0%, #0f1a2a 50%, #0a1420 100%);
       background-attachment: fixed;
       display: flex;
       justify-content: center;
@@ -335,8 +335,7 @@
     select,
     textarea {
       font-family: inherit;
-      transition: all 0.2s ease;
-      box-shadow: 0 1px 3px rgba(15, 38, 84, 0.04);
+      transition: all var(--transition-base);
     }
     
     input[type="text"]:hover,
@@ -346,7 +345,6 @@
     select:hover,
     textarea:hover {
       border-color: var(--uvc-navy-light) !important;
-      box-shadow: 0 2px 6px rgba(15, 38, 84, 0.08) !important;
     }
     
     input[type="text"]:focus,
@@ -356,24 +354,23 @@
     select:focus,
     textarea:focus {
       border-color: var(--uvc-navy) !important;
-      box-shadow: 0 0 0 4px rgba(15, 38, 84, 0.1), 0 2px 8px rgba(15, 38, 84, 0.1) !important;
+      box-shadow: 0 0 0 3px rgba(15, 38, 84, 0.1) !important;
       outline: none;
     }
     
     /* Readonly inputs with different style */
     input:read-only,
     input[readonly] {
-      background-color: #f8f9fb !important;
+      background-color: var(--uvc-light) !important;
       cursor: not-allowed;
-      opacity: 0.8;
-      border-color: #e5e9f2 !important;
+      opacity: 0.7;
     }
     
     /* Button Base Styles */
     button {
       font-family: inherit;
       cursor: pointer;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all var(--transition-base);
       border: none;
       font-weight: 600;
     }
@@ -691,18 +688,18 @@
       max-width: 100%;
       height: 100vh;
       height: -webkit-fill-available;
-      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+      background: linear-gradient(135deg, #ffffff 0%, #f8fafb 100%);
       border-radius: 0;
-      box-shadow: none;
+      box-shadow: 0 0 60px rgba(212, 175, 55, 0.3), 0 0 120px rgba(15, 38, 84, 0.2);
       padding: 0;
       position: relative;
       display: flex;
       flex-direction: column;
       margin: 0;
-      border: none;
+      border: 3px solid rgba(212, 175, 55, 0.4);
       overflow-y: auto;
       overflow-x: hidden;
-      transition: box-shadow var(--transition-slow);
+      transition: all var(--transition-slow);
     }
 
     .utility-bar {
@@ -1353,13 +1350,13 @@
     .sale-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(15, 38, 84, 0.75);
-      backdrop-filter: blur(20px) saturate(150%);
+      background: rgba(10, 26, 53, 0.6);
+      backdrop-filter: blur(12px) saturate(120%);
       display: none;
       align-items: center;
       justify-content: center;
       z-index: 1500;
-      animation: fadeIn 0.3s ease;
+      animation: fadeIn 0.25s ease;
     }
 
     .sale-overlay.active {
@@ -1367,94 +1364,67 @@
     }
 
     .sale-card {
-      width: min(520px, 95vw);
-      background: linear-gradient(to bottom, #ffffff 0%, #fafbfc 100%);
-      border-radius: 24px;
-      padding: 32px;
-      box-shadow: 0 20px 60px rgba(15, 38, 84, 0.2), 0 0 0 1px rgba(15, 38, 84, 0.05);
+      width: min(480px, 95vw);
+      background: var(--uvc-panel);
+      border-radius: var(--radius-xl);
+      padding: var(--space-xl);
+      box-shadow: var(--uvc-shadow-lg);
       display: flex;
       flex-direction: column;
-      gap: 20px;
-      animation: scaleIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-      border: 1px solid rgba(15, 38, 84, 0.08);
+      gap: var(--space-md);
+      animation: scaleIn var(--transition-slow) ease;
     }
 
     .sale-card h3 {
       margin: 0;
-      font-size: 26px;
-      color: var(--uvc-navy);
+      font-size: 20px;
+      color: var(--uvc-navy-dark);
       font-weight: 700;
-      letter-spacing: -0.5px;
-      line-height: 1.2;
     }
 
     .sale-card p {
       margin: 0;
-      font-size: 15px;
+      font-size: 14px;
       color: var(--uvc-slate);
-      line-height: 1.6;
+      line-height: 1.5;
     }
 
     .sale-choice-buttons {
       display: flex;
-      gap: 16px;
-      margin-top: 8px;
+      gap: var(--space-md);
     }
 
     .sale-choice-buttons button {
       flex: 1;
       border: none;
-      border-radius: 14px;
-      padding: 16px 20px;
-      font-size: 15px;
-      font-weight: 700;
+      border-radius: var(--radius-md);
+      padding: var(--space-md);
+      font-size: 14px;
+      font-weight: 600;
       cursor: pointer;
       color: #fff;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .sale-choice-buttons button::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 100%);
-      opacity: 0;
-      transition: opacity 0.2s ease;
-    }
-
-    .sale-choice-buttons button:hover::before {
-      opacity: 1;
+      transition: all var(--transition-base);
     }
 
     .sale-choice-buttons button:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-    }
-
-    .sale-choice-buttons button:active {
-      transform: translateY(-1px);
+      transform: translateY(-2px);
+      box-shadow: var(--uvc-shadow-sm);
     }
 
     .sale-choice-buttons button[data-choice="win"] { 
-      background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+      background: var(--uvc-success); 
     }
     
     .sale-choice-buttons button[data-choice="win"]:hover { 
-      background: linear-gradient(135deg, #047857 0%, #059669 100%);
+      background: #059669; 
     }
     
     .sale-choice-buttons button[data-choice="loss"] { 
-      background: linear-gradient(135deg, #ea580c 0%, #f97316 100%);
+      background: var(--uvc-warning); 
     }
     
     .sale-choice-buttons button[data-choice="loss"]:hover { 
-      background: linear-gradient(135deg, #c2410c 0%, #ea580c 100%);
+      background: #d97706; 
     }
 
     .sale-choice.hidden {
@@ -1464,13 +1434,12 @@
     .sale-staff {
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 14px;
       margin-bottom: 24px;
-      padding: 24px;
-      background: linear-gradient(135deg, #f8f9fc 0%, #f1f3f9 100%);
-      border-radius: 20px;
-      border: 2px solid #e1e7f0;
-      box-shadow: inset 0 2px 4px rgba(15, 38, 84, 0.04);
+      padding: 20px;
+      background: #f8f9fc;
+      border-radius: 16px;
+      border: 2px solid #d0d9eb;
     }
 
     .sale-staff-grid {
@@ -1482,42 +1451,34 @@
     .sale-staff-grid label {
       font-size: 14px;
       font-weight: 700;
-      color: #0f2654;
+      color: #0e2148;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
     }
 
     .sale-staff-grid input {
       width: 100%;
-      border: 2px solid #0f2654 !important;
-      border-radius: 14px;
-      padding: 18px 20px;
-      font-size: 17px;
+      border: 3px solid #0f2f72 !important;
+      border-radius: 12px;
+      padding: 16px 18px;
+      font-size: 18px;
       background: #ffffff !important;
       font-weight: 600;
-      color: #0f2654 !important;
-      min-height: 58px;
+      color: #000 !important;
+      min-height: 56px;
       box-sizing: border-box;
-      transition: all 0.2s ease;
-      box-shadow: 0 2px 8px rgba(15, 38, 84, 0.08);
-    }
-
-    .sale-staff-grid input:hover {
-      border-color: #1a3a6e !important;
-      box-shadow: 0 4px 12px rgba(15, 38, 84, 0.12);
     }
 
     .sale-staff-grid input:focus {
       outline: none;
-      border-color: #059669 !important;
-      box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.15), 0 4px 12px rgba(5, 150, 105, 0.2);
+      border-color: #d32f2f !important;
+      box-shadow: 0 0 0 4px rgba(211, 47, 47, 0.2);
     }
 
     .sale-staff-grid input::placeholder {
-      color: #94a3b8;
+      color: #6b7b9c;
       opacity: 1;
-      font-weight: 500;
     }
 
 
@@ -1550,80 +1511,61 @@
     .sale-field {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 6px;
     }
 
     .sale-field label {
-      font-size: 14px;
-      color: var(--uvc-navy);
-      font-weight: 700;
-      margin-bottom: 4px;
+      font-size: 13px;
+      color: var(--uvc-navy-dark);
+      font-weight: 600;
+      margin-bottom: var(--space-xs);
       display: block;
-      letter-spacing: 0.2px;
     }
 
     .sale-field select,
-    .sale-field input[type="number"],
     .sale-field textarea {
-      border: 2px solid var(--uvc-border-medium);
-      border-radius: 12px;
-      padding: 14px 16px;
-      font-size: 15px;
+      border: 1px solid var(--uvc-border-medium);
+      border-radius: var(--radius-md);
+      padding: var(--space-md);
+      font-size: 14px;
       font-family: inherit;
-      transition: all 0.2s ease;
+      transition: border-color var(--transition-base), box-shadow var(--transition-base);
       width: 100%;
-      background: white;
-      box-shadow: 0 1px 3px rgba(15, 38, 84, 0.05);
-    }
-
-    .sale-field select:hover,
-    .sale-field input[type="number"]:hover,
-    .sale-field textarea:hover {
-      border-color: var(--uvc-navy-light);
-      box-shadow: 0 2px 6px rgba(15, 38, 84, 0.08);
     }
 
     .sale-field select:focus,
-    .sale-field input[type="number"]:focus,
     .sale-field textarea:focus {
       outline: none;
       border-color: var(--uvc-navy);
-      box-shadow: 0 0 0 4px rgba(15, 38, 84, 0.1), 0 2px 8px rgba(15, 38, 84, 0.12);
-    }
-
-    .sale-field input[type="number"] {
-      font-weight: 600;
-      font-size: 18px;
-      color: var(--uvc-navy);
+      box-shadow: 0 0 0 3px rgba(16, 38, 73, 0.1);
     }
 
     .sale-field textarea {
-      min-height: 90px;
+      min-height: 80px;
       resize: vertical;
-      line-height: 1.6;
     }
 
     .sale-actions {
       display: flex;
-      gap: 12px;
-      margin-top: 12px;
+      gap: var(--space-md);
+      margin-top: var(--space-sm);
     }
 
     .sale-btn {
       flex: 1;
       border: none;
-      border-radius: 14px;
-      padding: 15px 24px;
-      font-size: 15px;
-      font-weight: 700;
+      border-radius: var(--radius-md);
+      padding: 12px var(--space-md);
+      font-size: 14px;
+      font-weight: 600;
       cursor: pointer;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      color: #fff;
+      transition: all var(--transition-base);
     }
 
     .sale-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      transform: translateY(-1px);
+      box-shadow: var(--uvc-shadow-sm);
     }
 
     .sale-btn:active {
@@ -1631,21 +1573,16 @@
     }
 
     .sale-btn.primary { 
-      background: linear-gradient(135deg, #0f2654 0%, #1a3a6e 100%);
-      color: white;
+      background: var(--uvc-navy); 
     }
     
     .sale-btn.primary:hover { 
-      background: linear-gradient(135deg, #081735 0%, #0f2654 100%);
+      background: var(--uvc-navy-dark); 
     }
     
     .sale-btn.secondary { 
-      background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
-      color: var(--uvc-navy);
-    }
-
-    .sale-btn.secondary:hover {
-      background: linear-gradient(135deg, #cbd5e1 0%, #b0bccf 100%);
+      background: var(--uvc-slate-light); 
+      color: var(--uvc-navy); 
     }
 
     .sale-stats {
@@ -3202,6 +3139,336 @@
       margin-top: auto;
       color: #687a97;
     }
+
+    /* ========== MEMBERSHIP PRICING PANEL ========== */
+    .membership-pricing-panel {
+      position: fixed;
+      right: -100%;
+      top: 0;
+      height: 100vh;
+      width: min(1200px, 95vw);
+      background: linear-gradient(135deg, #ffffff 0%, #f8fafb 100%);
+      box-shadow: -10px 0 40px rgba(15, 38, 84, 0.2);
+      z-index: 1000;
+      transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      border-left: 3px solid #d4af37;
+    }
+
+    .membership-pricing-panel.active {
+      right: 0;
+    }
+
+    .mp-header {
+      background: linear-gradient(135deg, #0f2654 0%, #1a3a6e 100%);
+      padding: 24px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 4px solid #d4af37;
+    }
+
+    .mp-title {
+      font-size: 26px;
+      font-weight: 700;
+      color: white;
+      letter-spacing: -0.5px;
+    }
+
+    .mp-subtitle {
+      font-size: 14px;
+      color: rgba(255,255,255,0.8);
+      margin-top: 4px;
+    }
+
+    .mp-close {
+      background: rgba(255,255,255,0.15);
+      border: none;
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-size: 28px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+    }
+
+    .mp-close:hover {
+      background: rgba(255,255,255,0.25);
+      transform: rotate(90deg);
+    }
+
+    .mp-content {
+      flex: 1;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    /* Lock Screen */
+    .mp-lock-screen {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(15, 38, 84, 0.95) 0%, rgba(26, 58, 110, 0.95) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+    }
+
+    .mp-lock-card {
+      background: white;
+      border-radius: 24px;
+      padding: 48px 40px;
+      max-width: 440px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+
+    .mp-lock-icon {
+      font-size: 64px;
+      margin-bottom: 20px;
+    }
+
+    .mp-lock-card h3 {
+      font-size: 24px;
+      color: var(--uvc-navy);
+      margin: 0 0 12px 0;
+      font-weight: 700;
+    }
+
+    .mp-lock-card p {
+      font-size: 15px;
+      color: var(--uvc-slate);
+      margin: 0 0 28px 0;
+      line-height: 1.6;
+    }
+
+    .mp-lock-card input {
+      width: 100%;
+      padding: 16px 20px;
+      border: 2px solid var(--uvc-border-medium);
+      border-radius: 14px;
+      font-size: 16px;
+      margin-bottom: 16px;
+      font-family: inherit;
+      text-align: center;
+      letter-spacing: 2px;
+      font-weight: 600;
+    }
+
+    .mp-lock-card input:focus {
+      outline: none;
+      border-color: var(--uvc-navy);
+      box-shadow: 0 0 0 4px rgba(15, 38, 84, 0.1);
+    }
+
+    .mp-lock-card button {
+      width: 100%;
+      padding: 16px 24px;
+      background: linear-gradient(135deg, #0f2654 0%, #1a3a6e 100%);
+      border: none;
+      border-radius: 14px;
+      color: white;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .mp-lock-card button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(15, 38, 84, 0.3);
+    }
+
+    .mp-error {
+      margin-top: 12px;
+      color: #dc2626;
+      font-size: 14px;
+      font-weight: 600;
+      min-height: 20px;
+    }
+
+    /* Data Content */
+    .mp-data {
+      padding: 32px;
+    }
+
+    /* Top, Middle, Bottom Logos */
+    .mp-top-logo {
+      text-align: center;
+      margin-bottom: 24px;
+      padding-top: 12px;
+    }
+
+    .mp-middle-logo {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .mp-bottom-logo {
+      text-align: center;
+      margin-top: 32px;
+      margin-bottom: 24px;
+    }
+
+    /* Table */
+    .mp-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 32px;
+      box-shadow: 0 4px 12px rgba(15, 38, 84, 0.08);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .mp-table th,
+    .mp-table td {
+      padding: 14px 12px;
+      text-align: center;
+      border: 1px solid #e5e9f2;
+    }
+
+    .mp-table thead th {
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 0.5px;
+    }
+
+    .mp-header-empty {
+      background: #f8f9fb;
+      color: var(--uvc-navy);
+      font-weight: 700;
+      font-size: 12px;
+      text-align: left !important;
+      padding-left: 16px !important;
+    }
+
+    .mp-header {
+      padding: 16px 12px !important;
+    }
+
+    .mp-diamond {
+      background: linear-gradient(135deg, #d4e6f1 0%, #aed6f1 100%);
+      color: #0066B3;
+    }
+
+    .mp-gold {
+      background: linear-gradient(135deg, #fcf3cf 0%, #f9e79f 100%);
+      color: #b8860b;
+    }
+
+    .mp-silver {
+      background: linear-gradient(135deg, #e8ecf0 0%, #cbd5e1 100%);
+      color: #64748b;
+    }
+
+    .mp-pearl {
+      background: linear-gradient(135deg, #fef5e7 0%, #fdebd0 100%);
+      color: #d4af37;
+    }
+
+    .mp-tier-name {
+      font-size: 20px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      margin-bottom: 4px;
+    }
+
+    .mp-tier-level {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+
+    .mp-term {
+      font-size: 11px;
+      font-weight: 700;
+      opacity: 0.8;
+    }
+
+    .mp-table tbody tr:nth-child(even) {
+      background: #fafbfc;
+    }
+
+    .mp-table tbody tr:hover {
+      background: #f1f5f9;
+    }
+
+    .mp-row-label {
+      text-align: left !important;
+      padding-left: 16px !important;
+      font-weight: 600;
+      color: var(--uvc-navy);
+      font-size: 13px;
+    }
+
+    .mp-cell {
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--uvc-navy);
+    }
+
+    .mp-cell.check {
+      font-size: 20px;
+      color: #059669;
+    }
+
+    .mp-cell.number {
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .mp-cell.price {
+      font-size: 16px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #0f2654 0%, #1a3a6e 100%);
+      color: white !important;
+      padding: 12px !important;
+    }
+
+    .mp-cell.usage {
+      font-size: 12px;
+      font-weight: 700;
+      color: #64748b;
+    }
+
+    /* Brands */
+    .mp-brands {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+      padding: 24px;
+      background: #f8f9fb;
+      border-radius: 12px;
+    }
+
+    .mp-brands img {
+      height: 32px;
+      width: auto;
+      object-fit: contain;
+      filter: grayscale(30%);
+      opacity: 0.8;
+      transition: all 0.2s ease;
+    }
+
+    .mp-brands img:hover {
+      filter: grayscale(0%);
+      opacity: 1;
+      transform: scale(1.1);
+    }
+
+    /* ========== END MEMBERSHIP PRICING ========== */
 
     .simulator-panel {
       margin: 40px 0 24px;
@@ -4961,6 +5228,7 @@
           <div class="utility-menu" id="utility-menu">
             <div class="utility-menu-title" data-i18n="utility.menuTitle">Control Center</div>
             <button class="utility-action" id="price-checker-toggle" type="button" data-i18n="utility.priceChecker">Checker Price</button>
+            <button class="utility-action" id="membership-pricing-toggle" type="button" data-i18n="utility.membershipPricing">💎 Precios de Membresías</button>
             <button class="utility-action" data-sim-open="retail" type="button" data-i18n="utility.simulators">Simuladores</button>
           </div>
         </div>
@@ -5213,6 +5481,102 @@
       </div>
 
     </div> <!-- /columns -->
+
+    <!-- MEMBERSHIP PRICING PANEL -->
+    <div class="membership-pricing-panel" id="membership-pricing-panel">
+      <div class="mp-header">
+        <div>
+          <div class="mp-title">💎 Precios de Membresías</div>
+          <div class="mp-subtitle">World of Hyatt Inclusive Collection</div>
+        </div>
+        <button class="mp-close" type="button" aria-label="Cerrar">&times;</button>
+      </div>
+      
+      <div class="mp-content" id="mp-content">
+        <div class="mp-lock-screen" id="mp-lock-screen">
+          <div class="mp-lock-card">
+            <div class="mp-lock-icon">🔒</div>
+            <h3>Protected Content</h3>
+            <p>Enter password to view membership pricing</p>
+            <input type="password" id="mp-password-input" placeholder="Password" autocomplete="off" />
+            <button type="button" id="mp-unlock-btn">Unlock</button>
+            <div class="mp-error" id="mp-error"></div>
+          </div>
+        </div>
+        
+        <div class="mp-data" id="mp-data" style="display: none;">
+          <!-- Logo Hyatt arriba -->
+          <div class="mp-top-logo">
+            <div style="background: #0066B3; padding: 12px 24px; border-radius: 8px; display: inline-block;">
+              <div style="color: white; font-size: 13px; font-weight: 700; text-align: center; line-height: 1.2;">
+                <div>WORLD</div>
+                <div>O F</div>
+                <div style="font-size: 20px; margin-top: 2px;">HYATT</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Logo UVC en el medio -->
+          <div class="mp-middle-logo">
+            <img src="UVC-Logo-Standalone-Gray.webp" alt="UVC Logo" style="height: 80px; opacity: 0.9;" />
+          </div>
+
+          <!-- Tabla de precios -->
+          <table class="mp-table">
+            <thead>
+              <tr>
+                <th class="mp-header-empty">TIER</th>
+                <th class="mp-header mp-diamond">
+                  <div class="mp-tier-name">DIAMOND</div>
+                  <div class="mp-tier-level">GLOBALIST</div>
+                  <div class="mp-term">40 YRS</div>
+                </th>
+                <th class="mp-header mp-gold">
+                  <div class="mp-tier-name">GOLD</div>
+                  <div class="mp-tier-level">EXPLORIST</div>
+                  <div class="mp-term">30 YRS</div>
+                </th>
+                <th class="mp-header mp-silver">
+                  <div class="mp-tier-name">SILVER</div>
+                  <div class="mp-tier-level">DISCOVERIST</div>
+                  <div class="mp-term">30 YRS</div>
+                </th>
+                <th class="mp-header mp-pearl">
+                  <div class="mp-tier-name">PEARL</div>
+                  <div class="mp-tier-level">DISCOVERIST</div>
+                  <div class="mp-term">15 YRS</div>
+                </th>
+              </tr>
+            </thead>
+            <tbody id="mp-table-body">
+              <!-- Rows will be generated by JavaScript -->
+            </tbody>
+          </table>
+
+          <!-- Logo Hyatt abajo -->
+          <div class="mp-bottom-logo">
+            <div style="background: #0066B3; padding: 12px 24px; border-radius: 8px; display: inline-block;">
+              <div style="color: white; font-size: 13px; font-weight: 700; text-align: center; line-height: 1.2;">
+                <div>WORLD</div>
+                <div>O F</div>
+                <div style="font-size: 20px; margin-top: 2px;">HYATT</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Brand logos at bottom (fondo del espacio) -->
+          <div class="mp-brands">
+            <img src="zoetrylogo(og).png" alt="Zoetry" loading="lazy" />
+            <img src="secrets3.png" alt="Secrets" loading="lazy" />
+            <img src="breathless logo (og).png" alt="Breathless" loading="lazy" />
+            <img src="dreams(og).png" alt="Dreams" loading="lazy" />
+            <img src="alua3.png" alt="Alua" loading="lazy" />
+            <img src="hyat vivid3.png" alt="Hyatt Vivid" loading="lazy" />
+            <img src="sunscape3.png" alt="Sunscape" loading="lazy" />
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div class="simulator-panel" id="simulator-panel">
       <div class="simulator-head">
@@ -8607,6 +8971,124 @@
     });
 
     openSimulatorTab('retail', false);
+
+    // ====== MEMBERSHIP PRICING PANEL ======
+    const membershipPricingToggle = q('#membership-pricing-toggle');
+    const membershipPricingPanel = q('#membership-pricing-panel');
+    const mpCloseBtn = membershipPricingPanel ? membershipPricingPanel.querySelector('.mp-close') : null;
+    const mpLockScreen = q('#mp-lock-screen');
+    const mpData = q('#mp-data');
+    const mpPasswordInput = q('#mp-password-input');
+    const mpUnlockBtn = q('#mp-unlock-btn');
+    const MP_PASSWORD = '123'; // Default password
+
+    // Default pricing data
+    const membershipData = {
+      tiers: [
+        { name: 'Diamond', term: '40 YRS', level: 'GLOBALIST', color: 'diamond', price: '$149,900 USD', weeks: 160 },
+        { name: 'Gold', term: '30 YRS', level: 'EXPLORIST', color: 'gold', price: '$79,900 USD', weeks: 120 },
+        { name: 'Silver', term: '30 YRS', level: 'DISCOVERIST', color: 'silver', price: '$49,900 USD', weeks: 80 },
+        { name: 'Pearl', term: '15 YRS', level: 'MEMBER', color: 'pearl', price: '$29,900 USD', weeks: 40 }
+      ],
+      benefits: [
+        { label: 'Zoetry', values: ['✓', '✓', '✓', '✓'] },
+        { label: 'Adults & Family', values: ['✓', '✓', '✓', '✓'] },
+        { label: 'Imperial Suites', values: ['✓', '✓', '✓', '✓'] },
+        { label: 'Master Suites', values: ['✓', '✓', '✓', '-'] },
+        { label: 'Preferred Club', values: ['✓', '✓', '✓', '-'] },
+        { label: 'Junior Suites', values: ['✓', '✓', '✓', '✓'] },
+        { label: 'Diamond Club', values: ['✓', '-', '-', '-'] },
+        { label: 'Upgrades', values: ['50%', '25%', '-', '-'] },
+        { label: 'Discounts', values: ['20%', '15%', '10%', '5%'] },
+        { label: 'World Wide Weeks', values: ['160', '120', '80', '40'], isWeeks: true },
+        { label: 'Total Value', values: [], isPrice: true }
+      ]
+    };
+
+    if (membershipPricingToggle) {
+      membershipPricingToggle.addEventListener('click', () => {
+        closeUtilityMenu();
+        membershipPricingPanel.classList.add('active');
+      });
+    }
+
+    if (mpCloseBtn) {
+      mpCloseBtn.addEventListener('click', () => {
+        membershipPricingPanel.classList.remove('active');
+      });
+    }
+
+    if (mpUnlockBtn) {
+      mpUnlockBtn.addEventListener('click', () => {
+        const password = mpPasswordInput.value.trim();
+        if (password === MP_PASSWORD) {
+          mpLockScreen.style.display = 'none';
+          mpData.style.display = 'block';
+          showToast('Access granted', 'success', 2000);
+        } else {
+          const errorDiv = document.createElement('div');
+          errorDiv.className = 'mp-error';
+          errorDiv.textContent = 'Incorrect password';
+          mpUnlockBtn.parentNode.querySelector('.mp-error')?.remove();
+          mpUnlockBtn.parentNode.appendChild(errorDiv);
+          mpPasswordInput.value = '';
+          mpPasswordInput.focus();
+          setTimeout(() => errorDiv.remove(), 3000);
+        }
+      });
+    }
+
+    if (mpPasswordInput) {
+      mpPasswordInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          mpUnlockBtn.click();
+        }
+      });
+    }
+
+    // Populate table with benefits
+    function populateMembershipTable() {
+      const tbody = membershipPricingPanel.querySelector('.mp-table tbody');
+      if (!tbody) return;
+
+      tbody.innerHTML = '';
+
+      membershipData.benefits.forEach(benefit => {
+        const tr = document.createElement('tr');
+        
+        const labelTd = document.createElement('td');
+        labelTd.className = 'mp-row-label';
+        labelTd.textContent = benefit.label;
+        tr.appendChild(labelTd);
+
+        benefit.values.forEach((value, idx) => {
+          const td = document.createElement('td');
+          td.className = 'mp-cell';
+          
+          if (benefit.isPrice) {
+            td.className += ' price';
+            td.textContent = membershipData.tiers[idx].price;
+          } else if (benefit.isWeeks) {
+            td.className += ' number';
+            td.textContent = value;
+          } else if (value === '✓') {
+            td.className += ' check';
+            td.textContent = '✓';
+          } else {
+            td.textContent = value;
+          }
+          
+          tr.appendChild(td);
+        });
+
+        tbody.appendChild(tr);
+      });
+    }
+
+    if (membershipPricingPanel) {
+      populateMembershipTable();
+    }
+    // ====== END MEMBERSHIP PRICING ======
 
     if (breakevenForm){
       breakevenForm.addEventListener('input', ()=>{
