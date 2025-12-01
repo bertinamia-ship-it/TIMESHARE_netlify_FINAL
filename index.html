@@ -8729,6 +8729,30 @@
       }
     }
 
+    // Load galleries from HTML modals (BACKUP - only if localStorage is empty)
+    function loadGalleriesFromHTML() {
+      console.log('📸 Loading galleries from HTML modals...');
+      const hotelTypes = ['zoetry', 'secrets', 'breathless', 'dreams', 'hyatt', 'uexperience', 'vivid', 'alua'];
+      
+      hotelTypes.forEach(type => {
+        const modal = document.getElementById(`modal-${type}`);
+        if (!modal) return;
+        
+        const gallerySection = modal.querySelector('.modal-gallery');
+        if (!gallerySection) return;
+        
+        const images = Array.from(gallerySection.querySelectorAll('img'));
+        const imageSrcs = images.map(img => img.src.split('/').pop()); // Get just the filename
+        
+        if (imageSrcs.length > 0) {
+          state.galleries[type] = imageSrcs;
+          console.log(`  ✓ ${type}: ${imageSrcs.length} images loaded`);
+        }
+      });
+      
+      console.log('✓ All galleries loaded from HTML:', state.galleries);
+    }
+
     // Load galleries from localStorage on init
     function loadGalleriesFromStorage() {
       try {
@@ -8742,19 +8766,30 @@
           
           // Validate parsed data
           if (parsed && typeof parsed === 'object') {
-            // Replace entire galleries object, not merge
-            state.galleries = parsed;
-            console.log('✓ Galleries loaded from storage:', state.galleries);
-            console.log('✓ Total images loaded:', Object.values(state.galleries).reduce((sum, arr) => sum + arr.length, 0));
-            return true;
+            // Check if galleries actually have images
+            const totalImages = Object.values(parsed).reduce((sum, arr) => sum + arr.length, 0);
+            
+            if (totalImages > 0) {
+              // Replace entire galleries object, not merge
+              state.galleries = parsed;
+              console.log('✓ Galleries loaded from storage:', state.galleries);
+              console.log('✓ Total images loaded:', totalImages);
+              return true;
+            } else {
+              console.log('⚠️ localStorage has empty galleries, loading from HTML...');
+              loadGalleriesFromHTML();
+              return false;
+            }
           }
         }
         
-        console.log('ℹ No saved galleries found, using defaults');
+        console.log('ℹ No saved galleries found, loading from HTML...');
+        loadGalleriesFromHTML();
         return false;
       } catch (e) {
         console.error('✗ Failed to load galleries:', e);
-        showToast('Error al cargar galerías', 'error', 3000);
+        console.log('🔄 Falling back to HTML galleries...');
+        loadGalleriesFromHTML();
         return false;
       }
     }
