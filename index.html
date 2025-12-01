@@ -335,7 +335,8 @@
     select,
     textarea {
       font-family: inherit;
-      transition: all var(--transition-base);
+      transition: all 0.2s ease;
+      box-shadow: 0 1px 3px rgba(15, 38, 84, 0.04);
     }
     
     input[type="text"]:hover,
@@ -345,6 +346,7 @@
     select:hover,
     textarea:hover {
       border-color: var(--uvc-navy-light) !important;
+      box-shadow: 0 2px 6px rgba(15, 38, 84, 0.08) !important;
     }
     
     input[type="text"]:focus,
@@ -354,23 +356,24 @@
     select:focus,
     textarea:focus {
       border-color: var(--uvc-navy) !important;
-      box-shadow: 0 0 0 3px rgba(15, 38, 84, 0.1) !important;
+      box-shadow: 0 0 0 4px rgba(15, 38, 84, 0.1), 0 2px 8px rgba(15, 38, 84, 0.1) !important;
       outline: none;
     }
     
     /* Readonly inputs with different style */
     input:read-only,
     input[readonly] {
-      background-color: var(--uvc-light) !important;
+      background-color: #f8f9fb !important;
       cursor: not-allowed;
-      opacity: 0.7;
+      opacity: 0.8;
+      border-color: #e5e9f2 !important;
     }
     
     /* Button Base Styles */
     button {
       font-family: inherit;
       cursor: pointer;
-      transition: all var(--transition-base);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       border: none;
       font-weight: 600;
     }
@@ -1350,13 +1353,13 @@
     .sale-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(10, 26, 53, 0.6);
-      backdrop-filter: blur(12px) saturate(120%);
+      background: rgba(15, 38, 84, 0.75);
+      backdrop-filter: blur(20px) saturate(150%);
       display: none;
       align-items: center;
       justify-content: center;
       z-index: 1500;
-      animation: fadeIn 0.25s ease;
+      animation: fadeIn 0.3s ease;
     }
 
     .sale-overlay.active {
@@ -1364,67 +1367,94 @@
     }
 
     .sale-card {
-      width: min(480px, 95vw);
-      background: var(--uvc-panel);
-      border-radius: var(--radius-xl);
-      padding: var(--space-xl);
-      box-shadow: var(--uvc-shadow-lg);
+      width: min(520px, 95vw);
+      background: linear-gradient(to bottom, #ffffff 0%, #fafbfc 100%);
+      border-radius: 24px;
+      padding: 32px;
+      box-shadow: 0 20px 60px rgba(15, 38, 84, 0.2), 0 0 0 1px rgba(15, 38, 84, 0.05);
       display: flex;
       flex-direction: column;
-      gap: var(--space-md);
-      animation: scaleIn var(--transition-slow) ease;
+      gap: 20px;
+      animation: scaleIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      border: 1px solid rgba(15, 38, 84, 0.08);
     }
 
     .sale-card h3 {
       margin: 0;
-      font-size: 20px;
-      color: var(--uvc-navy-dark);
+      font-size: 26px;
+      color: var(--uvc-navy);
       font-weight: 700;
+      letter-spacing: -0.5px;
+      line-height: 1.2;
     }
 
     .sale-card p {
       margin: 0;
-      font-size: 14px;
+      font-size: 15px;
       color: var(--uvc-slate);
-      line-height: 1.5;
+      line-height: 1.6;
     }
 
     .sale-choice-buttons {
       display: flex;
-      gap: var(--space-md);
+      gap: 16px;
+      margin-top: 8px;
     }
 
     .sale-choice-buttons button {
       flex: 1;
       border: none;
-      border-radius: var(--radius-md);
-      padding: var(--space-md);
-      font-size: 14px;
-      font-weight: 600;
+      border-radius: 14px;
+      padding: 16px 20px;
+      font-size: 15px;
+      font-weight: 700;
       cursor: pointer;
       color: #fff;
-      transition: all var(--transition-base);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sale-choice-buttons button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 100%);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .sale-choice-buttons button:hover::before {
+      opacity: 1;
     }
 
     .sale-choice-buttons button:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--uvc-shadow-sm);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .sale-choice-buttons button:active {
+      transform: translateY(-1px);
     }
 
     .sale-choice-buttons button[data-choice="win"] { 
-      background: var(--uvc-success); 
+      background: linear-gradient(135deg, #059669 0%, #10b981 100%);
     }
     
     .sale-choice-buttons button[data-choice="win"]:hover { 
-      background: #059669; 
+      background: linear-gradient(135deg, #047857 0%, #059669 100%);
     }
     
     .sale-choice-buttons button[data-choice="loss"] { 
-      background: var(--uvc-warning); 
+      background: linear-gradient(135deg, #ea580c 0%, #f97316 100%);
     }
     
     .sale-choice-buttons button[data-choice="loss"]:hover { 
-      background: #d97706; 
+      background: linear-gradient(135deg, #c2410c 0%, #ea580c 100%);
     }
 
     .sale-choice.hidden {
@@ -1434,12 +1464,13 @@
     .sale-staff {
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 16px;
       margin-bottom: 24px;
-      padding: 20px;
-      background: #f8f9fc;
-      border-radius: 16px;
-      border: 2px solid #d0d9eb;
+      padding: 24px;
+      background: linear-gradient(135deg, #f8f9fc 0%, #f1f3f9 100%);
+      border-radius: 20px;
+      border: 2px solid #e1e7f0;
+      box-shadow: inset 0 2px 4px rgba(15, 38, 84, 0.04);
     }
 
     .sale-staff-grid {
@@ -1451,34 +1482,42 @@
     .sale-staff-grid label {
       font-size: 14px;
       font-weight: 700;
-      color: #0e2148;
+      color: #0f2654;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 10px;
     }
 
     .sale-staff-grid input {
       width: 100%;
-      border: 3px solid #0f2f72 !important;
-      border-radius: 12px;
-      padding: 16px 18px;
-      font-size: 18px;
+      border: 2px solid #0f2654 !important;
+      border-radius: 14px;
+      padding: 18px 20px;
+      font-size: 17px;
       background: #ffffff !important;
       font-weight: 600;
-      color: #000 !important;
-      min-height: 56px;
+      color: #0f2654 !important;
+      min-height: 58px;
       box-sizing: border-box;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(15, 38, 84, 0.08);
+    }
+
+    .sale-staff-grid input:hover {
+      border-color: #1a3a6e !important;
+      box-shadow: 0 4px 12px rgba(15, 38, 84, 0.12);
     }
 
     .sale-staff-grid input:focus {
       outline: none;
-      border-color: #d32f2f !important;
-      box-shadow: 0 0 0 4px rgba(211, 47, 47, 0.2);
+      border-color: #059669 !important;
+      box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.15), 0 4px 12px rgba(5, 150, 105, 0.2);
     }
 
     .sale-staff-grid input::placeholder {
-      color: #6b7b9c;
+      color: #94a3b8;
       opacity: 1;
+      font-weight: 500;
     }
 
 
@@ -1511,61 +1550,80 @@
     .sale-field {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 8px;
     }
 
     .sale-field label {
-      font-size: 13px;
-      color: var(--uvc-navy-dark);
-      font-weight: 600;
-      margin-bottom: var(--space-xs);
+      font-size: 14px;
+      color: var(--uvc-navy);
+      font-weight: 700;
+      margin-bottom: 4px;
       display: block;
+      letter-spacing: 0.2px;
     }
 
     .sale-field select,
+    .sale-field input[type="number"],
     .sale-field textarea {
-      border: 1px solid var(--uvc-border-medium);
-      border-radius: var(--radius-md);
-      padding: var(--space-md);
-      font-size: 14px;
+      border: 2px solid var(--uvc-border-medium);
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-size: 15px;
       font-family: inherit;
-      transition: border-color var(--transition-base), box-shadow var(--transition-base);
+      transition: all 0.2s ease;
       width: 100%;
+      background: white;
+      box-shadow: 0 1px 3px rgba(15, 38, 84, 0.05);
+    }
+
+    .sale-field select:hover,
+    .sale-field input[type="number"]:hover,
+    .sale-field textarea:hover {
+      border-color: var(--uvc-navy-light);
+      box-shadow: 0 2px 6px rgba(15, 38, 84, 0.08);
     }
 
     .sale-field select:focus,
+    .sale-field input[type="number"]:focus,
     .sale-field textarea:focus {
       outline: none;
       border-color: var(--uvc-navy);
-      box-shadow: 0 0 0 3px rgba(16, 38, 73, 0.1);
+      box-shadow: 0 0 0 4px rgba(15, 38, 84, 0.1), 0 2px 8px rgba(15, 38, 84, 0.12);
+    }
+
+    .sale-field input[type="number"] {
+      font-weight: 600;
+      font-size: 18px;
+      color: var(--uvc-navy);
     }
 
     .sale-field textarea {
-      min-height: 80px;
+      min-height: 90px;
       resize: vertical;
+      line-height: 1.6;
     }
 
     .sale-actions {
       display: flex;
-      gap: var(--space-md);
-      margin-top: var(--space-sm);
+      gap: 12px;
+      margin-top: 12px;
     }
 
     .sale-btn {
       flex: 1;
       border: none;
-      border-radius: var(--radius-md);
-      padding: 12px var(--space-md);
-      font-size: 14px;
-      font-weight: 600;
+      border-radius: 14px;
+      padding: 15px 24px;
+      font-size: 15px;
+      font-weight: 700;
       cursor: pointer;
-      color: #fff;
-      transition: all var(--transition-base);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
 
     .sale-btn:hover {
-      transform: translateY(-1px);
-      box-shadow: var(--uvc-shadow-sm);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     }
 
     .sale-btn:active {
@@ -1573,16 +1631,21 @@
     }
 
     .sale-btn.primary { 
-      background: var(--uvc-navy); 
+      background: linear-gradient(135deg, #0f2654 0%, #1a3a6e 100%);
+      color: white;
     }
     
     .sale-btn.primary:hover { 
-      background: var(--uvc-navy-dark); 
+      background: linear-gradient(135deg, #081735 0%, #0f2654 100%);
     }
     
     .sale-btn.secondary { 
-      background: var(--uvc-slate-light); 
-      color: var(--uvc-navy); 
+      background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+      color: var(--uvc-navy);
+    }
+
+    .sale-btn.secondary:hover {
+      background: linear-gradient(135deg, #cbd5e1 0%, #b0bccf 100%);
     }
 
     .sale-stats {
