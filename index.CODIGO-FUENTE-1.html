@@ -5668,14 +5668,21 @@
                   </div>
                   
                   <div>
-                    <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">Costo de Contrato / Closing Cost (USD)</label>
-                    <input type="number" id="contract-closing" value="549" step="0.01" style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px;" />
+                    <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">Enganche / Down Payment (USD)</label>
+                    <input type="number" id="contract-down-payment" value="1712.50" step="0.01" readonly style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px; background: #f8f9fb; cursor: not-allowed;" />
+                    <p style="margin: 4px 0 0 0; font-size: 11px; color: #5a678a;">Auto: Precio × Down Payment %</p>
                   </div>
                   
                   <div>
-                    <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">Depósito / Hot Deposit (USD)</label>
-                    <input type="number" id="contract-deposit" value="1234" step="0.01" readonly style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px; background: #f8f9fb; cursor: not-allowed;" />
-                    <p style="margin: 4px 0 0 0; font-size: 11px; color: #5a678a;">Auto: Enganche + Closing Cost</p>
+                    <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">Costo de Contrato / Closing Cost (USD)</label>
+                    <input type="number" id="contract-closing" value="548" step="0.01" readonly style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px; background: #f8f9fb; cursor: not-allowed;" />
+                    <p style="margin: 4px 0 0 0; font-size: 11px; color: #5a678a;">Auto: Siempre 8% del precio</p>
+                  </div>
+                  
+                  <div>
+                    <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">Total Enganche / Total Down Payment (USD)</label>
+                    <input type="number" id="contract-total-down" value="2260.50" step="0.01" readonly style="width: 100%; padding: 10px 14px; border: 2px solid #d4af37; border-radius: 8px; font-size: 14px; background: #fffbf0; cursor: not-allowed; font-weight: 700;" />
+                    <p style="margin: 4px 0 0 0; font-size: 11px; color: #5a678a;">Auto: Down Payment + Closing Cost</p>
                   </div>
 
                   <!-- Payment Plan -->
@@ -8678,8 +8685,10 @@
     function saveGalleries() {
       try {
         localStorage.setItem('uvc_galleries', JSON.stringify(state.galleries));
+        console.log('Galleries saved to storage:', state.galleries);
       } catch (e) {
         console.error('Failed to save galleries:', e);
+        showToast('Error saving galleries', 'error', 3000);
       }
     }
 
@@ -8689,7 +8698,9 @@
         const saved = localStorage.getItem('uvc_galleries');
         if (saved) {
           const parsed = JSON.parse(saved);
-          Object.assign(state.galleries, parsed);
+          // Replace entire galleries object, not merge
+          state.galleries = parsed;
+          console.log('Galleries loaded from storage:', parsed);
         }
       } catch (e) {
         console.error('Failed to load galleries:', e);
@@ -8698,6 +8709,11 @@
 
     // Initialize galleries from storage
     loadGalleriesFromStorage();
+    
+    // Re-render all galleries after loading
+    Object.keys(state.galleries).forEach(type => {
+      renderGallery(type);
+    });
 
     // ========== END GALLERY MANAGER ==========
 
@@ -8748,12 +8764,11 @@
     function calculateContractTotals() {
       const price = parseFloat(document.getElementById('contract-price').value) || 0;
       const downPercent = parseFloat(document.getElementById('contract-down-percent').value) || 0;
-      // Closing cost is ALWAYS 8% of price (override any manual value)
-      const closing = price * 0.08;
-      const deposit = parseFloat(document.getElementById('contract-deposit').value) || 0;
-
+      
+      // Calculate values
       const downPayment = (price * downPercent / 100);
-      const totalDown = downPayment + deposit;
+      const closing = price * 0.08; // ALWAYS 8%
+      const totalDown = downPayment + closing;
       const amountToFinance = price - downPayment;
 
       return {
@@ -8761,7 +8776,6 @@
         downPercent: downPercent.toFixed(0),
         downPayment: downPayment.toFixed(2),
         closing: closing.toFixed(2),
-        deposit: deposit.toFixed(2),
         totalDown: totalDown.toFixed(2),
         amountToFinance: amountToFinance.toFixed(2)
       };
@@ -8810,7 +8824,6 @@
         purchasePrice: 'PURCHASE PRICE',
         downPayment: 'DOWN PAYMENT',
         closingCost: 'CLOSING COST',
-        hotDeposit: 'HOT DEPOSIT',
         totalDown: 'TOTAL DOWN PAYMENT',
         amountToFinance: 'AMOUNT TO BE FINANCED',
         paymentPlan: 'PAYMENT PLAN',
@@ -8839,7 +8852,6 @@
         purchasePrice: 'PRECIO DE VENTA',
         downPayment: 'ENGANCHE',
         closingCost: 'COSTO DE CONTRATO',
-        hotDeposit: 'DEPOSITO',
         totalDown: 'ENGANCHE TOTAL',
         amountToFinance: 'SALDO A FINANCIAR',
         paymentPlan: 'PLAN DE PAGO',
@@ -8900,22 +8912,22 @@
       }
 
       const contractHTML = `
-          <div style="max-width: 850px; margin: 0 auto; font-family: Arial, sans-serif; background: white; padding: 20px; font-size: 11px;">
+          <div style="max-width: 850px; margin: 0 auto; font-family: Arial, sans-serif; background: white; padding: 24px; font-size: 11px; line-height: 1.5;">
           
-          <!-- Header with Logo - Compressed -->
-           <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #0f2654; padding-bottom: 10px; margin-bottom: 15px;">
+          <!-- Header with Logo -->
+           <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #0f2654; padding-bottom: 12px; margin-bottom: 18px;">
             <div>
-              <h1 style="margin: 0; font-size: 22px; color: #0f2654; font-weight: 700;">${t.workSheet}</h1>
-              <p style="margin: 2px 0 0 0; font-size: 14px; color: #5a678a; font-weight: 500;">${isEnglish ? 'Hoja de Trabajo' : 'Work Sheet'}</p>
+              <h1 style="margin: 0; font-size: 26px; color: #0f2654; font-weight: 700; letter-spacing: -0.5px;">${t.workSheet}</h1>
+              <p style="margin: 4px 0 0 0; font-size: 13px; color: #5a678a; font-weight: 500;">${isEnglish ? 'Hoja de Trabajo' : 'Work Sheet'}</p>
             </div>
             <div style="text-align: right;">
-              <img src="UVC-Logo-Standalone-Gray.webp" alt="Unlimited Vacation Club" style="height: 50px; width: auto;" />
-              <p style="margin: 5px 0 0 0; font-size: 10px; color: #0f2654; font-weight: 700; line-height: 1.2;">UNLIMITED VACATION CLUB®</p>
+              <img src="UVC-Logo-Standalone-Gray.webp" alt="Unlimited Vacation Club" style="height: 55px; width: auto;" />
+              <p style="margin: 6px 0 0 0; font-size: 9px; color: #0f2654; font-weight: 700; line-height: 1.2; letter-spacing: 0.5px;">UNLIMITED VACATION CLUB®</p>
             </div>
           </div>
 
-          <!-- Date & Membership Info - Compressed -->
-          <table style="width: 100%; border-collapse: collapse; margin-bottom: 10px; font-size: 10px;">
+          <!-- Date & Membership Info -->
+          <table style="width: 100%; border-collapse: collapse; margin-bottom: 14px; font-size: 10px;">
             <tr>
               <td style="padding: 6px 8px; border: 2px solid #d5dff0; background: #f0f4f8; font-weight: 700; color: #0f2654; width: 12%;">${t.day}</td>
               <td style="padding: 6px 8px; border: 2px solid #d5dff0; font-size: 11px; font-weight: 600;">${data.day}</td>
@@ -8929,26 +8941,26 @@
           </table>
 
           <!-- Members & Details - 2 columns -->
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px;">
             
             <!-- Left Column: Members -->
             <div>
-              <table style="width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 10px;">
+              <table style="width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 12px;">
                 <tr>
-                  <td style="padding: 6px 8px; border: 2px solid #d5dff0; background: #f0f4f8; font-weight: 700; color: #0f2654; width: 35%;">${t.member1}</td>
-                  <td style="padding: 6px 8px; border: 2px solid #d5dff0; font-size: 11px; font-weight: 600; text-transform: uppercase;">${data.member1}</td>
+                  <td style="padding: 7px 10px; border: 2px solid #d5dff0; background: #f0f4f8; font-weight: 700; color: #0f2654; width: 35%;">${t.member1}</td>
+                  <td style="padding: 7px 10px; border: 2px solid #d5dff0; font-size: 11px; font-weight: 600; text-transform: uppercase;">${data.member1}</td>
                 </tr>
                 ${data.member2 ? `<tr>
-                  <td style="padding: 6px 8px; border: 2px solid #d5dff0; background: #f0f4f8; font-weight: 700; color: #0f2654;">${t.member2}</td>
-                  <td style="padding: 6px 8px; border: 2px solid #d5dff0; font-size: 11px; font-weight: 600; text-transform: uppercase;">${data.member2}</td>
+                  <td style="padding: 7px 10px; border: 2px solid #d5dff0; background: #f0f4f8; font-weight: 700; color: #0f2654;">${t.member2}</td>
+                  <td style="padding: 7px 10px; border: 2px solid #d5dff0; font-size: 11px; font-weight: 600; text-transform: uppercase;">${data.member2}</td>
                 </tr>` : ''}
               </table>
               
               ${data.beneficiary1 ? `
               <table style="width: 100%; border-collapse: collapse; font-size: 10px;">
                 <tr>
-                  <td style="padding: 6px 8px; border: 2px solid #d5dff0; background: #f0f4f8; font-weight: 700; color: #0f2654; width: 35%;">${t.beneficiaries}</td>
-                  <td style="padding: 6px 8px; border: 2px solid #d5dff0; font-size: 10px;">${[data.beneficiary1, data.beneficiary2, data.beneficiary3].filter(b => b).join(', ')}</td>
+                  <td style="padding: 7px 10px; border: 2px solid #d5dff0; background: #f0f4f8; font-weight: 700; color: #0f2654; width: 35%;">${t.beneficiaries}</td>
+                  <td style="padding: 7px 10px; border: 2px solid #d5dff0; font-size: 10px;">${[data.beneficiary1, data.beneficiary2, data.beneficiary3].filter(b => b).join(', ')}</td>
                 </tr>
               </table>
               ` : ''}
@@ -8981,7 +8993,7 @@
           </div>
 
           <!-- Financial & Payment - 2 columns -->
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px;">
             
             <!-- Financial Details -->
             <div>
@@ -8996,12 +9008,12 @@
                   <td style="padding: 5px 8px; border-bottom: 1px solid #e5e9f2; text-align: right; font-weight: 700; font-size: 12px;">$ ${totals.downPayment}</td>
                 </tr>
                 <tr>
-                  <td style="padding: 5px 8px; border-bottom: 1px solid #e5e9f2; font-weight: 600; color: #0f2654;">${t.closingCost}</td>
+                  <td style="padding: 5px 8px; border-bottom: 1px solid #e5e9f2; font-weight: 600; color: #0f2654;">${t.closingCost} (8%)</td>
                   <td style="padding: 5px 8px; border-bottom: 1px solid #e5e9f2; text-align: right; font-weight: 700; font-size: 12px;">$ ${totals.closing}</td>
                 </tr>
-                <tr style="background: #f0f4f8;">
-                  <td style="padding: 5px 8px; border-bottom: 1px solid #e5e9f2; font-weight: 600; color: #0f2654;">${t.hotDeposit}</td>
-                  <td style="padding: 5px 8px; border-bottom: 1px solid #e5e9f2; text-align: right; font-weight: 700; color: #d4af37; font-size: 13px;">$ ${totals.deposit}</td>
+                <tr style="background: #fffbf0; border: 2px solid #d4af37;">
+                  <td style="padding: 6px 8px; font-weight: 700; color: #0f2654; font-size: 11px;">${t.totalDown}</td>
+                  <td style="padding: 6px 8px; text-align: right; font-weight: 700; color: #d4af37; font-size: 13px;">$ ${totals.totalDown}</td>
                 </tr>
                 <tr style="background: #0f2654; color: white;">
                   <td style="padding: 6px 8px; font-weight: 700; font-size: 11px;">${t.amountToFinance}</td>
@@ -9030,38 +9042,44 @@
             </div>
           </div>
 
-          <!-- Benefits - Compact -->
-          <!-- Benefits - Compact -->
+          <!-- Benefits Section - Professional -->
           ${selectedIncentives.length > 0 ? `
-            <div style="background: #0f2654; color: white; padding: 10px; border-radius: 6px; margin-bottom: 10px;">
-              <h3 style="margin: 0 0 8px 0; font-size: 11px; font-weight: 700; text-align: center; border-bottom: 1px solid #d4af37; padding-bottom: 6px;">✨ ${t.incentives}</h3>
-              <ul style="margin: 0; padding-left: 20px; line-height: 1.6; font-size: 9px; font-weight: 500; columns: 2; column-gap: 15px;">
-                ${selectedIncentives.map(inc => `<li style="margin-bottom: 4px; break-inside: avoid;">${inc}</li>`).join('\n              ')}
-            </ul>
-          </div>
+            <div style="border: 2px solid #0f2654; border-radius: 8px; margin-bottom: 18px; overflow: hidden;">
+              <div style="background: linear-gradient(135deg, #0f2654 0%, #1a3a7a 100%); color: white; padding: 10px 16px; text-align: center;">
+                <h3 style="margin: 0; font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;">✨ ${t.incentives} ✨</h3>
+              </div>
+              <div style="background: #f8f9fb; padding: 14px 16px;">
+                <ul style="margin: 0; padding-left: 0; list-style: none; columns: ${selectedIncentives.length > 4 ? '2' : '1'}; column-gap: 20px; line-height: 1.8;">
+                  ${selectedIncentives.map(inc => `<li style="margin-bottom: 6px; break-inside: avoid; font-size: 10px; font-weight: 500; color: #0f2654; padding-left: 20px; position: relative;">
+                    <span style="position: absolute; left: 0; color: #d4af37; font-weight: 700;">✦</span>
+                    ${inc.replace('✦ ', '')}
+                  </li>`).join('\n                  ')}
+                </ul>
+              </div>
+            </div>
           ` : ''}
 
-          <!-- Signatures Section - Compact -->
-          <div style="margin-top: 15px; margin-bottom: 10px;">
+          <!-- Signatures Section -->
+          <div style="margin-top: 20px; margin-bottom: 16px;">
             <table style="width: 100%; border-collapse: collapse;">
               <tr>
-                <td style="width: 48%; vertical-align: bottom; padding-bottom: 6px;">
-                  <div style="border-bottom: 2px solid #0f2654; margin-bottom: 4px; height: 40px;"></div>
-                  <p style="margin: 0; text-align: center; font-size: 9px; font-weight: 600; color: #5a678a;">${t.memberSignature}</p>
+                <td style="width: 48%; vertical-align: bottom; padding-bottom: 8px;">
+                  <div style="border-bottom: 2px solid #0f2654; margin-bottom: 6px; height: 50px;"></div>
+                  <p style="margin: 0; text-align: center; font-size: 10px; font-weight: 700; color: #0f2654; text-transform: uppercase; letter-spacing: 0.5px;">${t.memberSignature}</p>
                 </td>
                 <td style="width: 4%;"></td>
-                <td style="width: 48%; vertical-align: bottom; padding-bottom: 6px;">
-                  <div style="border-bottom: 2px solid #0f2654; margin-bottom: 4px; height: 40px;"></div>
-                  <p style="margin: 0; text-align: center; font-size: 9px; font-weight: 600; color: #5a678a;">${t.managerSignature}</p>
+                <td style="width: 48%; vertical-align: bottom; padding-bottom: 8px;">
+                  <div style="border-bottom: 2px solid #0f2654; margin-bottom: 6px; height: 50px;"></div>
+                  <p style="margin: 0; text-align: center; font-size: 10px; font-weight: 700; color: #0f2654; text-transform: uppercase; letter-spacing: 0.5px;">${t.managerSignature}</p>
                 </td>
               </tr>
             </table>
           </div>
 
-          <!-- Footer - Compact -->
-          <div style="border-top: 2px solid #0f2654; padding-top: 8px; margin-top: 10px; text-align: center; color: #5a678a; font-size: 8px; line-height: 1.4;">
+          <!-- Footer -->
+          <div style="border-top: 2px solid #0f2654; padding-top: 10px; margin-top: 12px; text-align: center; color: #5a678a; font-size: 9px; line-height: 1.5;">
             <p style="margin: 0;">${t.footer}</p>
-            <p style="margin: 6px 0 0 0; font-weight: 700; color: #0f2654; font-size: 9px;">${t.footerBrand}</p>
+            <p style="margin: 8px 0 0 0; font-weight: 700; color: #0f2654; font-size: 10px; letter-spacing: 0.5px;">${t.footerBrand}</p>
           </div>
 
         </div>
@@ -9095,11 +9113,11 @@
             @media print {
               @page { 
                 size: letter; /* 8.5 x 11 inches */
-                margin: 0.35in 0.45in; /* Márgenes mínimos para aprovechar espacio */
+                margin: 0.4in 0.5in; /* Márgenes balanceados */
               }
               body { 
                 padding: 0;
-                font-size: 9px !important; /* Fuente base pequeña */
+                font-size: 10px !important;
               }
               /* Watermark */
               body::before {
@@ -9111,21 +9129,22 @@
                 background-image: url('UVC-Logo-Standalone-Gray.webp');
                 background-repeat: no-repeat;
                 background-position: center;
-                background-size: 350px;
-                opacity: 0.04;
+                background-size: 400px;
+                opacity: 0.05;
                 width: 100%;
                 height: 100%;
                 z-index: -1;
                 pointer-events: none;
               }
-              /* Compresión de elementos */
-              h1 { font-size: 20px !important; margin: 0 !important; }
+              /* Optimización de elementos */
+              h1 { font-size: 22px !important; margin: 0 !important; }
               h3 { font-size: 11px !important; margin: 0 !important; }
-              table { font-size: 9px !important; margin-bottom: 8px !important; }
-              td, th { padding: 4px 6px !important; }
-              div { margin-bottom: 8px !important; padding: 8px !important; }
-              ul { font-size: 8px !important; line-height: 1.4 !important; }
-              img { height: 40px !important; }
+              table { font-size: 10px !important; margin-bottom: 10px !important; }
+              td, th { padding: 5px 8px !important; }
+              div { margin-bottom: 10px !important; }
+              ul { font-size: 9px !important; line-height: 1.6 !important; }
+              ul li { margin-bottom: 5px !important; }
+              img { height: 45px !important; }
               /* Evitar saltos de página */
               table, div { page-break-inside: avoid; }
             }
@@ -9178,18 +9197,21 @@
         const aprEl = document.getElementById('contract-apr');
 
         function recalcDerived() {
-          // Force closing cost field to reflect 8% visually
+          // Calculate all derived financial fields
           const p = parseFloat(priceEl.value) || 0;
-          if (closingEl) closingEl.value = (p * 0.08).toFixed(2);
-          
-          // Auto-calculate Hot Deposit = Down Payment + Closing Cost
           const downPercent = parseFloat(document.getElementById('contract-down-percent').value) || 0;
+          
           const downPayment = p * (downPercent / 100);
-          const closingCost = p * 0.08;
-          const depositEl = document.getElementById('contract-deposit');
-          if (depositEl) {
-            depositEl.value = (downPayment + closingCost).toFixed(2);
-          }
+          const closingCost = p * 0.08; // Always 8%
+          const totalDown = downPayment + closingCost;
+          
+          // Update all three fields
+          const downPaymentEl = document.getElementById('contract-down-payment');
+          const totalDownEl = document.getElementById('contract-total-down');
+          
+          if (downPaymentEl) downPaymentEl.value = downPayment.toFixed(2);
+          if (closingEl) closingEl.value = closingCost.toFixed(2);
+          if (totalDownEl) totalDownEl.value = totalDown.toFixed(2);
           
           // Recalculate monthly payment using APR logic
           const totals = calculateContractTotals();
