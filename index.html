@@ -5739,6 +5739,73 @@
                     <input type="text" id="contract-year" style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px;" />
                   </div>
 
+                  <!-- Incentives Selection -->
+                  <div style="grid-column: 1 / -1; margin-top: 16px;">
+                    <h4 style="margin: 0 0 16px 0; color: #0f2654; font-size: 16px; font-weight: 700; border-bottom: 2px solid #d5dff0; padding-bottom: 8px;">🎁 Incentivos del Contrato</h4>
+                    <p style="margin: 0 0 16px 0; color: #5a678a; font-size: 13px;">Personaliza los incentivos según la inversión del cliente. Deja en blanco para omitir.</p>
+                  </div>
+
+                  <div style="grid-column: 1 / -1;">
+                    <div style="display: grid; grid-template-columns: 1fr; gap: 12px; background: #f8f9fb; padding: 20px; border-radius: 10px;">
+                      
+                      <div style="display: grid; grid-template-columns: 1fr 100px; gap: 10px; align-items: center; padding: 12px; background: white; border-radius: 8px; border: 2px solid #e5e9f2;">
+                        <label for="incentive-premier-nights" style="color: #0f2654; font-size: 13px; font-weight: 500;">✦ PREMIER BONUS WEEK (ALL INC + 2 ADULTS FREE)</label>
+                        <input type="number" id="incentive-premier-nights" placeholder="7" min="0" style="padding: 8px; border: 2px solid #d4af37; border-radius: 6px; font-size: 13px; text-align: center; font-weight: 600;" />
+                      </div>
+
+                      <div style="display: grid; grid-template-columns: 1fr 100px; gap: 10px; align-items: center; padding: 12px; background: white; border-radius: 8px; border: 2px solid #e5e9f2;">
+                        <label for="incentive-bonus-weeks" style="color: #0f2654; font-size: 13px; font-weight: 500;">✦ WORLD WIDE BONUS WEEKS @ 299 USD EACH</label>
+                        <input type="number" id="incentive-bonus-weeks" placeholder="2" min="0" style="padding: 8px; border: 2px solid #d4af37; border-radius: 6px; font-size: 13px; text-align: center; font-weight: 600;" />
+                      </div>
+
+                      <div style="display: grid; grid-template-columns: 1fr 100px; gap: 10px; align-items: center; padding: 12px; background: white; border-radius: 8px; border: 2px solid #e5e9f2;">
+                        <label for="incentive-rewards-deposit" style="color: #0f2654; font-size: 13px; font-weight: 500;">✦ REWARDS CREDIT (DEPÓSITO)</label>
+                        <input type="number" id="incentive-rewards-deposit" placeholder="1000" min="0" style="padding: 8px; border: 2px solid #d4af37; border-radius: 6px; font-size: 13px; text-align: center; font-weight: 600;" />
+                      </div>
+
+                      <div style="display: grid; grid-template-columns: 1fr 100px; gap: 10px; align-items: center; padding: 12px; background: white; border-radius: 8px; border: 2px solid #e5e9f2;">
+                        <label for="incentive-rewards-annual" style="color: #0f2654; font-size: 13px; font-weight: 500;">✦ REWARDS CREDIT (ANUAL)</label>
+                        <input type="number" id="incentive-rewards-annual" placeholder="1500" min="0" style="padding: 8px; border: 2px solid #d4af37; border-radius: 6px; font-size: 13px; text-align: center; font-weight: 600;" />
+                      </div>
+
+                      <div style="padding: 12px; background: white; border-radius: 8px; border: 2px solid #e5e9f2;">
+                        <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                          <input type="checkbox" id="incentive-hyatt" checked style="width: 18px; height: 18px; cursor: pointer;" />
+                          <span style="color: #0f2654; font-size: 13px; font-weight: 500;">✦ UNLIMITED USE @ HYATT ALL INCLUSIVE COLLECTION (INC. EUROPE)</span>
+                        </label>
+                      </div>
+
+                      <div style="padding: 12px; background: white; border-radius: 8px; border: 2px solid #e5e9f2;">
+                        <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                          <input type="checkbox" id="incentive-access" checked style="width: 18px; height: 18px; cursor: pointer;" />
+                          <span style="color: #0f2654; font-size: 13px; font-weight: 500;">✦ UNLIMITED ACCESS CERTIFICATE</span>
+                        </label>
+                      </div>
+
+                      <div style="padding: 12px; background: white; border-radius: 8px; border: 2px solid #e5e9f2;">
+                        <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                          <input type="checkbox" id="incentive-elite" checked style="width: 18px; height: 18px; cursor: pointer;" />
+                          <span style="color: #0f2654; font-size: 13px; font-weight: 500;">✦ UP TO DISCOVER A WORLD OF HYATT ELITE</span>
+                        </label>
+                      </div>
+
+                      <div style="padding: 12px; background: white; border-radius: 8px; border: 2px solid #e5e9f2;">
+                        <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                          <input type="checkbox" id="incentive-freeze" checked style="width: 18px; height: 18px; cursor: pointer;" />
+                          <span style="color: #0f2654; font-size: 13px; font-weight: 500;">✦ PRICE FREEZE</span>
+                        </label>
+                      </div>
+
+                      <div style="padding: 12px; background: white; border-radius: 8px; border: 2px solid #e5e9f2;">
+                        <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                          <input type="checkbox" id="incentive-spa" checked style="width: 18px; height: 18px; cursor: pointer;" />
+                          <span style="color: #0f2654; font-size: 13px; font-weight: 500;">✦ SPA AND YACHT CLUB BENEFITS</span>
+                        </label>
+                      </div>
+
+                    </div>
+                  </div>
+
                 </div>
 
                 <!-- Action Buttons -->
@@ -8720,6 +8787,49 @@
         firstPayment: parseFloat(document.getElementById('contract-first-payment').value || 0).toFixed(2)
       };
 
+      // Collect selected incentives based on checkboxes and input values
+      const selectedIncentives = [];
+      
+      // Number-based incentives
+      const premierNights = parseInt(document.getElementById('incentive-premier-nights').value) || 0;
+      if (premierNights > 0) {
+        selectedIncentives.push(`✦ ${premierNights} NIGHTS PREMIER BONUS WEEK (ALL INC + 2 ADULTS FREE)`);
+      }
+      
+      const bonusWeeks = parseInt(document.getElementById('incentive-bonus-weeks').value) || 0;
+      if (bonusWeeks > 0) {
+        selectedIncentives.push(`✦ ${bonusWeeks} WORLD WIDE BONUS WEEKS @ 299 USD EACH`);
+      }
+      
+      const rewardsDeposit = parseInt(document.getElementById('incentive-rewards-deposit').value) || 0;
+      const rewardsAnnual = parseInt(document.getElementById('incentive-rewards-annual').value) || 0;
+      if (rewardsDeposit > 0 || rewardsAnnual > 0) {
+        if (rewardsDeposit > 0 && rewardsAnnual > 0) {
+          selectedIncentives.push(`✦ ${rewardsDeposit} + ${rewardsAnnual} REWARDS CREDIT`);
+        } else if (rewardsDeposit > 0) {
+          selectedIncentives.push(`✦ ${rewardsDeposit} REWARDS CREDIT (DEPÓSITO)`);
+        } else {
+          selectedIncentives.push(`✦ ${rewardsAnnual} REWARDS CREDIT (ANUAL)`);
+        }
+      }
+      
+      // Checkbox-based incentives
+      if (document.getElementById('incentive-hyatt').checked) {
+        selectedIncentives.push('✦ UNLIMITED USE @ HYATT ALL INCLUSIVE COLLECTION (INC. EUROPE)');
+      }
+      if (document.getElementById('incentive-access').checked) {
+        selectedIncentives.push('✦ UNLIMITED ACCESS CERTIFICATE');
+      }
+      if (document.getElementById('incentive-elite').checked) {
+        selectedIncentives.push('✦ UP TO DISCOVER A WORLD OF HYATT ELITE');
+      }
+      if (document.getElementById('incentive-freeze').checked) {
+        selectedIncentives.push('✦ PRICE FREEZE');
+      }
+      if (document.getElementById('incentive-spa').checked) {
+        selectedIncentives.push('✦ SPA AND YACHT CLUB BENEFITS');
+      }
+
       const contractHTML = `
         <div style="max-width: 850px; margin: 0 auto; font-family: Arial, sans-serif; background: white;">
           
@@ -8844,19 +8954,14 @@
           </div>
 
           <!-- Benefits -->
+          ${selectedIncentives.length > 0 ? `
           <div style="background: linear-gradient(135deg, #0f2654 0%, #1a4d7a 100%); color: white; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
             <h3 style="margin: 0 0 12px 0; font-size: 16px; font-weight: 700;">BENEFICIOS ESPECIALES / ADDITIONAL BENEFITS</h3>
             <ul style="margin: 0; padding-left: 20px; line-height: 1.8; font-size: 13px;">
-              <li>✦ UNLIMITED USE @ HYATT ALL INCLUSIVE COLLECTION (INC. EUROPE)</li>
-              <li>✦ UNLIMITED ACCESS CERTIFICATE</li>
-              <li>✦ PREMIER BONUS WEEK (ALL INC + 2 ADULTS FREE)</li>
-              <li>✦ UP TO DISCOVER A WORLD OF HYATT ELITE</li>
-              <li>✦ 2 WORLD WIDE BONUS WEEKS 299 USD EACH</li>
-              <li>✦ PRICE FREEZE</li>
-              <li>✦ 1000 + 1500 REWARDS CREDIT</li>
-              <li>✦ SPA AND YACHT CLUB BENEFITS</li>
+              ${selectedIncentives.map(inc => `<li>${inc}</li>`).join('\n              ')}
             </ul>
           </div>
+          ` : ''}
 
           <!-- Footer -->
           <div style="border-top: 3px solid #0f2654; padding-top: 20px; margin-top: 30px; text-align: center; color: #5a678a; font-size: 11px;">
