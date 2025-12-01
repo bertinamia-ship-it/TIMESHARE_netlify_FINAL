@@ -5308,6 +5308,7 @@
             <button class="admin-tab-btn" data-tab="financial" type="button">📊 Área Financiera</button>
             <button class="admin-tab-btn" data-tab="rankings" type="button">🏆 Rankings</button>
             <button class="admin-tab-btn" data-tab="gallery" type="button">🖼️ Gallery</button>
+            <button class="admin-tab-btn" data-tab="contracts" type="button">📄 Contratos</button>
             <button class="admin-tab-btn" data-tab="settings" type="button">⚙️ Settings</button>
           </div>
           
@@ -5573,7 +5574,268 @@
               </div>
             </div>
 
-            <!-- SECTION 5: Settings -->
+            <!-- SECTION 5: Contratos -->
+            <div class="admin-section" data-section="contracts">
+              <h3 style="font-size: 24px; margin: 0 0 12px 0; color: #0f2654;">📄 Generador de Contratos</h3>
+              <p style="margin-bottom: 28px; color: #5a678a; font-size: 15px; line-height: 1.6;">Complete la información del contrato y genere un documento profesional con el logo de UVC.</p>
+              
+              <!-- Contract Form -->
+              <div style="background: #fff; border: 2px solid #d5dff0; border-radius: 16px; padding: 32px; max-width: 900px;">
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 24px;">
+                  
+                  <!-- Member Info -->
+                  <div style="grid-column: 1 / -1;">
+                    <h4 style="margin: 0 0 16px 0; color: #0f2654; font-size: 16px; font-weight: 700; border-bottom: 2px solid #d5dff0; padding-bottom: 8px;">👤 Información del Socio</h4>
+                  </div>
+                  
+                  <div>
+                    <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">Socio 1 / Member 1</label>
+                    <input type="text" id="contract-member1" style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px;" placeholder="Nombre completo" />
+                  </div>
+                  
+                  <div>
+                    <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">Socio 2 / Member 2</label>
+                    <input type="text" id="contract-member2" style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px;" placeholder="Nombre completo (opcional)" />
+                  </div>
+                  
+                  <div>
+                    <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">Membresía / Membership #</label>
+                    <input type="text" id="contract-membership" style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px;" placeholder="Número de membresía" />
+                  </div>
+                  
+                  <div>
+                    <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">Estatus / Status</label>
+                    <select id="contract-status" style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px;">
+                      <option value="V.O">V.O</option>
+                      <option value="Nuevo">Nuevo</option>
+                    </select>
+                  </div>
+
+                  <!-- Beneficiaries -->
+                  <div style="grid-column: 1 / -1; margin-top: 16px;">
+                    <h4 style="margin: 0 0 16px 0; color: #0f2654; font-size: 16px; font-weight: 700; border-bottom: 2px solid #d5dff0; padding-bottom: 8px;">👥 Beneficiarios</h4>
+                  </div>
+                  
+                  <div>
+                    <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">Beneficiario 1</label>
+                    <input type="text" id="contract-beneficiary1" style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px;" />
+                  </div>
+                  
+                  <div>
+                    <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">Beneficiario 2</label>
+                    <input type="text" id="contract-beneficiary2" style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px;" />
+                  </div>
+                  
+                  <div>
+                    <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">Beneficiario 3</label>
+                    <input type="text" id="contract-beneficiary3" style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px;" />
+                  </div>
+
+                  <!-- Membership Details -->
+                  <div style="grid-column: 1 / -1; margin-top: 16px;">
+                    <h4 style="margin: 0 0 16px 0; color: #0f2654; font-size: 16px; font-weight: 700; border-bottom: 2px solid #d5dff0; padding-bottom: 8px;">📋 Detalles de Membresía</h4>
+                  </div>
+                  
+                  <div>
+                    <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">Tipo de Membresía</label>
+                    <select id="contract-membership-type" style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px;">
+                      <option value="Choice">Choice</option>
+                      <option value="Nuevo">Nuevo</option>
+                    </select>
+                  </div>
+                  
+                  <div>
+                    <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">Vigencia / Term</label>
+                    <select id="contract-term" style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px;">
+                      <option value="5 YRS">5 YRS</option>
+                      <option value="10 YRS">10 YRS</option>
+                      <option value="15 YRS">15 YRS</option>
+                    </select>
+                  </div>
+                  
+                  <div>
+                    <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">Semanas de Intercambio</label>
+                    <input type="text" id="contract-weeks" value="10 WEEKS" style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px;" />
+                  </div>
+                  
+                  <div>
+                    <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">Nivel de Membresía</label>
+                    <input type="text" id="contract-level" style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px;" placeholder="Ej: WOH MEMBER LEVEL" />
+                  </div>
+
+                  <!-- Financial Details -->
+                  <div style="grid-column: 1 / -1; margin-top: 16px;">
+                    <h4 style="margin: 0 0 16px 0; color: #0f2654; font-size: 16px; font-weight: 700; border-bottom: 2px solid #d5dff0; padding-bottom: 8px;">💰 Detalles Financieros</h4>
+                  </div>
+                  
+                  <div>
+                    <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">Precio de Venta / Purchase Price (USD)</label>
+                    <input type="number" id="contract-price" value="6850" step="0.01" style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px;" />
+                  </div>
+                  
+                  <div>
+                    <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">% Enganche / Down Payment %</label>
+                    <input type="number" id="contract-down-percent" value="25" step="1" min="0" max="100" style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px;" />
+                  </div>
+                  
+                  <div>
+                    <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">Costo de Contrato / Closing Cost (USD)</label>
+                    <input type="number" id="contract-closing" value="549" step="0.01" style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px;" />
+                  </div>
+                  
+                  <div>
+                    <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">Depósito / Hot Deposit (USD)</label>
+                    <input type="number" id="contract-deposit" value="1234" step="0.01" style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px;" />
+                  </div>
+
+                  <!-- Payment Plan -->
+                  <div style="grid-column: 1 / -1; margin-top: 16px;">
+                    <h4 style="margin: 0 0 16px 0; color: #0f2654; font-size: 16px; font-weight: 700; border-bottom: 2px solid #d5dff0; padding-bottom: 8px;">📅 Plan de Pagos</h4>
+                  </div>
+                  
+                  <div>
+                    <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">Número de Pagos / # Payments</label>
+                    <input type="number" id="contract-payments-num" value="24" step="1" min="1" style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px;" />
+                  </div>
+
+                  <div>
+                    <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">APR (%)</label>
+                    <input type="number" id="contract-apr" value="0" step="0.01" min="0" max="100" style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px;" placeholder="Ej: 0, 8, 12" />
+                  </div>
+                  
+                  <div>
+                    <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">Pago Mensual / Monthly Payment (USD)</label>
+                    <input type="number" id="contract-monthly-payment" value="214.06" step="0.01" style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px;" />
+                  </div>
+                  
+                  <div>
+                    <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">Pago Inicial de # (USD)</label>
+                    <input type="number" id="contract-first-payment-num" value="0" step="1" style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px;" />
+                  </div>
+                  
+                  <div>
+                    <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">Monto Pago Inicial (USD)</label>
+                    <input type="number" id="contract-first-payment" value="227.06" step="0.01" style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px;" />
+                  </div>
+
+                  <!-- Additional Info -->
+                  <div style="grid-column: 1 / -1; margin-top: 16px;">
+                    <h4 style="margin: 0 0 16px 0; color: #0f2654; font-size: 16px; font-weight: 700; border-bottom: 2px solid #d5dff0; padding-bottom: 8px;">📍 Información Adicional</h4>
+                  </div>
+                  
+                  <div>
+                    <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">Locación / Location</label>
+                    <input type="text" id="contract-location" style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px;" />
+                  </div>
+                  
+                  <div>
+                    <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">Día / Day</label>
+                    <input type="text" id="contract-day" style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px;" />
+                  </div>
+                  
+                  <div>
+                    <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">Mes / Month</label>
+                    <input type="text" id="contract-month" style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px;" />
+                  </div>
+                  
+                  <div>
+                    <label style="display: block; margin-bottom: 6px; color: #0f2654; font-weight: 600; font-size: 13px;">Año / Year</label>
+                    <input type="text" id="contract-year" style="width: 100%; padding: 10px 14px; border: 2px solid #e5e9f2; border-radius: 8px; font-size: 14px;" />
+                  </div>
+
+                  <!-- Incentives Selection -->
+                  <div style="grid-column: 1 / -1; margin-top: 16px;">
+                    <h4 style="margin: 0 0 16px 0; color: #0f2654; font-size: 16px; font-weight: 700; border-bottom: 2px solid #d5dff0; padding-bottom: 8px;">🎁 Incentivos del Contrato</h4>
+                    <p style="margin: 0 0 16px 0; color: #5a678a; font-size: 13px;">Personaliza los incentivos según la inversión del cliente. Deja en blanco para omitir.</p>
+                  </div>
+
+                  <div style="grid-column: 1 / -1;">
+                    <div style="display: grid; grid-template-columns: 1fr; gap: 12px; background: #f8f9fb; padding: 20px; border-radius: 10px;">
+                      
+                      <!-- Certificados / Checkboxes primero -->
+                      <div style="padding: 12px; background: white; border-radius: 8px; border: 2px solid #e5e9f2;">
+                        <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                          <input type="checkbox" id="incentive-hyatt" checked style="width: 18px; height: 18px; cursor: pointer;" />
+                          <span style="color: #0f2654; font-size: 13px; font-weight: 500;">✦ UNLIMITED USE @ HYATT ALL INCLUSIVE COLLECTION (INC. EUROPE)</span>
+                        </label>
+                      </div>
+
+                      <div style="padding: 12px; background: white; border-radius: 8px; border: 2px solid #e5e9f2;">
+                        <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                          <input type="checkbox" id="incentive-access" checked style="width: 18px; height: 18px; cursor: pointer;" />
+                          <span style="color: #0f2654; font-size: 13px; font-weight: 500;">✦ UNLIMITED ACCESS CERTIFICATE</span>
+                        </label>
+                      </div>
+
+                      <div style="padding: 12px; background: white; border-radius: 8px; border: 2px solid #e5e9f2;">
+                        <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                          <input type="checkbox" id="incentive-elite" checked style="width: 18px; height: 18px; cursor: pointer;" />
+                          <span style="color: #0f2654; font-size: 13px; font-weight: 500;">✦ UP TO DISCOVER A WORLD OF HYATT ELITE</span>
+                        </label>
+                      </div>
+
+                      <div style="padding: 12px; background: white; border-radius: 8px; border: 2px solid #e5e9f2;">
+                        <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                          <input type="checkbox" id="incentive-freeze" checked style="width: 18px; height: 18px; cursor: pointer;" />
+                          <span style="color: #0f2654; font-size: 13px; font-weight: 500;">✦ PRICE FREEZE</span>
+                        </label>
+                      </div>
+
+                      <div style="padding: 12px; background: white; border-radius: 8px; border: 2px solid #e5e9f2;">
+                        <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                          <input type="checkbox" id="incentive-spa" checked style="width: 18px; height: 18px; cursor: pointer;" />
+                          <span style="color: #0f2654; font-size: 13px; font-weight: 500;">✦ SPA AND YACHT CLUB BENEFITS</span>
+                        </label>
+                      </div>
+
+                      <!-- Separador -->
+                      <div style="height: 1px; background: #d5dff0; margin: 8px 0;"></div>
+
+                      <!-- Variables numéricas abajo -->
+                      <div style="display: grid; grid-template-columns: 1fr 100px; gap: 10px; align-items: center; padding: 12px; background: white; border-radius: 8px; border: 2px solid #e5e9f2;">
+                        <label for="incentive-premier-nights" style="color: #0f2654; font-size: 13px; font-weight: 500;">✦ PREMIER BONUS WEEK (ALL INC + 2 ADULTS FREE)</label>
+                        <input type="number" id="incentive-premier-nights" placeholder="7" min="0" style="padding: 8px; border: 2px solid #d4af37; border-radius: 6px; font-size: 13px; text-align: center; font-weight: 600;" />
+                      </div>
+
+                      <div style="display: grid; grid-template-columns: 1fr 100px; gap: 10px; align-items: center; padding: 12px; background: white; border-radius: 8px; border: 2px solid #e5e9f2;">
+                        <label for="incentive-bonus-weeks" style="color: #0f2654; font-size: 13px; font-weight: 500;">✦ WORLD WIDE BONUS WEEKS @ 299 USD EACH</label>
+                        <input type="number" id="incentive-bonus-weeks" placeholder="2" min="0" style="padding: 8px; border: 2px solid #d4af37; border-radius: 6px; font-size: 13px; text-align: center; font-weight: 600;" />
+                      </div>
+
+                      <div style="display: grid; grid-template-columns: 1fr 100px; gap: 10px; align-items: center; padding: 12px; background: white; border-radius: 8px; border: 2px solid #e5e9f2;">
+                        <label for="incentive-rewards-deposit" style="color: #0f2654; font-size: 13px; font-weight: 500;">✦ REWARDS CREDIT (DEPÓSITO)</label>
+                        <input type="number" id="incentive-rewards-deposit" placeholder="1000" min="0" style="padding: 8px; border: 2px solid #d4af37; border-radius: 6px; font-size: 13px; text-align: center; font-weight: 600;" />
+                      </div>
+
+                      <div style="display: grid; grid-template-columns: 1fr 100px; gap: 10px; align-items: center; padding: 12px; background: white; border-radius: 8px; border: 2px solid #e5e9f2;">
+                        <label for="incentive-rewards-annual" style="color: #0f2654; font-size: 13px; font-weight: 500;">✦ REWARDS CREDIT (ANUAL)</label>
+                        <input type="number" id="incentive-rewards-annual" placeholder="1500" min="0" style="padding: 8px; border: 2px solid #d4af37; border-radius: 6px; font-size: 13px; text-align: center; font-weight: 600;" />
+                      </div>
+
+                    </div>
+                  </div>
+
+                </div>
+
+                <!-- Action Buttons -->
+                <div style="display: flex; gap: 12px; margin-top: 32px; padding-top: 24px; border-top: 2px solid #d5dff0;">
+                  <button id="generate-contract-btn" type="button" style="flex: 1; background: #d4af37; color: #0f2654; border: none; padding: 14px 28px; border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 15px; box-shadow: 0 4px 12px rgba(212,175,55,0.3); transition: all 0.3s;">
+                    📄 Generar Contrato
+                  </button>
+                  <button id="print-contract-btn" type="button" style="flex: 1; background: #0f2654; color: white; border: none; padding: 14px 28px; border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 15px; box-shadow: 0 4px 12px rgba(15,38,84,0.3); transition: all 0.3s;">
+                    🖨️ Imprimir Contrato
+                  </button>
+                </div>
+
+              </div>
+
+              <!-- Contract Preview (hidden by default) -->
+              <div id="contract-preview" style="display: none; margin-top: 32px; background: white; border: 2px solid #d5dff0; border-radius: 16px; padding: 40px; max-width: 900px;"></div>
+
+            </div>
+
+            <!-- SECTION 6: Settings -->
             <div class="admin-section" data-section="settings">
               <h3>⚙️ Configuración General</h3>
               
@@ -8482,6 +8744,426 @@
     }
 
     // ========== END FULLSCREEN ==========
+
+    // ========== CONTRACT GENERATOR ==========
+    
+    const generateContractBtn = document.getElementById('generate-contract-btn');
+    const printContractBtn = document.getElementById('print-contract-btn');
+    const contractPreview = document.getElementById('contract-preview');
+
+    function calculateContractTotals() {
+      const price = parseFloat(document.getElementById('contract-price').value) || 0;
+      const downPercent = parseFloat(document.getElementById('contract-down-percent').value) || 0;
+      // Closing cost is ALWAYS 8% of price (override any manual value)
+      const closing = price * 0.08;
+      const deposit = parseFloat(document.getElementById('contract-deposit').value) || 0;
+
+      const downPayment = (price * downPercent / 100);
+      const totalDown = downPayment + deposit;
+      const amountToFinance = price - downPayment;
+
+      return {
+        price: price.toFixed(2),
+        downPercent: downPercent.toFixed(0),
+        downPayment: downPayment.toFixed(2),
+        closing: closing.toFixed(2),
+        deposit: deposit.toFixed(2),
+        totalDown: totalDown.toFixed(2),
+        amountToFinance: amountToFinance.toFixed(2)
+      };
+    }
+
+    function generateContract() {
+      const totals = calculateContractTotals();
+      
+      const data = {
+        member1: document.getElementById('contract-member1').value || '',
+        member2: document.getElementById('contract-member2').value || '',
+        membership: document.getElementById('contract-membership').value || '',
+        status: document.getElementById('contract-status').value || 'V.O',
+        beneficiary1: document.getElementById('contract-beneficiary1').value || '',
+        beneficiary2: document.getElementById('contract-beneficiary2').value || '',
+        beneficiary3: document.getElementById('contract-beneficiary3').value || '',
+        membershipType: document.getElementById('contract-membership-type').value || 'Choice',
+        term: document.getElementById('contract-term').value || '5 YRS',
+        weeks: document.getElementById('contract-weeks').value || '10 WEEKS',
+        level: document.getElementById('contract-level').value || '',
+        location: document.getElementById('contract-location').value || '',
+        day: document.getElementById('contract-day').value || '',
+        month: document.getElementById('contract-month').value || '',
+        year: document.getElementById('contract-year').value || '',
+        paymentsNum: document.getElementById('contract-payments-num').value || '24',
+        monthlyPayment: parseFloat(document.getElementById('contract-monthly-payment').value || 0).toFixed(2),
+        firstPaymentNum: document.getElementById('contract-first-payment-num').value || '0',
+        firstPayment: parseFloat(document.getElementById('contract-first-payment').value || 0).toFixed(2),
+        apr: document.getElementById('contract-apr').value || '0'
+      };
+
+      // Collect selected incentives based on checkboxes and input values
+      const selectedIncentives = [];
+      
+      // Number-based incentives
+      const premierNights = parseInt(document.getElementById('incentive-premier-nights').value) || 0;
+      if (premierNights > 0) {
+        selectedIncentives.push(`✦ ${premierNights} NIGHTS PREMIER BONUS WEEK (ALL INC + 2 ADULTS FREE)`);
+      }
+      
+      const bonusWeeks = parseInt(document.getElementById('incentive-bonus-weeks').value) || 0;
+      if (bonusWeeks > 0) {
+        selectedIncentives.push(`✦ ${bonusWeeks} WORLD WIDE BONUS WEEKS @ 299 USD EACH`);
+      }
+      
+      const rewardsDeposit = parseInt(document.getElementById('incentive-rewards-deposit').value) || 0;
+      const rewardsAnnual = parseInt(document.getElementById('incentive-rewards-annual').value) || 0;
+      if (rewardsDeposit > 0 || rewardsAnnual > 0) {
+        if (rewardsDeposit > 0 && rewardsAnnual > 0) {
+          selectedIncentives.push(`✦ ${rewardsDeposit} + ${rewardsAnnual} REWARDS CREDIT`);
+        } else if (rewardsDeposit > 0) {
+          selectedIncentives.push(`✦ ${rewardsDeposit} REWARDS CREDIT (DEPÓSITO)`);
+        } else {
+          selectedIncentives.push(`✦ ${rewardsAnnual} REWARDS CREDIT (ANUAL)`);
+        }
+      }
+      
+      // Checkbox-based incentives
+      if (document.getElementById('incentive-hyatt').checked) {
+        selectedIncentives.push('✦ UNLIMITED USE @ HYATT ALL INCLUSIVE COLLECTION (INC. EUROPE)');
+      }
+      if (document.getElementById('incentive-access').checked) {
+        selectedIncentives.push('✦ UNLIMITED ACCESS CERTIFICATE');
+      }
+      if (document.getElementById('incentive-elite').checked) {
+        selectedIncentives.push('✦ UP TO DISCOVER A WORLD OF HYATT ELITE');
+      }
+      if (document.getElementById('incentive-freeze').checked) {
+        selectedIncentives.push('✦ PRICE FREEZE');
+      }
+      if (document.getElementById('incentive-spa').checked) {
+        selectedIncentives.push('✦ SPA AND YACHT CLUB BENEFITS');
+      }
+
+      const contractHTML = `
+          <div style="max-width: 900px; margin: 0 auto; font-family: 'Arial', 'Helvetica', sans-serif; background: white; padding: 40px; box-shadow: 0 0 20px rgba(0,0,0,0.1);">
+          
+          <!-- Header with Logo -->
+           <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid #0f2654; padding-bottom: 20px; margin-bottom: 30px;">
+            <div>
+              <h1 style="margin: 0; font-size: 32px; color: #0f2654; font-weight: 700; letter-spacing: -0.5px;">Hoja de Trabajo</h1>
+              <p style="margin: 6px 0 0 0; font-size: 18px; color: #5a678a; font-weight: 500;">Work Sheet</p>
+            </div>
+            <div style="text-align: right;">
+              <img src="UVC-Logo-Standalone-Gray.webp" alt="Unlimited Vacation Club" style="height: 70px; width: auto;" />
+              <p style="margin: 10px 0 0 0; font-size: 14px; color: #0f2654; font-weight: 700; line-height: 1.3;">UNLIMITED<br/>VACATION CLUB®</p>
+            </div>
+          </div>
+
+          <!-- Member Info Section -->
+          <table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 14px;">
+            <tr>
+              <td style="padding: 12px 10px; border: 2px solid #d5dff0; background: #f0f4f8; font-weight: 700; color: #0f2654; width: 16%;">DÍA / DAY</td>
+              <td style="padding: 12px 10px; border: 2px solid #d5dff0; font-size: 15px; font-weight: 600;">${data.day}</td>
+              <td style="padding: 12px 10px; border: 2px solid #d5dff0; background: #f0f4f8; font-weight: 700; color: #0f2654; width: 16%;">MES / MONTH</td>
+              <td style="padding: 12px 10px; border: 2px solid #d5dff0; font-size: 15px; font-weight: 600;">${data.month}</td>
+              <td style="padding: 12px 10px; border: 2px solid #d5dff0; background: #f0f4f8; font-weight: 700; color: #0f2654; width: 16%;">AÑO / YEAR</td>
+              <td style="padding: 12px 10px; border: 2px solid #d5dff0; font-size: 15px; font-weight: 600;">${data.year}</td>
+            </tr>
+          </table>
+
+          <!-- Members -->
+          <table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 14px;">
+            <tr>
+              <td style="padding: 12px 15px; border: 2px solid #d5dff0; background: #f0f4f8; font-weight: 700; color: #0f2654; width: 35%;">MEMBRESÍA / MEMBERSHIP</td>
+              <td style="padding: 12px 15px; border: 2px solid #d5dff0; font-size: 15px; font-weight: 600;">${data.membership}</td>
+              <td style="padding: 12px 15px; border: 2px solid #d5dff0; background: #f0f4f8; font-weight: 700; color: #0f2654; width: 25%;">STATUS</td>
+              <td style="padding: 12px 15px; border: 2px solid #d5dff0; font-size: 15px; font-weight: 600; color: #d4af37;">${data.status}</td>
+            </tr>
+          </table>
+
+          <!-- Members -->
+          <table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 14px;">
+            <tr>
+              <td style="padding: 12px 15px; border: 2px solid #d5dff0; background: #f0f4f8; font-weight: 700; color: #0f2654; width: 35%;">SOCIO 1 / MEMBER 1</td>
+              <td style="padding: 12px 15px; border: 2px solid #d5dff0; font-size: 15px; font-weight: 600; text-transform: uppercase;">${data.member1}</td>
+            </tr>
+            ${data.member2 ? `<tr>
+              <td style="padding: 12px 15px; border: 2px solid #d5dff0; background: #f0f4f8; font-weight: 700; color: #0f2654;">SOCIO 2 / MEMBER 2</td>
+              <td style="padding: 12px 15px; border: 2px solid #d5dff0; font-size: 15px; font-weight: 600; text-transform: uppercase;">${data.member2}</td>
+            </tr>` : ''}
+          </table>
+            </tr>
+          </table>
+
+          <!-- Beneficiaries -->
+           ${data.beneficiary1 ? `
+           <table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 14px;">
+            <tr>
+              <td style="padding: 12px 15px; border: 2px solid #d5dff0; background: #f0f4f8; font-weight: 700; color: #0f2654; width: 35%;">BENEFICIARIOS / BENEFICIARIES</td>
+              <td style="padding: 12px 15px; border: 2px solid #d5dff0; font-size: 14px;">${data.beneficiary1}</td>
+            </tr>
+            ${data.beneficiary2 ? `<tr><td style="padding: 12px 15px; border: 2px solid #d5dff0; background: #f0f4f8;"></td><td style="padding: 12px 15px; border: 2px solid #d5dff0; font-size: 14px;">${data.beneficiary2}</td></tr>` : ''}
+            ${data.beneficiary3 ? `<tr><td style="padding: 12px 15px; border: 2px solid #d5dff0; background: #f0f4f8;"></td><td style="padding: 12px 15px; border: 2px solid #d5dff0; font-size: 14px;">${data.beneficiary3}</td></tr>` : ''}
+          </table>
+           ` : ''}
+
+          <!-- Membership Details -->
+          <div style="background: linear-gradient(135deg, #0f2654 0%, #1a4d7a 100%); padding: 3px; border-radius: 12px; margin-bottom: 25px;">
+            <div style="background: white; padding: 20px; border-radius: 10px;">
+              <h3 style="margin: 0 0 16px 0; color: #0f2654; font-size: 18px; font-weight: 700; border-bottom: 2px solid #d4af37; padding-bottom: 10px;">DETALLES DE MEMBRESÍA / MEMBERSHIP DETAILS</h3>
+              
+              <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+                <tr>
+                  <td style="padding: 10px; border-bottom: 1px solid #e5e9f2; font-weight: 600; color: #5a678a; width: 45%;">Tipo / Type:</td>
+                  <td style="padding: 10px; border-bottom: 1px solid #e5e9f2; font-weight: 700; color: #0f2654; font-size: 16px;">${data.membershipType}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 10px; border-bottom: 1px solid #e5e9f2; font-weight: 600; color: #5a678a;">Vigencia / Term:</td>
+                  <td style="padding: 10px; border-bottom: 1px solid #e5e9f2; font-weight: 700; color: #0f2654; font-size: 16px;">${data.term}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 10px; border-bottom: 1px solid #e5e9f2; font-weight: 600; color: #5a678a;">Semanas de Intercambio / Exchange Weeks:</td>
+                  <td style="padding: 10px; border-bottom: 1px solid #e5e9f2; font-weight: 700; color: #d4af37; font-size: 16px;">${data.weeks}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 10px; border-bottom: 1px solid #e5e9f2; font-weight: 600; color: #5a678a;">WOH Membership Name / Level:</td>
+                  <td style="padding: 10px; border-bottom: 1px solid #e5e9f2; font-weight: 700; color: #0f2654;">${data.level || 'N/A'}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 10px; font-weight: 600; color: #5a678a;">Locación / Location:</td>
+                  <td style="padding: 10px; font-weight: 700; color: #0f2654;">${data.location || 'N/A'}</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+
+          <!-- Financial Details -->
+          <div style="background: #f8f9fb; padding: 25px; border-radius: 12px; margin-bottom: 25px; border: 2px solid #d5dff0;">
+            <h3 style="margin: 0 0 20px 0; color: #0f2654; font-size: 18px; font-weight: 700; text-align: center; border-bottom: 2px solid #d4af37; padding-bottom: 10px;">💰 CONCEPTOS / CONCEPTS - MONTOS / AMOUNTS</h3>
+            
+            <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+              <tr style="background: white;">
+                <td style="padding: 12px 15px; border-bottom: 2px solid #e5e9f2; font-weight: 600; color: #0f2654;">PRECIO DE VENTA / PURCHASE PRICE</td>
+                <td style="padding: 12px 15px; border-bottom: 2px solid #e5e9f2; text-align: right; font-weight: 700; font-size: 18px; color: #0f2654;">$ ${totals.price} <span style="font-size: 12px; color: #5a678a;">USD</span></td>
+              </tr>
+              <tr style="background: white;">
+                <td style="padding: 12px 15px; border-bottom: 2px solid #e5e9f2; font-weight: 600; color: #0f2654;">ENGANCHE / DOWN PAYMENT (${totals.downPercent}%)</td>
+                <td style="padding: 12px 15px; border-bottom: 2px solid #e5e9f2; text-align: right; font-weight: 700; font-size: 16px;">$ ${totals.downPayment} <span style="font-size: 11px; color: #5a678a;">USD</span></td>
+              </tr>
+              <tr style="background: white;">
+                <td style="padding: 12px 15px; border-bottom: 2px solid #e5e9f2; font-weight: 600; color: #0f2654;">COSTO DE CONTRATO / CLOSING COST</td>
+                <td style="padding: 12px 15px; border-bottom: 2px solid #e5e9f2; text-align: right; font-weight: 700; font-size: 16px;">$ ${totals.closing} <span style="font-size: 11px; color: #5a678a;">USD</span></td>
+              </tr>
+              <tr style="background: white;">
+                <td style="padding: 12px 15px; border-bottom: 2px solid #e5e9f2; font-weight: 600; color: #0f2654;">DEPOSITO / HOT DEPOSIT</td>
+                <td style="padding: 12px 15px; border-bottom: 2px solid #e5e9f2; text-align: right; font-weight: 700; color: #d4af37; font-size: 18px;">$ ${totals.deposit} <span style="font-size: 11px; color: #5a678a;">USD</span></td>
+              </tr>
+              <tr style="background: linear-gradient(135deg, #0f2654 0%, #1a4d7a 100%); color: white;">
+                <td style="padding: 15px; font-weight: 700; font-size: 15px; border-radius: 8px 0 0 8px;">ENGANCHE TOTAL / TOTAL DOWN PAYMENT</td>
+                <td style="padding: 15px; text-align: right; font-weight: 700; font-size: 20px; border-radius: 0 8px 8px 0;">$ ${totals.totalDown} <span style="font-size: 13px;">USD</span></td>
+              </tr>
+              <tr style="background: white;">
+                <td style="padding: 12px 15px; font-weight: 600; color: #0f2654; padding-top: 15px;">SALDO A FINANCIAR / AMOUNT TO BE FINANCED</td>
+                <td style="padding: 12px 15px; text-align: right; font-weight: 700; font-size: 18px; color: #0f2654; padding-top: 15px;">$ ${totals.amountToFinance} <span style="font-size: 12px; color: #5a678a;">USD</span></td>
+              </tr>
+            </table>
+          </div>
+
+          <!-- Payment Plan -->
+          <div style="background: white; border: 3px solid #0f2654; padding: 25px; border-radius: 12px; margin-bottom: 25px;">
+            <h3 style="margin: 0 0 20px 0; color: #0f2654; font-size: 18px; font-weight: 700; text-align: center; background: #f0f4f8; padding: 12px; border-radius: 8px;">📅 PLAN DE PAGO / PAYMENT PLAN</h3>
+            
+            <table style="width: 100%; border-collapse: collapse; font-size: 15px;">
+              <tr>
+                <td style="padding: 12px; font-weight: 600; color: #5a678a; width: 50%;">Número de Pagos / # of Payments:</td>
+                <td style="padding: 12px; font-weight: 700; color: #0f2654; font-size: 17px;">${data.paymentsNum} pagos</td>
+              </tr>
+              <tr>
+                <td style="padding: 12px; font-weight: 600; color: #5a678a;">APR (Tasa Anual):</td>
+                <td style="padding: 12px; font-weight: 700; color: ${data.apr === '0' ? '#2e7d32' : '#0f2654'}; font-size: 16px;">${data.apr}% ${data.apr === '0' ? '(Sin Interés)' : ''}</td>
+              </tr>
+              <tr style="background: #f8f9fb;">
+                <td style="padding: 12px; font-weight: 600; color: #5a678a;">Pago Mensual / Monthly Payment:</td>
+                <td style="padding: 12px; font-weight: 700; color: #0f2654; font-size: 20px;">$ ${data.monthlyPayment} <span style="font-size: 13px; color: #5a678a;">USD</span></td>
+              </tr>
+              ${data.firstPaymentNum !== '0' ? `
+              <tr>
+                <td style="padding: 12px; font-weight: 600; color: #5a678a;">El DG. Primero de ${data.firstPaymentNum} Pagos:</td>
+                <td style="padding: 12px; font-weight: 700; color: #d4af37; font-size: 20px;">$ ${data.firstPayment} <span style="font-size: 13px; color: #5a678a;">USD</span></td>
+              </tr>
+              ` : ''}
+            </table>
+          </div>
+
+          <!-- Benefits -->
+          ${selectedIncentives.length > 0 ? `
+            <div style="background: linear-gradient(135deg, #0f2654 0%, #1a4d7a 100%); color: white; padding: 25px; border-radius: 12px; margin-bottom: 30px; box-shadow: 0 4px 12px rgba(15, 38, 84, 0.3);">
+              <h3 style="margin: 0 0 18px 0; font-size: 18px; font-weight: 700; text-align: center; border-bottom: 2px solid #d4af37; padding-bottom: 12px;">✨ BENEFICIOS ESPECIALES / ADDITIONAL BENEFITS</h3>
+              <ul style="margin: 0; padding-left: 25px; line-height: 2; font-size: 14px; font-weight: 500;">
+                ${selectedIncentives.map(inc => `<li style="margin-bottom: 8px;">${inc}</li>`).join('\n              ')}
+            </ul>
+          </div>
+          ` : ''}
+
+          <!-- Signatures Section -->
+          <div style="margin-top: 50px; margin-bottom: 30px;">
+            <table style="width: 100%; border-collapse: collapse;">
+              <tr>
+                <td style="width: 48%; vertical-align: bottom; padding-bottom: 10px;">
+                  <div style="border-bottom: 2px solid #0f2654; margin-bottom: 8px; height: 60px;"></div>
+                  <p style="margin: 0; text-align: center; font-size: 12px; font-weight: 600; color: #5a678a;">FIRMA SOCIO 1 / MEMBER 1 SIGNATURE</p>
+                </td>
+                <td style="width: 4%;"></td>
+                <td style="width: 48%; vertical-align: bottom; padding-bottom: 10px;">
+                  <div style="border-bottom: 2px solid #0f2654; margin-bottom: 8px; height: 60px;"></div>
+                  <p style="margin: 0; text-align: center; font-size: 12px; font-weight: 600; color: #5a678a;">FIRMA SOCIO 2 / MEMBER 2 SIGNATURE</p>
+                </td>
+              </tr>
+            </table>
+          </div>
+
+          <!-- Footer -->
+          <div style="border-top: 4px solid #0f2654; padding-top: 20px; margin-top: 30px; text-align: center; color: #5a678a; font-size: 11px; line-height: 1.6;">
+            <p style="margin: 0;">Para más información consulte nuestro <strong>aviso de privacidad</strong> en <strong style="color: #0f2654;">www.unlimitedvacationclub.com</strong></p>
+            <p style="margin: 12px 0 0 0; font-weight: 700; color: #0f2654; font-size: 13px; letter-spacing: 0.5px;">UNLIMITED VACATION CLUB® - Premium Vacation Experiences</p>
+          </div>
+
+        </div>
+      `;
+
+      contractPreview.innerHTML = contractHTML;
+      contractPreview.style.display = 'block';
+      contractPreview.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      showToast('Contrato generado exitosamente', 'success', 2000);
+    }
+
+    function printContract() {
+      if (contractPreview.style.display === 'none') {
+        showToast('Primero genera el contrato', 'error', 2000);
+        return;
+      }
+
+      const printWindow = window.open('', '_blank');
+      printWindow.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>Contrato UVC - ${document.getElementById('contract-member1').value}</title>
+          <style>
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            body { font-family: Arial, sans-serif; padding: 40px; background: white; }
+            @media print {
+              body { padding: 20px; }
+              @page { margin: 1cm; }
+            }
+          </style>
+        </head>
+        <body>
+          ${contractPreview.innerHTML}
+        </body>
+        </html>
+      `);
+      printWindow.document.close();
+      setTimeout(() => {
+        printWindow.print();
+      }, 250);
+    }
+
+    // ========== AUTO DATE & LOCATION & MEMBERSHIP PRICE SETUP ==========
+    (function initAutoFields(){
+      try {
+        // Auto date (current local date)
+        const now = new Date();
+        const dayEl = document.getElementById('contract-day');
+        const monthEl = document.getElementById('contract-month');
+        const yearEl = document.getElementById('contract-year');
+        if (dayEl && !dayEl.value) dayEl.value = String(now.getDate()).padStart(2,'0');
+        if (monthEl && !monthEl.value) monthEl.value = String(now.getMonth()+1).padStart(2,'0');
+        if (yearEl && !yearEl.value) yearEl.value = String(now.getFullYear());
+
+        // Auto location via Geolocation API
+        const locEl = document.getElementById('contract-location');
+        if (locEl && !locEl.value && navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(pos => {
+            const { latitude, longitude } = pos.coords;
+            // Basic coordinate storage; reverse geocode could be added later
+            locEl.value = `LAT:${latitude.toFixed(4)} LON:${longitude.toFixed(4)}`;
+          }, err => {
+            console.warn('Geolocation denied:', err.message);
+            if (!locEl.value) locEl.value = 'Ubicación no disponible';
+          }, { enableHighAccuracy: true, timeout: 5000 });
+        }
+
+        // Membership level base price mapping (placeholder values; will adjust when you provide real prices)
+        const membershipPriceMap = {
+          'Choice': 12000,
+          'Choice Plus': 16000,
+          'Premier': 25000,
+          'Nuevo': 14000
+        };
+        const membershipTypeEl = document.getElementById('contract-membership-type');
+        const priceEl = document.getElementById('contract-price');
+        const closingEl = document.getElementById('contract-closing');
+        const monthlyPaymentEl = document.getElementById('contract-monthly-payment');
+        const paymentsNumEl = document.getElementById('contract-payments-num');
+        const aprEl = document.getElementById('contract-apr');
+
+        function recalcDerived() {
+          // Force closing cost field to reflect 8% visually
+          const p = parseFloat(priceEl.value) || 0;
+          if (closingEl) closingEl.value = (p * 0.08).toFixed(2);
+          // Recalculate monthly payment using APR logic
+          const totals = calculateContractTotals();
+          const payments = parseInt(paymentsNumEl.value) || 0;
+          if (monthlyPaymentEl && payments > 0) {
+            const amountToFinance = parseFloat(totals.amountToFinance) || 0;
+            // Get APR value directly
+            let aprVal = 0;
+            if (aprEl) {
+              aprVal = parseFloat(aprEl.value) || 0;
+            }
+            if (aprVal > 0) {
+              const r = aprVal / 100 / 12; // monthly interest rate
+              const payment = amountToFinance * (r / (1 - Math.pow(1 + r, -payments)));
+              monthlyPaymentEl.value = payment.toFixed(2);
+            } else {
+              monthlyPaymentEl.value = (amountToFinance / payments).toFixed(2);
+            }
+          }
+        }
+
+        if (membershipTypeEl && priceEl) {
+          const applyMembershipPrice = () => {
+            const sel = membershipTypeEl.value;
+            if (sel && membershipPriceMap[sel]) {
+              priceEl.value = membershipPriceMap[sel].toFixed(2);
+              recalcDerived();
+            }
+          };
+          membershipTypeEl.addEventListener('change', applyMembershipPrice);
+          // Apply once if empty
+          if (!priceEl.value) applyMembershipPrice();
+        }
+
+        // Recalculate effects when price / down percent / payments change
+        ['contract-price','contract-down-percent','contract-payments-num','contract-deposit','contract-apr'].forEach(id=>{
+          const el = document.getElementById(id);
+          if (el) el.addEventListener('input', recalcDerived);
+        });
+
+      } catch(e) {
+        console.error('Init auto fields error', e);
+      }
+    })();
+    // ========== END AUTO SETUP ==========
+
+    if (generateContractBtn) {
+      generateContractBtn.addEventListener('click', generateContract);
+    }
+
+    if (printContractBtn) {
+      printContractBtn.addEventListener('click', printContract);
+    }
+
+    // ========== END CONTRACT GENERATOR ==========
 
     // ========== ADMIN OVERLAY NAVIGATION ==========
     
