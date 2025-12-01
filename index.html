@@ -401,7 +401,6 @@
       z-index: 100;
       box-shadow: 0 6px 18px rgba(0, 0, 0, 0.14), 0 1px 3px rgba(0, 0, 0, 0.08);
       backdrop-filter: blur(12px) saturate(180%);
-      border-bottom: 1px solid rgba(200, 162, 75, 0.45);
     }
 
     @media (max-width: 768px) {
@@ -5213,7 +5212,9 @@
           <div class="utility-menu" id="utility-menu">
             <div class="utility-menu-title" data-i18n="utility.menuTitle">Control Center</div>
             <button class="utility-action" id="price-checker-toggle" type="button" data-i18n="utility.priceChecker">Checker Price</button>
-            <button class="utility-action" id="membership-pricing-toggle" type="button" data-i18n="utility.membershipPricing">💎 Precios de Membresías</button>
+            <button class="utility-action" id="membership-pricing-toggle" type="button" style="display: flex; align-items: center; justify-content: center; padding: 8px 12px;">
+              <img src="UVC-Logo-Standalone-Gray.webp" alt="UVC" style="height: 22px; filter: brightness(0) invert(1);" />
+            </button>
             <button class="utility-action" data-sim-open="retail" type="button" data-i18n="utility.simulators">Simuladores</button>
           </div>
         </div>
