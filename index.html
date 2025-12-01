@@ -5274,6 +5274,7 @@
   </div> <!-- /page -->
 
   <div class="home-screen active" id="home-screen">
+    <button id="home-fullscreen-btn" type="button" style="position: fixed; top: 20px; right: 20px; background: rgba(212, 175, 55, 0.95); color: #0f2654; border: none; padding: 12px 20px; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 14px; z-index: 1201; backdrop-filter: blur(10px); box-shadow: 0 4px 12px rgba(0,0,0,0.2); transition: all 0.3s;" onmouseover="this.style.background='#d4af37'; this.style.transform='scale(1.05)';" onmouseout="this.style.background='rgba(212, 175, 55, 0.95)'; this.style.transform='scale(1)';"><span id="home-fullscreen-icon">⛶</span> Fullscreen</button>
     <div class="home-card">
       <div class="home-left">
         <div class="home-hero">
@@ -5307,6 +5308,7 @@
             <button class="admin-tab-btn active" data-tab="prices" type="button">💰 Price Checker</button>
             <button class="admin-tab-btn" data-tab="financial" type="button">📊 Área Financiera</button>
             <button class="admin-tab-btn" data-tab="rankings" type="button">🏆 Rankings</button>
+            <button class="admin-tab-btn" data-tab="gallery" type="button">🖼️ Gallery</button>
             <button class="admin-tab-btn" data-tab="settings" type="button">⚙️ Settings</button>
           </div>
           
@@ -5481,7 +5483,98 @@
               </div>
             </div>
 
-            <!-- SECTION 4: Settings -->
+            <!-- SECTION 4: Gallery Manager -->
+            <div class="admin-section" data-section="gallery">
+              <h3 style="font-size: 24px; margin: 0 0 12px 0; color: #0f2654;">🖼️ Gallery Manager</h3>
+              <p style="margin-bottom: 28px; color: #5a678a; font-size: 15px; line-height: 1.6;">Manage photos for all hotel galleries. Click <strong>+ Add</strong> to insert image URL, or click the <strong>×</strong> button on any image to remove it.</p>
+              
+              <div class="gallery-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px;">
+                
+                <!-- Zoetry -->
+                <div class="gallery-card" style="background: #fff; border: 2px solid #d5dff0; border-radius: 12px; padding: 20px;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <h4 style="margin: 0; color: #0f2654; font-size: 16px; font-weight: 700;">Zoetry</h4>
+                    <button onclick="window.addGalleryImage('zoetry')" type="button" style="background: #d4af37; color: #0f2654; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 14px;">+ Add</button>
+                  </div>
+                  <div id="gallery-zoetry" class="gallery-images" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;"></div>
+                </div>
+
+                <!-- Secrets -->
+                <div class="gallery-card" style="background: #fff; border: 2px solid #d5dff0; border-radius: 12px; padding: 20px;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <h4 style="margin: 0; color: #0f2654; font-size: 16px; font-weight: 700;">Secrets</h4>
+                    <button onclick="window.addGalleryImage('secrets')" type="button" style="background: #d4af37; color: #0f2654; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 14px;">+ Add</button>
+                  </div>
+                  <div id="gallery-secrets" class="gallery-images" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;"></div>
+                </div>
+
+                <!-- Breathless -->
+                <div class="gallery-card" style="background: #fff; border: 2px solid #d5dff0; border-radius: 12px; padding: 20px;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <h4 style="margin: 0; color: #0f2654; font-size: 16px; font-weight: 700;">Breathless</h4>
+                    <button onclick="window.addGalleryImage('breathless')" type="button" style="background: #d4af37; color: #0f2654; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 14px;">+ Add</button>
+                  </div>
+                  <div id="gallery-breathless" class="gallery-images" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;"></div>
+                </div>
+
+                <!-- Dreams -->
+                <div class="gallery-card" style="background: #fff; border: 2px solid #d5dff0; border-radius: 12px; padding: 20px;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <h4 style="margin: 0; color: #0f2654; font-size: 16px; font-weight: 700;">Dreams</h4>
+                    <button onclick="window.addGalleryImage('dreams')" type="button" style="background: #d4af37; color: #0f2654; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 14px;">+ Add</button>
+                  </div>
+                  <div id="gallery-dreams" class="gallery-images" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;"></div>
+                </div>
+
+                <!-- Hyatt -->
+                <div class="gallery-card" style="background: #fff; border: 2px solid #d5dff0; border-radius: 12px; padding: 20px;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <h4 style="margin: 0; color: #0f2654; font-size: 16px; font-weight: 700;">Hyatt</h4>
+                    <button onclick="window.addGalleryImage('hyatt')" type="button" style="background: #d4af37; color: #0f2654; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 14px;">+ Add</button>
+                  </div>
+                  <div id="gallery-hyatt" class="gallery-images" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;"></div>
+                </div>
+
+                <!-- U Experience -->
+                <div class="gallery-card" style="background: #fff; border: 2px solid #d5dff0; border-radius: 12px; padding: 20px;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <h4 style="margin: 0; color: #0f2654; font-size: 16px; font-weight: 700;">U Experience</h4>
+                    <button onclick="window.addGalleryImage('uexperience')" type="button" style="background: #d4af37; color: #0f2654; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 14px;">+ Add</button>
+                  </div>
+                  <div id="gallery-uexperience" class="gallery-images" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;"></div>
+                </div>
+
+                <!-- Vivid -->
+                <div class="gallery-card" style="background: #fff; border: 2px solid #d5dff0; border-radius: 12px; padding: 20px;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <h4 style="margin: 0; color: #0f2654; font-size: 16px; font-weight: 700;">Vivid</h4>
+                    <button onclick="window.addGalleryImage('vivid')" type="button" style="background: #d4af37; color: #0f2654; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 14px;">+ Add</button>
+                  </div>
+                  <div id="gallery-vivid" class="gallery-images" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;"></div>
+                </div>
+
+                <!-- Alua -->
+                <div class="gallery-card" style="background: #fff; border: 2px solid #d5dff0; border-radius: 12px; padding: 20px;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <h4 style="margin: 0; color: #0f2654; font-size: 16px; font-weight: 700;">Alua</h4>
+                    <button onclick="window.addGalleryImage('alua')" type="button" style="background: #d4af37; color: #0f2654; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 14px;">+ Add</button>
+                  </div>
+                  <div id="gallery-alua" class="gallery-images" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;"></div>
+                </div>
+
+                <!-- Promotions -->
+                <div class="gallery-card" style="background: #fff; border: 2px solid #d5dff0; border-radius: 12px; padding: 20px;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <h4 style="margin: 0; color: #0f2654; font-size: 16px; font-weight: 700;">Promotions</h4>
+                    <button onclick="window.addGalleryImage('promotions')" type="button" style="background: #d4af37; color: #0f2654; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 14px;">+ Add</button>
+                  </div>
+                  <div id="gallery-promotions" class="gallery-images" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;"></div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- SECTION 5: Settings -->
             <div class="admin-section" data-section="settings">
               <h3>⚙️ Configuración General</h3>
               
@@ -6602,6 +6695,17 @@
       staff: {
         liners: [],
         closers: []
+      },
+      galleries: {
+        zoetry: [],
+        secrets: [],
+        breathless: [],
+        dreams: [],
+        hyatt: [],
+        uexperience: [],
+        vivid: [],
+        alua: [],
+        promotions: []
       }
     };
 
@@ -8079,8 +8183,198 @@
         if (targetSection) {
           targetSection.classList.add('active');
         }
+
+        // If switching to gallery tab, load galleries
+        if (targetTab === 'gallery') {
+          loadGalleries();
+        }
       });
     });
+
+    // ========== GALLERY MANAGER FUNCTIONS ==========
+    
+    // Load galleries from modal images
+    function loadGalleries() {
+      const hotelTypes = ['zoetry', 'secrets', 'breathless', 'dreams', 'hyatt', 'uexperience', 'vivid', 'alua', 'promotions'];
+      
+      hotelTypes.forEach(type => {
+        // Find the modal for this hotel type
+        const modal = document.getElementById(`${type}-modal`) || document.getElementById(`modal-${type}`);
+        if (!modal) {
+          state.galleries[type] = [];
+          renderGallery(type);
+          return;
+        }
+        
+        // Find all images in the gallery section of the modal
+        const gallerySection = modal.querySelector('.modal-photos, .hotel-gallery, .gallery-grid');
+        if (!gallerySection) {
+          state.galleries[type] = [];
+          renderGallery(type);
+          return;
+        }
+        
+        const images = Array.from(gallerySection.querySelectorAll('img'));
+        state.galleries[type] = images.map(img => img.src);
+        
+        // Render the gallery in admin
+        renderGallery(type);
+      });
+      
+      saveGalleries();
+    }
+
+    // Render a gallery's thumbnails
+    function renderGallery(type) {
+      const container = document.getElementById(`gallery-${type}`);
+      if (!container) return;
+      
+      container.innerHTML = '';
+      const images = state.galleries[type] || [];
+      
+      if (images.length === 0) {
+        container.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: #8896b3; padding: 24px; font-size: 14px;">No images yet. Click + Add to start.</div>';
+        return;
+      }
+      
+      images.forEach((src, index) => {
+        const wrapper = document.createElement('div');
+        wrapper.style.cssText = 'position: relative; aspect-ratio: 4/3; overflow: hidden; border-radius: 8px; border: 2px solid #e5e9f2;';
+        
+        const img = document.createElement('img');
+        img.src = src;
+        img.style.cssText = 'width: 100%; height: 100%; object-fit: cover;';
+        img.alt = `${type} ${index + 1}`;
+        
+        const deleteBtn = document.createElement('button');
+        deleteBtn.textContent = '×';
+        deleteBtn.type = 'button';
+        deleteBtn.style.cssText = 'position: absolute; top: 4px; right: 4px; background: rgba(220, 53, 69, 0.95); color: white; border: none; width: 28px; height: 28px; border-radius: 50%; cursor: pointer; font-size: 20px; line-height: 1; font-weight: 700; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.3);';
+        deleteBtn.onclick = () => window.deleteGalleryImage(type, index);
+        deleteBtn.onmouseover = () => { deleteBtn.style.background = '#c82333'; deleteBtn.style.transform = 'scale(1.1)'; };
+        deleteBtn.onmouseout = () => { deleteBtn.style.background = 'rgba(220, 53, 69, 0.95)'; deleteBtn.style.transform = 'scale(1)'; };
+        
+        wrapper.appendChild(img);
+        wrapper.appendChild(deleteBtn);
+        container.appendChild(wrapper);
+      });
+    }
+
+    // Update modal gallery with current images
+    function updateModalGallery(type) {
+      const modal = document.getElementById(`${type}-modal`) || document.getElementById(`modal-${type}`);
+      if (!modal) return;
+      
+      const gallerySection = modal.querySelector('.modal-photos, .hotel-gallery, .gallery-grid');
+      if (!gallerySection) return;
+      
+      // Clear existing images
+      gallerySection.innerHTML = '';
+      
+      // Add updated images
+      const images = state.galleries[type] || [];
+      images.forEach((src, index) => {
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = `${type} ${index + 1}`;
+        img.style.cssText = 'width: 100%; height: auto; border-radius: 8px;';
+        gallerySection.appendChild(img);
+      });
+    }
+
+    // Add image to gallery
+    window.addGalleryImage = function(type) {
+      const url = prompt('Enter image URL:');
+      if (!url || url.trim() === '') return;
+      
+      if (!state.galleries[type]) {
+        state.galleries[type] = [];
+      }
+      
+      state.galleries[type].push(url.trim());
+      renderGallery(type);
+      updateModalGallery(type);
+      saveGalleries();
+      showToast(`Image added to ${type}`, 'success', 2000);
+    };
+
+    // Delete image from gallery
+    window.deleteGalleryImage = function(type, index) {
+      if (!confirm('Delete this image?')) return;
+      
+      if (!state.galleries[type]) return;
+      
+      state.galleries[type].splice(index, 1);
+      renderGallery(type);
+      updateModalGallery(type);
+      saveGalleries();
+      showToast(`Image removed from ${type}`, 'info', 2000);
+    };
+
+    // Save galleries to localStorage
+    function saveGalleries() {
+      try {
+        localStorage.setItem('uvc_galleries', JSON.stringify(state.galleries));
+      } catch (e) {
+        console.error('Failed to save galleries:', e);
+      }
+    }
+
+    // Load galleries from localStorage on init
+    function loadGalleriesFromStorage() {
+      try {
+        const saved = localStorage.getItem('uvc_galleries');
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          Object.assign(state.galleries, parsed);
+        }
+      } catch (e) {
+        console.error('Failed to load galleries:', e);
+      }
+    }
+
+    // Initialize galleries from storage
+    loadGalleriesFromStorage();
+
+    // ========== END GALLERY MANAGER ==========
+
+    // ========== FULLSCREEN FUNCTIONALITY ==========
+    
+    const homeFullscreenBtn = document.getElementById('home-fullscreen-btn');
+    const homeFullscreenIcon = document.getElementById('home-fullscreen-icon');
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        // Enter fullscreen
+        document.documentElement.requestFullscreen().then(() => {
+          if (homeFullscreenIcon) homeFullscreenIcon.textContent = '⬛';
+        }).catch(err => {
+          console.error('Error attempting to enable fullscreen:', err);
+          showToast('Could not enter fullscreen mode', 'error', 3000);
+        });
+      } else {
+        // Exit fullscreen
+        document.exitFullscreen().then(() => {
+          if (homeFullscreenIcon) homeFullscreenIcon.textContent = '⛶';
+        }).catch(err => {
+          console.error('Error attempting to exit fullscreen:', err);
+        });
+      }
+    }
+
+    // Listen for fullscreen changes from browser (F11, Esc, etc.)
+    document.addEventListener('fullscreenchange', () => {
+      if (homeFullscreenIcon) {
+        homeFullscreenIcon.textContent = document.fullscreenElement ? '⬛' : '⛶';
+      }
+    });
+
+    // Attach fullscreen button click handler
+    if (homeFullscreenBtn) {
+      homeFullscreenBtn.addEventListener('click', toggleFullscreen);
+    }
+
+    // ========== END FULLSCREEN ==========
 
     // Secret key combination to access admin panel (Ctrl+Shift+A)
     document.addEventListener('keydown', (ev) => {
