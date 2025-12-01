@@ -9259,34 +9259,59 @@
 
         // Validate file type
         if (!file.type.startsWith('image/')) {
-          showToast('Please select an image file', 'error', 3000);
+          showToast('Por favor selecciona una imagen', 'error', 3000);
           return;
         }
 
-        // Validate file size (max 5MB)
-        if (file.size > 5 * 1024 * 1024) {
-          showToast('Image too large. Max 5MB', 'error', 3000);
+        // Validate file size (max 10MB antes de comprimir)
+        if (file.size > 10 * 1024 * 1024) {
+          showToast('Imagen muy grande. Máximo 10MB', 'error', 3000);
           return;
         }
 
+        // Comprimir y convertir la imagen
         const reader = new FileReader();
         reader.onload = (event) => {
-          const base64Image = event.target.result;
-          
-          if (!state.galleries[type]) {
-            state.galleries[type] = [];
-          }
-          
-          state.galleries[type].push(base64Image);
-          renderGallery(type);
-          updateModalGallery(type);
-          // NO auto-save, user must click "Guardar Cambios"
-          showToast(`Imagen agregada a ${type}. Presiona "Guardar Cambios" para guardar.`, 'info', 3000);
-          modal.remove();
+          const img = new Image();
+          img.onload = () => {
+            // Crear canvas para comprimir
+            const canvas = document.createElement('canvas');
+            let width = img.width;
+            let height = img.height;
+            
+            // Redimensionar si es muy grande (máximo 1920px de ancho)
+            const maxWidth = 1920;
+            if (width > maxWidth) {
+              height = (height * maxWidth) / width;
+              width = maxWidth;
+            }
+            
+            canvas.width = width;
+            canvas.height = height;
+            
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+            
+            // Comprimir a JPEG con calidad 0.85
+            const compressedImage = canvas.toDataURL('image/jpeg', 0.85);
+            
+            if (!state.galleries[type]) {
+              state.galleries[type] = [];
+            }
+            
+            state.galleries[type].push(compressedImage);
+            renderGallery(type);
+            updateModalGallery(type);
+            // Auto-save en tiempo real
+            saveGalleries();
+            showToast(`✅ Imagen agregada y guardada en ${type}`, 'success', 2500);
+            modal.remove();
+          };
+          img.src = event.target.result;
         };
         
         reader.onerror = () => {
-          showToast('Error reading file', 'error', 3000);
+          showToast('Error leyendo archivo', 'error', 3000);
         };
         
         reader.readAsDataURL(file);
@@ -9296,18 +9321,26 @@
       const urlBtn = modal.querySelector('#enter-url-btn');
       urlBtn.addEventListener('click', () => {
         modal.remove();
-        const url = prompt('Enter image URL:');
+        const url = prompt('Pega la URL de la imagen (ej: https://ejemplo.com/foto.jpg):');
         if (!url || url.trim() === '') return;
+        
+        // Validar que sea una URL
+        const trimmedUrl = url.trim();
+        if (!trimmedUrl.startsWith('http://') && !trimmedUrl.startsWith('https://')) {
+          showToast('URL inválida. Debe empezar con http:// o https://', 'error', 3000);
+          return;
+        }
         
         if (!state.galleries[type]) {
           state.galleries[type] = [];
         }
         
-        state.galleries[type].push(url.trim());
+        state.galleries[type].push(trimmedUrl);
         renderGallery(type);
         updateModalGallery(type);
-        // NO auto-save, user must click "Guardar Cambios"
-        showToast(`Imagen agregada a ${type}. Presiona "Guardar Cambios" para guardar.`, 'info', 3000);
+        // Auto-save en tiempo real
+        saveGalleries();
+        showToast(`✅ Imagen agregada y guardada en ${type}`, 'success', 2500);
       });
 
       // Cancel
@@ -9333,8 +9366,9 @@
       state.galleries[type].splice(index, 1);
       renderGallery(type);
       updateModalGallery(type);
-      // NO auto-save, user must click "Guardar Cambios"
-      showToast(`Imagen eliminada de ${type}. Presiona "Guardar Cambios" para guardar.`, 'info', 3000);
+      // Auto-save en tiempo real
+      saveGalleries();
+      showToast(`✅ Imagen eliminada y guardada`, 'success', 2000);
     };
 
     // Save galleries to localStorage
