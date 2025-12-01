@@ -8749,7 +8749,8 @@
     function calculateContractTotals() {
       const price = parseFloat(document.getElementById('contract-price').value) || 0;
       const downPercent = parseFloat(document.getElementById('contract-down-percent').value) || 0;
-      const closing = parseFloat(document.getElementById('contract-closing').value) || 0;
+      // Closing cost is ALWAYS 8% of price (override any manual value)
+      const closing = price * 0.08;
       const deposit = parseFloat(document.getElementById('contract-deposit').value) || 0;
 
       const downPayment = (price * downPercent / 100);
@@ -9055,6 +9056,82 @@
         printWindow.print();
       }, 250);
     }
+
+    // ========== AUTO DATE & LOCATION & MEMBERSHIP PRICE SETUP ==========
+    (function initAutoFields(){
+      try {
+        // Auto date (current local date)
+        const now = new Date();
+        const dayEl = document.getElementById('contract-day');
+        const monthEl = document.getElementById('contract-month');
+        const yearEl = document.getElementById('contract-year');
+        if (dayEl && !dayEl.value) dayEl.value = String(now.getDate()).padStart(2,'0');
+        if (monthEl && !monthEl.value) monthEl.value = String(now.getMonth()+1).padStart(2,'0');
+        if (yearEl && !yearEl.value) yearEl.value = String(now.getFullYear());
+
+        // Auto location via Geolocation API
+        const locEl = document.getElementById('contract-location');
+        if (locEl && !locEl.value && navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(pos => {
+            const { latitude, longitude } = pos.coords;
+            // Basic coordinate storage; reverse geocode could be added later
+            locEl.value = `LAT:${latitude.toFixed(4)} LON:${longitude.toFixed(4)}`;
+          }, err => {
+            console.warn('Geolocation denied:', err.message);
+            if (!locEl.value) locEl.value = 'Ubicación no disponible';
+          }, { enableHighAccuracy: true, timeout: 5000 });
+        }
+
+        // Membership level base price mapping (placeholder values; will adjust when you provide real prices)
+        const membershipPriceMap = {
+          'Choice': 12000,
+          'Choice Plus': 16000,
+          'Premier': 25000,
+          'Nuevo': 14000
+        };
+        const membershipTypeEl = document.getElementById('contract-membership-type');
+        const priceEl = document.getElementById('contract-price');
+        const closingEl = document.getElementById('contract-closing');
+        const monthlyPaymentEl = document.getElementById('contract-monthly-payment');
+        const paymentsNumEl = document.getElementById('contract-payments-num');
+
+        function recalcDerived() {
+          // Force closing cost field to reflect 8% visually
+            const p = parseFloat(priceEl.value) || 0;
+            if (closingEl) closingEl.value = (p * 0.08).toFixed(2);
+          // Recalculate monthly payment if payments number present and amount to finance changed
+          const totals = calculateContractTotals();
+          const payments = parseInt(paymentsNumEl.value) || 0;
+          if (monthlyPaymentEl && payments > 0) {
+            const amountToFinance = parseFloat(totals.amountToFinance) || 0;
+            monthlyPaymentEl.value = (amountToFinance / payments).toFixed(2);
+          }
+        }
+
+        if (membershipTypeEl && priceEl) {
+          const applyMembershipPrice = () => {
+            const sel = membershipTypeEl.value;
+            if (sel && membershipPriceMap[sel]) {
+              priceEl.value = membershipPriceMap[sel].toFixed(2);
+              recalcDerived();
+            }
+          };
+          membershipTypeEl.addEventListener('change', applyMembershipPrice);
+          // Apply once if empty
+          if (!priceEl.value) applyMembershipPrice();
+        }
+
+        // Recalculate effects when price / down percent / payments change
+        ['contract-price','contract-down-percent','contract-payments-num','contract-deposit'].forEach(id=>{
+          const el = document.getElementById(id);
+          if (el) el.addEventListener('input', recalcDerived);
+        });
+
+      } catch(e) {
+        console.error('Init auto fields error', e);
+      }
+    })();
+    // ========== END AUTO SETUP ==========
 
     if (generateContractBtn) {
       generateContractBtn.addEventListener('click', generateContract);
