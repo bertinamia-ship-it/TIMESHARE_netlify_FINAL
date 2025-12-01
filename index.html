@@ -6648,7 +6648,7 @@
       <div class="modal-body">
         <div class="modal-media">
           <div class="video-wrapper">
-            <video id="zoetry-main-video" controls playsinline preload="metadata" poster="images/zoetry-poster.jpg">
+            <video id="zoetry-main-video" controls playsinline preload="none" poster="images/zoetry-poster.jpg">
               <source src="videozoetry(og).mp4" type="video/mp4">
               Tu navegador no soporta el elemento <code>video</code>. <a href="videozoetry(og).mp4">Descargar / Ver video</a>
             </video>
@@ -6678,7 +6678,7 @@
       </div>
       <div class="modal-body">
         <div class="modal-media">
-          <video src="Secrets Bahia Mita Surf & Spa Resort _ Unlimited Vacation Club.mp4" controls muted preload="metadata"></video>
+          <video src="Secrets Bahia Mita Surf & Spa Resort _ Unlimited Vacation Club.mp4" controls muted preload="none"></video>
         </div>
         <p class="modal-description">
           Adults-only, romantic beachfront escapes with gourmet à la carte dining, premium drinks and world-class service.
@@ -6704,7 +6704,7 @@
       </div>
       <div class="modal-body">
         <div class="modal-media">
-          <video src="Breathless Cancun Soul Resort Video.mp4" controls muted preload="metadata"></video>
+          <video src="Breathless Cancun Soul Resort Video.mp4" controls muted preload="none"></video>
         </div>
         <p class="modal-description">
           Vibrant, chic and ultra-modern resorts with DJ parties, social atmosphere and stunning oceanfront views.
@@ -6730,7 +6730,7 @@
       </div>
       <div class="modal-body">
         <div class="modal-media">
-          <video src="Discover All-Inclusive Luxury at Dreams┬« Sands Cancun Resort & Spa.mp4" controls muted preload="metadata"></video>
+          <video src="Discover All-Inclusive Luxury at Dreams┬« Sands Cancun Resort & Spa.mp4" controls muted preload="none"></video>
         </div>
         <p class="modal-description">
           Family-friendly beachfront resorts with kids’ clubs, gourmet cuisine and spacious suites for every type of traveler.
@@ -6756,7 +6756,7 @@
       <div class="modal-body">
         <div class="modal-media">
           <div class="video-wrapper">
-            <video id="hyatt-main-video" controls playsinline preload="metadata" poster="images/hyatt-condo1-poster.jpg">
+            <video id="hyatt-main-video" controls playsinline preload="none" poster="images/hyatt-condo1-poster.jpg">
               <source src="World of Hyatt Inclusive Collection.mp4" type="video/mp4">
             </video>
           </div>
@@ -6789,10 +6789,14 @@
       <div class="modal-body">
         <div class="modal-media">
           <div class="video-wrapper">
-            <video controls playsinline preload="metadata" poster="conde maldives 3.jpg">
+            <!-- Video optimizado: preload="none" carga solo cuando el usuario da play -->
+            <video controls playsinline preload="none" poster="conde maldives 3.jpg">
               <source src="Unforgettable Travel & Lifestyle Perks _ U Experiences by ONE.mp4" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
+            <!-- ALTERNATIVA CON LINK: Para videos muy pesados, usa YouTube/Vimeo embed:
+            <iframe width="100%" height="400" src="https://www.youtube.com/embed/TU_VIDEO_ID" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            -->
           </div>
         </div>
         <p class="modal-description">
